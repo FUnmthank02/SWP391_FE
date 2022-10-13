@@ -33,12 +33,12 @@
                     </div>
 
                     <h1 class="auth_title text-left text-success">Forgot password</h1>
-                    <form action="../forgotpass" method="post">
+                    <form action="../forgot-password" method="post">
                         <div class="alert alert-success bg-soft-primary border-0" role="alert">
-                            Enter your username.
+                            Enter your email.
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="username" placeholder="Username">
+                            <input type="email" class="form-control" name="email" placeholder="">
                         </div>
 
                         <!-- get error or noti from servlet -->
