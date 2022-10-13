@@ -1,2 +1,0 @@
-dal.DBContext
-dal.using
