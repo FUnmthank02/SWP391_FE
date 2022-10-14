@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
+import other.Email;
+import other.SendEmail;
 
 /**
  *
@@ -78,7 +80,37 @@ public class ForgotPassword extends HttpServlet {
         dao.loadListUser();
         User u = dao.getUserByEmail(email);
         if(u!=null){
+            request.setAttribute("mailSended", "Email has been sent");          
             //send email here
+            try {
+                String url =request.getScheme()+ "://" + 
+                    request.getServerName()+":"+
+                    request.getServerPort()+
+                    request.getContextPath()+
+                   "/reset-password?email=" + email;
+                
+                SendEmail se = new SendEmail();
+              
+                Email e = new Email();
+                e.setFrom("anhndqhe161737@fpt.edu.vn");        //from mail's infor
+                e.setFromPassword("");     //from mail's infor
+                e.setTo(email);                                     //receive mail's infor
+                e.setSubject("Reset password");                 //mail's subject
+                StringBuilder sb = new StringBuilder();         
+                sb.append("Dear").append(email).append(", Click this link to <b>").append("<a href='"+url+"'>RESET PASSWORD</a>").append("</b>");
+                e.setContent(sb.toString());                    //mail's content
+                se.sendEmail(e);                                // sending mail
+                
+                request.setAttribute("mailSended", "Link to active account sended to your email");
+
+                // insert account to db with status: inactive
+            } catch (Exception exc) {
+                request.setAttribute("errorWhileSendMail", exc.getMessage());
+            }
+        }
+        else{
+            request.setAttribute("errNotExistUser", "This user does not existed");
+            request.getRequestDispatcher("view/ChangePassword/forgotpassword.jsp").forward(request, response);
         }
     }
 

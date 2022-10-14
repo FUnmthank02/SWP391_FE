@@ -43,7 +43,9 @@
                             <input type="password" class="form-control" name="rpNewPass"
                                 placeholder="Repeat new password">
                         </div>
-                        <div></div>
+                        <div>
+                            <input type="hidden" name="email" value="${requestScope.email}">
+                        </div>
 
                         <!-- get error or noti from servlet -->
                         <!-- <p id="noti">${requestScope.resetSuccess}</p> -->
