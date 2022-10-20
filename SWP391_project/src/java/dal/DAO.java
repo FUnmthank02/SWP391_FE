@@ -23,32 +23,32 @@ import sun.nio.cs.MS1250;
  * @author Account
  */
 public class DAO extends DBContext {
-    
+
     private ArrayList<User> userList;
     private Connection con;
     private String status;
-    
+
     public DAO(ArrayList<User> userList, String status) {
         this.userList = userList;
         this.status = status;
     }
-    
+
     public String getStatus() {
         return status;
     }
-    
+
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public ArrayList<User> getUserList() {
         return userList;
     }
-    
+
     public void setUserList(ArrayList<User> userList) {
         this.userList = userList;
     }
-    
+
     public DAO() {
         try {
             con = new DBContext().getConnection();
@@ -69,8 +69,10 @@ public class DAO extends DBContext {
                 r.setRequestID(rs.getInt(1));
                 Mentee mentee = new Mentee();
                 mentee.setMenteeID(rs.getInt(2));
+                mentee = getMentee(rs.getInt(2));
                 Mentor mentor = new Mentor();
                 mentor.setMentorID(rs.getInt(3));
+                mentor = getMentor(rs.getInt(3));
                 r.setMentee(mentee);
                 r.setMentor(mentor);
                 r.setTitle(rs.getString(4));
@@ -78,6 +80,7 @@ public class DAO extends DBContext {
                 r.setStatus(rs.getString(6));
                 Skill skill = new Skill();
                 skill.setSkillId(rs.getInt(7));
+                skill = getSKill(rs.getInt(7));
                 r.setSkill(skill);
                 r.setTime(rs.getDate(8));
                 requests.add(r);
@@ -85,7 +88,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load user: " + e.getMessage();
         }
-        
+
         return requests;
     }
 
@@ -109,7 +112,7 @@ public class DAO extends DBContext {
                 String status = rs.getString(10);
                 String avatar = rs.getString(11);
                 String phonenum = rs.getString(12);
-                
+
                 userList.add(new User(userId, username, password, email, dob, fullname, address, gender, status, avatar, phonenum, role));
             }
         } catch (Exception e) {
@@ -132,7 +135,7 @@ public class DAO extends DBContext {
                 + "           ,GETDATE())";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setInt(1, c.getMentor().getMentorID());
             ps.setInt(2, c.getMentee().getMenteeID());
             ps.setString(3, c.getCmtContent());
@@ -186,7 +189,7 @@ public class DAO extends DBContext {
                 + "           ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setInt(1, r.getMentor().getMentorID());
             ps.setInt(2, r.getMentee().getMenteeID());
             ps.setInt(3, r.getRateStar());
@@ -201,7 +204,7 @@ public class DAO extends DBContext {
         String sql = "update [User] set avatar = ?, fullname = ?, dob = ?, address = ?, email = ?, phonenumber = ?, gender = ? where userID = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setString(1, avatar);
             ps.setString(2, fullname);
             ps.setDate(3, dob);
@@ -221,11 +224,11 @@ public class DAO extends DBContext {
         String sql = "update [User] set password = ? where userID = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setString(1, newPass);
             ps.setInt(2, userId);
             ps.execute();
-            
+
         } catch (Exception e) {
             status = "Error at change password: " + e.getMessage();
         }
@@ -237,7 +240,7 @@ public class DAO extends DBContext {
                 + "     VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps = con.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
@@ -267,10 +270,10 @@ public class DAO extends DBContext {
             status = "Error at update user active" + e.getMessage();
         }
     }
-    
+
     public ArrayList<Mentor> getMentorWithTech(String tech) {
         ArrayList<Mentor> listMentor = new ArrayList<Mentor>();
-        
+
         String sql = "select m.mentorID, m.userID from Mentor m,\n"
                 + "(select s.skillID,s.skillName,es.mentorID from Skill s, EnrollSkill es\n"
                 + "where s.skillID = es.skillID and s.skillName = ? ) a\n"
@@ -278,44 +281,44 @@ public class DAO extends DBContext {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, tech);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 User user = new User();
-                
+
                 int mentorID = rs.getInt(1);
                 user.setUserId(rs.getInt(2));
-                
+
                 Mentor m = new Mentor(mentorID, user);
                 listMentor.add(m);
             }
         } catch (Exception e) {
             status = "Error load mentor with technology: " + e.getMessage();
         }
-        
+
         return listMentor;
     }
-    
+
     public ArrayList<String> getTechOfMentor(int userId) {
         ArrayList<String> listTech = new ArrayList<>();
-        
+
         String sql = "select s.skillName from [Skill] s,\n"
                 + "(select es.skillID, es.mentorID from EnrollSkill es, Mentor m where es.mentorID = m.mentorID and m.userID = ?) a\n"
                 + "where s.skillID = a.skillID";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, userId);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String tech = rs.getString(1);
-                
+
                 listTech.add(tech);
             }
         } catch (Exception e) {
             status = "Error load technology of mentor: " + e.getMessage();
         }
-        
+
         return listTech;
     }
 
@@ -323,7 +326,7 @@ public class DAO extends DBContext {
     public ArrayList<Skill> getSkill() {
         ArrayList<Skill> listSkill = new ArrayList<>();
         String sql = "select * from [Skill]";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -331,13 +334,13 @@ public class DAO extends DBContext {
                 int skillId = rs.getInt(1);
                 String skillName = rs.getString(2);
                 String description = rs.getString(3);
-                
+
                 listSkill.add(new Skill(skillId, skillName, description));
             }
         } catch (Exception e) {
             status = "Error load all skill: " + e.getMessage();
         }
-        
+
         return listSkill;
     }
 
@@ -345,7 +348,7 @@ public class DAO extends DBContext {
     public ArrayList<EnrollSkill> getEnrollSkills() {
         ArrayList<EnrollSkill> listEnrollSkill = new ArrayList<>();
         String sql = "select * from [EnrollSkill]";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -355,13 +358,13 @@ public class DAO extends DBContext {
                 int enrollId = rs.getInt(1);
                 m.setMentorID(rs.getInt(2));
                 s.setSkillId(rs.getInt(3));
-                
+
                 listEnrollSkill.add(new EnrollSkill(enrollId, m, s));
             }
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return listEnrollSkill;
     }
 
@@ -371,7 +374,7 @@ public class DAO extends DBContext {
         String sql = "select r.mentorID,cast((sum(rateStar)) as float) / cast((count(rateStar)) as float) as 'averageStar' \n"
                 + "from Rating r\n"
                 + "group by r.mentorID";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -379,12 +382,12 @@ public class DAO extends DBContext {
                 Integer mentorID = rs.getInt(1);
                 Float averageStar = rs.getFloat(2);
                 ratesHashMap.put(mentorID, averageStar);
-                
+
             }
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return ratesHashMap;
     }
 
@@ -396,7 +399,7 @@ public class DAO extends DBContext {
                 + "(select s.skillID,es.mentorID,s.skillName from Skill s inner join EnrollSkill es \n"
                 + "on s.skillID = es.skillID) a\n"
                 + "where m.mentorID = a.mentorID and m.mentorID = ?";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, mentorID);
@@ -410,7 +413,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load skill: " + e.getMessage();
         }
-        
+
         return skills;
     }
 
@@ -419,7 +422,7 @@ public class DAO extends DBContext {
         int mentorID = m.getMentorID();
         String sql = "select * from [Profile] p\n"
                 + "where p.mentorID=?";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, mentorID);
@@ -436,7 +439,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return null;
     }
 
@@ -464,7 +467,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return null;
     }
 
@@ -492,7 +495,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return null;
     }
 
@@ -527,8 +530,30 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return users;
+    }
+
+    //get mentor information with mentorID
+    public Mentor getMentor(int mentorID) {
+        String sql = "select * from Mentor\n"
+                + "where\n"
+                + "mentorID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mentorID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Mentor m = new Mentor();
+                m.setMentorID(rs.getInt(1));
+                User u = getUser(m);
+                m.setUser(u);
+                return m;
+            }
+        } catch (Exception e) {
+            status = "Error load enroll skill: " + e.getMessage();
+        }
+        return null;
     }
 
     //get user information of mentees belong to a mentor
@@ -562,7 +587,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return users;
     }
 
@@ -670,7 +695,7 @@ public class DAO extends DBContext {
         }
         return result;
     }
-    
+
     public Connection getCon() {
         return con;
     }
@@ -681,7 +706,7 @@ public class DAO extends DBContext {
         int mentorID = m.getMentorID();
         String sql = "select * from Rating r\n"
                 + "where r.mentorID = ?";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, mentorID);
@@ -699,7 +724,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return rates;
     }
 
@@ -709,7 +734,7 @@ public class DAO extends DBContext {
         int mentorID = m.getMentorID();
         String sql = "select * from Comment c\n"
                 + "where c.mentorID = ?";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, mentorID);
@@ -729,7 +754,7 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return comments;
     }
 
@@ -771,7 +796,28 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
+        return null;
+    }
+
+    //get skill by skill ID
+    public Skill getSKill(int skillID) {
+        String sql = "select * from Skill\n"
+                + "where\n"
+                + "skillID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, skillID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Skill s = new Skill();
+                s.setSkillId(rs.getInt(1));
+                s.setSkillName(rs.getString(2));
+                return s;
+            }
+        } catch (Exception e) {
+            status = "Error load enroll skill: " + e.getMessage();
+        }
         return null;
     }
 
@@ -795,10 +841,10 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return null;
     }
-    
+
     public Invitation getInvitation(Mentor m, Mentee mt) {
         int mentorID = m.getMentorID();
         int menteeID = (mt != null) ? mt.getMenteeID() : -1;
@@ -821,13 +867,13 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
-        
+
         return null;
     }
 
     //get mentors who teach a skill
     public ArrayList<Mentor> getMentors(Skill s) {
-        
+
         String sql = "select * from EnrollSkill\n"
                 + "where skillID = ?";
         try {
@@ -1023,7 +1069,7 @@ public class DAO extends DBContext {
         Mentee mt = new Mentee();
         m.setMentorID(1);
         mt.setMenteeID(1);
-        
+
         ArrayList<User> users = d.getMenteeUsers(m);
         for (User user : users) {
             System.out.println(user.getFullname());

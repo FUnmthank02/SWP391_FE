@@ -38,8 +38,8 @@
             <hr>
             <div class="wrap_request">
                 <c:forEach var="r" items="${requestScope.requests}">
-                    <c:if test="${r.status eq 'Processing'}">
-                        <div class="request_item unread">
+                    
+                    <div class="request_item" style="background: #FFE7CC;">
                             <div class="left_side_item">
                                 <c:if test="${role eq false}">
                                     <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> ${user.fullname}</p>                                 
@@ -66,42 +66,20 @@
                                         </c:forEach>
                                     </c:if>
                             </div>
-
-                            <div class="right_side_item">
-                                <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                                   data-target="#modal_form_reply">Reply</a><br>
-                                <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                                   data-target="#modal_form_update">Update</a>
-                            </div>
+                            <c:if test="${role eq true}">
+                                <div class="right_side_item">
+                                    <a href="" class="text-primary action_button" style="cursor: pointer;" >Reply</a><br>
+                                </div>
+                            </c:if>
                         </div>
-                    </c:if>
+                    
 
-                    <c:if test="${r.status eq 'Seen'}">
-                        <div class="request_item">
-                            <div class="left_side_item">
-                                <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> Nguyen Van
-                                    A</p>
-                                <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">To:</span> Mentor B</p>
-                                <p class="left_side_text requestTitle mt-2 mb-2"><span class="left_side_span">Title:</span> ${r.title}</p>
-                                <p class="left_side_text requestContent mt-2 mb-2"><span class="left_side_span">Content:</span> ${r.reqContent}</p>
-                                <p class="left_side_text requestCreateAt mt-2 mb-2"><span class="left_side_span">Create At:</span>
-                                    12/12/2022</p>
-                            </div>
-
-                            <div class="right_side_item">
-                                <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                                   data-target="#modal_form_reply">Reply</a><br>
-                                <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                                   data-target="#modal_form_update">Update</a>
-                            </div>
-                        </div>
-                    </c:if>
                 </c:forEach>
             </div>
         </div>
 
         <!-- modal reply the request -->
-        <div class="modal" tabindex="-1" role="dialog" id="modal_form_reply">
+        <div style="display: block; background: rgba(136, 136, 136, 0.166);" class="modal" tabindex="-1" role="dialog" id="modal_form_reply">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -120,66 +98,21 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary">Reply</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" onclick="handleCloseModal()">Close</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- modal update -->
-        <div class="modal" tabindex="-1" role="dialog" id="modal_form_update">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title font-weight-bold">Update request</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="" method="post">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="updateRequest" class="">Content</label>
-                                <textarea class="form-control" name="updateRequest" id="updateRequest" rows="5"
-                                          placeholder="Enter content" required></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Update</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
         <c:import url="./footer.jsp" />
 
-
-        <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
-
         <script>
-            var replyValue;
-            ClassicEditor
-                    .create(document.querySelector('#replyContent'))
-                    .then(editor => {
-                        replyValue = editor;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            var updateValue;
-            ClassicEditor
-                    .create(document.querySelector('#updateRequest'))
-                    .then(editor => {
-                        updateValue = editor;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-        </script>
-
+        const handleCloseModal = () => {
+            document.querySelector('.modal').style.display = 'none';
+        }
+    </script>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
                 integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
