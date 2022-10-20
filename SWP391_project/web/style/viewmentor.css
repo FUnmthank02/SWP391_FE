@@ -3,11 +3,52 @@
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    font-family: Verdana, Geneva, Tahoma, sans-serif, 'Times New Roman', Times, serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+/* search */
+.bg_search {
+    background: #b2f3b783;
+    border-radius: 15px;
+    padding: 80px 35px;
+    color: #2E0249;
+}
+.contain_form_search {
+    /* margin-bottom: 100px;     */
+    padding: 30px;
+}
+
+.left_side_search_title {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    color: #14a800;
+    margin: 50px 0;
+}
+.form_search {
+}
+
+.title_search {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #14a800;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.contain_technology_search {
+    margin: 15px 0;
+}
+
+.contain_rating_search {
+    margin: 15px 0;
+
+}
+
+.contain_rating_search i {
+    color: rgb(235, 214, 25);
 }
 
 #myBtn {

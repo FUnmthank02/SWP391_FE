@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>6HP - Happy Programing</title>
-        <link rel="stylesheet" href="style/myhome.css">
+        <link rel="stylesheet" href="style/home.css">
         <link rel="icon" type="image/x-icon" href="image/mylogo.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -21,7 +21,7 @@
     <body>
         <!--header-->
 
-        <c:import url="./header.jsp"/>
+        <c:import url="header.jsp"/>
 
         <!--body-->
         <div class="container-fluid banner">
@@ -40,7 +40,7 @@
 
         <div class="container body_details_2" data-aos="fade-up" data-aos-duration="1000">
             <div class="part">
-                <h4>Roadmap to become a programmer</h4>
+                <h4 class="font-weight-bold">Roadmap to become a programmer</h4>
                 <div class="line_part"></div>
             </div>
 
@@ -74,7 +74,7 @@
         <!-- techonologies -->
         <div class="container technology">
             <div class="part">
-                <h4>TECHNOLOGIES</h4>
+                <h4 class="font-weight-bold">TECHNOLOGIES</h4>
                 <div class="line_part"></div>
             </div>
 

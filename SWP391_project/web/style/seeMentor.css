@@ -1,0 +1,196 @@
+
+    #myBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 20px;
+        border: none;
+        border-bottom: 3px solid #00D7FF;
+        outline: none;
+        background-color: transparent;
+        color: #00D7FF;
+        cursor: pointer;
+        padding: 5px;
+        font-weight: bold;
+    }
+
+    .scrollBtn {
+        display: none;
+    }
+
+    /* body */
+    .wrap-outstanding-mentor {
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+    .part {
+        text-align: start;
+        width: fit-content;
+        margin-bottom: 50px;
+    }
+
+    .part h4 {
+        transition: all 1s ease-in-out;
+    }
+
+    .part:hover h4 {
+        transform: translateX(30%);
+        color: #A91079;
+    }
+
+    .part:hover .line_part {
+        width: 130%;
+    }
+
+    .part .line_part {
+        margin: 0 0 20px 0;
+        width: 100%;
+        height: 3px;
+        background-color: #256D85;
+        transition: width 1s ease-in-out;
+    }
+
+
+    /* list mentor */
+    .list-mentors {
+        margin: 50px 0;
+    }
+
+    .card-mentor {
+        margin: 20px 0;
+    }
+
+    .items-card-mentor {
+        background: linear-gradient(to right bottom, #D9F8C4, #F9F3EE);
+        text-align: center;
+        padding: 30px;
+        border-radius: 5px;
+    }
+
+    .card-upper-part img {
+        height: 80px;
+        width: 80px;
+        margin-bottom: 20px;
+    }
+
+    .card-upper-part h4 {
+        margin: 5px 0 !important;
+    }
+
+    .card-upper-part p {
+        margin: 0 !important;
+    }
+
+    .rating i {
+        padding-right: 3px;
+        color: #FEC260;
+        margin: 5px 0;
+    }
+
+    .card-lower-part {
+        text-align: start;
+        margin: 15px 0;
+    }
+
+    .card-lower-part .card-technologies-knowledge {
+        padding: 5px;
+        font-size: 13px;
+        background-color: #fff;
+        margin: 5px 2px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    .disable {
+        display: none !important;
+    }
+
+
+    .seemore {
+        display: flex;
+        justify-content: right;
+    }
+
+    #btn_seemore {
+        padding: 10px;
+        background: linear-gradient(to right bottom, #56BBF1, #5EE6EB);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        outline: 1px solid #3330E4;
+    }
+
+    #btn_seemore:hover {
+        background: linear-gradient(to left top, #56BBF1, #5EE6EB);
+        color: #570A57;
+    }
+
+
+    /* button open cv */
+
+    .openCV {
+        
+    }
+
+    #btn-openCV {
+        border-radius: 15px;
+        padding: 8px;
+        background: linear-gradient(to right bottom, #56BBF1, #5EE6EB);
+        outline: 1px solid #3330E4;
+    }
+
+    #btn-openCV:hover {
+        background: linear-gradient(to left top, #56BBF1, #5EE6EB);
+    }
+
+    #btn-openCV a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    #btn-openCV:hover a{
+        color: #570A57;
+    }
+
+
+    /* search */
+    .bg_search {
+        background: #b2f3b783;
+        border-radius: 15px;
+        padding: 80px 35px;
+        color: #2E0249;
+    }
+    .contain_form_search {
+        /* margin-bottom: 100px;     */
+        padding: 30px;
+    }
+
+    .left_side_search_title {
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+        color: #14a800;
+        margin: 50px 0;
+    }
+    .form_search {
+    }
+
+    .title_search {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #14a800;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    .contain_technology_search {
+        margin: 15px 0;
+    }
+
+    .contain_rating_search {
+        margin: 15px 0;
+
+    }
+
+    .contain_rating_search i {
+        color: rgb(235, 214, 25);
+    }

@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>6HP - Happy Programing</title>
-        <link rel="stylesheet" href="style/myhome.css">
+        <link rel="stylesheet" href="style/home.css">
         <link rel="icon" type="image/x-icon" href="image/mylogo.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -44,11 +44,6 @@
                         </ul>
                     </div>
 
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-
                     <!--su dung sessionScope check DA dang nhap thi hien thi-->
                     <c:if test="${sessionScope.user != null}">
 
@@ -61,6 +56,8 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="changepassword">Change password</a>
                                     <a class="dropdown-item" href="userprofile">Profile</a>
+                                    <a class="dropdown-item" href="userprofile">Invitation</a>
+                                    <a class="dropdown-item" href="userprofile">Request</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="logout">Log out</a>
                                 </div>

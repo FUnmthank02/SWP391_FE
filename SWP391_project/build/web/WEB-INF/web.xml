@@ -26,11 +26,11 @@
     </servlet>
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>controler.login</servlet-class>
+        <servlet-class>controler.Login.login</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>logOut</servlet-name>
-        <servlet-class>controler.logOut</servlet-class>
+        <servlet-class>controler.LogOut.logOut</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>mentorProfile</servlet-name>
@@ -39,6 +39,14 @@
     <servlet>
         <servlet-name>changePassword</servlet-name>
         <servlet-class>controler.ChangePassword.changePassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateRequest</servlet-name>
+        <servlet-class>controller.Request.CreateRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewRequest</servlet-name>
+        <servlet-class>controller.Request.ViewRequest</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
@@ -75,6 +83,14 @@
     <servlet-mapping>
         <servlet-name>changePassword</servlet-name>
         <url-pattern>/change-password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateRequest</servlet-name>
+        <url-pattern>/CreateRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewRequest</servlet-name>
+        <url-pattern>/ViewRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

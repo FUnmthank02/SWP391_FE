@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>6HP - Happy Programing</title>
-        <link rel="stylesheet" href="style/profilementor.css">
+        <link rel="stylesheet" href="style/mentorProfile.css">
         <link rel="icon" type="image/x-icon" href="image/mylogo.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -24,12 +24,18 @@
         <!--header-->
         <c:import url="./header.jsp"/>
 
-        <div class="container mb-5 contain_mentor_infor">
-            <div class="part mt-5 mb-5">
-                <h4 class="part-title">Mentor's profile</h4>
-                <div class="line_part"></div>
-            </div>
 
+        <div class="container mb-5 contain_mentor_infor">
+            <div class="contain_heading mt-5 mb-5">
+                <div class="part">
+                    <h4 class="part-title">Mentor's profile</h4>
+                    <div class="line_part"></div>
+                </div>
+                <div class="contain_invitation">
+                    <button class="btn_invitation"> Send Invitation </button>
+                </div>              
+            </div>
+            
             <div class="container p-5 wrapCV">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12 wrap-infor" data-aos="fade-up" data-aos-duration="1000">
@@ -87,7 +93,7 @@
 
 
                         <c:forEach var="skill" items="${requestScope.s}">
-                            <div class="main-content-infor">
+                            <div class="mr-2">
                                 ${skill.skillName}
                             </div>
                         </c:forEach> 
@@ -179,6 +185,7 @@
                     </c:forEach>
                 </c:forEach>
             </div>
+
 
         </div>
     </div>

@@ -1,8 +1,16 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 19, 2022, 5:44:08 PM
+    Author     : Admin
+*/
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Verdana, Geneva, Tahoma, sans-serif, 'Times New Roman', Times, serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     scroll-behavior: smooth;
 }
 
@@ -65,10 +73,17 @@
     padding: 20px 0;
 }
 
-.part {
+.contain_heading {
     text-align: start;
-    width: fit-content;
+    /* width: fit-content; */
     margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.part {
+    width: fit-content;
 }
 
 .part .part-title {
@@ -90,6 +105,20 @@
     height: 3px;
     background-color: #256D85;
     transition: all 1s ease-in-out;
+}
+
+.btn_invitation {
+    padding: 10px 6px;
+    background: linear-gradient(to right bottom, #56BBF1, #5EE6EB);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    outline: 1px solid #5EE6EB;
+}
+
+.btn_invitation:hover {
+    color: #F5EFE6;
+    background: linear-gradient(to left top, #56BBF1, #5EE6EB);
 }
 
 /* rate and comment */

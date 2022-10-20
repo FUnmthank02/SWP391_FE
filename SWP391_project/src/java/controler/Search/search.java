@@ -32,12 +32,12 @@ public class search extends HttpServlet {
         
         HashMap<Integer,Float> rateMap = dao.getRateByMentorID();
 
-//        request.setAttribute("rateMap", rateMap);
-//        request.setAttribute("listMentor", dao.getMentorWithTech(tech));
-//        request.setAttribute("listUser", uti.getListUser());
-//        request.setAttribute("listSkill", dao.getSkill());
-//        request.setAttribute("listEnrollSkill", dao.getEnrollSkills());
-//        request.setAttribute("tech", tech);
+        request.setAttribute("rateMap", rateMap);
+        request.setAttribute("listMentor", dao.getMentorWithTech(tech));
+        request.setAttribute("listUser", uti.getListUser());
+        request.setAttribute("listSkill", dao.getSkill());
+        request.setAttribute("listEnrollSkill", dao.getEnrollSkills());
+        request.setAttribute("tech", tech);
         
         request.getRequestDispatcher("view/viewmentor.jsp").forward(request, response);
 

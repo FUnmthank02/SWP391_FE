@@ -7,7 +7,7 @@ package utility;
 import dal.DAO;
 import java.util.ArrayList;
 import model.*;
-import org.eclipse.jdt.internal.compiler.ast.ThisReference;
+
 
 /**
  *
@@ -53,6 +53,7 @@ public class Utilities {
         }
         return true;
     }
+        
 
     public User getExistedUser(String username, String password) {
         User user = null;
@@ -65,7 +66,7 @@ public class Utilities {
         return user;
 
     }
-
+    
 //    public ArrayList<User> findMentorByTech(String tech) {
 //        ArrayList<Mentor> listMentor = d.getMentorWithTech(tech);
 //        ArrayList<User> listFound = new ArrayList<>();

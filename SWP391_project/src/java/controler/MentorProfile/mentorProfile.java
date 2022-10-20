@@ -37,6 +37,7 @@ public class mentorProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User U = (User) request.getSession().getAttribute("user");
+        
         //get mentorID in URL
         String mentorID = request.getParameter("mentorID");
         
@@ -87,6 +88,7 @@ public class mentorProfile extends HttpServlet {
             throws ServletException, IOException {
         int rate = Integer.parseInt(request.getParameter("rate"));
         String comment = request.getParameter("comment");
+        
         //get current user
         User U = (User) request.getSession().getAttribute("user");
         

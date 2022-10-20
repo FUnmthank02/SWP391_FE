@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    font-family: Verdana, Geneva, Tahoma, sans-serif, 'Times New Roman', Times, serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 ::-webkit-scrollbar {
@@ -18,7 +18,7 @@
     display: flex;
     justify-content: space-evenly;
     border-bottom: 1px solid green;
-
+    box-shadow: 0 0 20px rgb(0, 0, 0);
 }
 
 .changeBg {
@@ -32,7 +32,7 @@
 }
 
 .logo {
-    width: 80px;
+    width: 60px;
     height: auto;
     margin-left: 100px;
 }
@@ -212,7 +212,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: linear-gradient(to right bottom, #D9F8C4, #F9F3EE);
+    background: #b2f3b783;
     padding-top: 100px;
 
 }
