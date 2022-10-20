@@ -844,6 +844,15 @@ public class DAO extends DBContext {
         }
         return s.getMentors();
     }
+    
+    public User getUserByEmail(String email){
+        for (User user : userList) {
+            if(user.getEmail().equals(email)){
+                return user;
+            }
+        }
+        return null;
+    }
 
 //load rating
 //    //load post from database
