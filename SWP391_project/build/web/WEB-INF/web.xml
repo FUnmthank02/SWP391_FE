@@ -48,6 +48,10 @@
         <servlet-name>ViewRequest</servlet-name>
         <servlet-class>controller.Request.ViewRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AllMenteeRequest</servlet-name>
+        <servlet-class>controller.Request.AllMenteeRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
         <url-pattern>/update_userprofile</url-pattern>
@@ -91,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>ViewRequest</servlet-name>
         <url-pattern>/ViewRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AllMenteeRequest</servlet-name>
+        <url-pattern>/AllMenteeRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
