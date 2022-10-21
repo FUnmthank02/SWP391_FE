@@ -13,11 +13,12 @@ public class MentorRegister {
     private String existedSkill;
     private String newSkill;
     private User user;
+    private String seenStatus;
 
     public MentorRegister() {
     }
 
-    public MentorRegister(int mentorRegisterId, String achievement, String exp, String bio, String existedSkill, String newSkill, User user) {
+    public MentorRegister(int mentorRegisterId, String achievement, String exp, String bio, String existedSkill, String newSkill, User user, String seenStatus) {
         this.mentorRegisterId = mentorRegisterId;
         this.achievement = achievement;
         this.exp = exp;
@@ -25,7 +26,18 @@ public class MentorRegister {
         this.existedSkill = existedSkill;
         this.newSkill = newSkill;
         this.user = user;
+        this.seenStatus = seenStatus;
     }
+
+    public String getSeenStatus() {
+        return seenStatus;
+    }
+
+    public void setSeenStatus(String seenStatus) {
+        this.seenStatus = seenStatus;
+    }
+
+   
 
     public int getMentorRegisterId() {
         return mentorRegisterId;
