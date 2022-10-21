@@ -10,6 +10,29 @@
     display: none;
 }
 
+
+.contain_notify {
+    cursor: pointer;
+}
+
+.contain_notify i {
+    font-size: 25px;
+}
+
+.new_notify {
+    /* background: rgb(227, 227, 227); */
+    background: red;
+    font-size: 13px;
+    margin-left: -10px;
+    padding: 1px;
+    border-radius: 3px;
+    color: #fff;
+}
+
+#newNoti {
+    font-size: 10px;
+}
+
 .wrapper_homepage {
 }
 
@@ -70,11 +93,6 @@
 
 #navbarSupportedContent .nav_item_text:hover {
     color: #6ECB63 !important;
-}
-
-.nav_drop {
-    margin-right: 120px;
-
 }
 
 .acti {

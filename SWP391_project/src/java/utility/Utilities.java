@@ -25,6 +25,23 @@ public class Utilities {
         return listUser;
     }
 
+    public User getUserbyUsername(String username) {
+        for(User u : getListUser()) {
+            if(username.equals(u.getUsername()))
+                return u;
+        }
+        return null;
+    }
+    
+    public MentorRegister getMentorRegisterByUserID(int userId) {
+        for(MentorRegister o : d.getAllMentorRegister()) {
+            if(userId == o.getUser().getUserId()) {
+                return o;
+            }
+        }
+        return null;
+    }
+    
     public User getUser(int userId) {
         for (User u : getListUser()) {
             if (u.getUserId() == userId) {
@@ -66,65 +83,9 @@ public class Utilities {
         return user;
 
     }
-    
-//    public ArrayList<User> findMentorByTech(String tech) {
-//        ArrayList<Mentor> listMentor = d.getMentorWithTech(tech);
-//        ArrayList<User> listFound = new ArrayList<>();
-//
-//        for (User u : listUser) {
-//            for (Mentor i : listMentor) {
-//                if (u.getUserId() == i.getUserId()) {
-//                    listFound.add(u);
-//                }
-//            }
-//        }
-//        return listFound;
-//    }
-
- //   public ArrayList<Rating> getRatingStar(String tech) {
-////        int totalRate = 0;
-////        int count = 0;
-//        ArrayList<Mentor> listMentor = d.getMentorWithTech(tech);
-//        ArrayList<Rating> listRate = new ArrayList<>();
-
-//        for (Mentor m : listMentor) {
-//            for (Rating r : d.getRating()) {
-//                if (m.getMentorId() == r.getMentorId()) {
-//                    listRate.add(r);
-//                }
-//            }
-//
-//        }
-
-////        int rateStar = totalRate / count; //chia lay phan nguyen
-        //return listRate;
-  //  }
-
-//    public void getRate(String tech) {
-//        ArrayList<Mentor> listMentor = d.getMentorWithTech(tech);
-//        int totalRate = 0;
-//        int mentorId = 0;
-//        int menteeId = 0;
-//        for (Mentor m : listMentor) {
-//            for(Rating r : getRatingStar(tech)) {
-//                if(m.getMentorId() == r.getMentorId()) {
-//                    totalRate += r.getRateStar();
-//                    mentorId = r.getMentorId();
-//                    menteeId = r.getMenteeId();
-//                }
-//                listMentor.add(new Rating(menteeId, mentorId, menteeId, menteeId))
-//            }
-//        }
-//        
-//        
-//
-//    }
-
-//    public ArrayList<String> 
+   
     //main to test function working or not
     public static void main(String[] args) {
-        Utilities uti = new Utilities();
-        User u = uti.getExistedUser("mra", "1");
-        System.out.println(u.getFullname());
+       
     }
 }
