@@ -35,7 +35,7 @@
                     <button class="btn_invitation"> Send Invitation </button>
                 </div>              
             </div>
-            
+
             <div class="container p-5 wrapCV">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12 wrap-infor" data-aos="fade-up" data-aos-duration="1000">
@@ -85,6 +85,20 @@
                 <!-- <div class="wrap-infor"> -->
                 <div class="row contain-infor">
 
+                    <div class="col-md-5 col-sm-6 col-xs-12 pb-2 right-second-infor pl-4" data-aos="fade-up"
+                         data-aos-duration="1000">
+                        <div class="title mb-3">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span class="ml-2 content-infor">Bio</span>
+                        </div>
+
+                        <div class="main-content-infor">
+                            <p class="subtitle">${p.bio}</p>
+
+                        </div>
+
+                    </div>
+                    
                     <div class="col-md-5 col-sm-6 col-xs-12 right-second-infor pl-4" data-aos="fade-up" data-aos-duration="1000">
                         <div class="title mb-3">
                             <i class="fa-solid fa-pencil"></i>
@@ -93,13 +107,14 @@
 
 
                         <c:forEach var="skill" items="${requestScope.s}">
-                            <div class="mr-2">
+                            <div class="mr-2 d-md-inline-block mb-3">
                                 ${skill.skillName}
                             </div>
                         </c:forEach> 
-
-
                     </div>
+                </div>
+
+                <div class="row contain-infor">
 
                     <div class="col-md-5 col-sm-6 col-xs-12 left-second-infor pl-4" data-aos="fade-up" data-aos-duration="1000">
                         <div class="title mb-3">
@@ -111,11 +126,6 @@
                             <p>${p.experience}</p>                       
                         </div>
                     </div>
-
-                </div>
-
-                <div class="row contain-infor">
-
 
                     <div class="col-md-5 col-sm-6 col-xs-12 right-second-infor pl-4" data-aos="fade-up" data-aos-duration="1000">
                         <div class="title mb-3">
@@ -153,7 +163,7 @@
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
-                            <i class="fa-solid fa-star"></i><br>
+                            <i class="fa-solid fa-star text-warning"></i><br>
                             <label for="comment" class="form_comment_lable">Comment</label>
                             <textarea name="comment" id="comment" rows="5" placeholder="Your comment..."></textarea>
                             <button class="btn_comment" type="submit">Submit</button>
@@ -171,15 +181,15 @@
                 <c:forEach var="rate" items="${requestScope.r}">
                     <c:forEach var="comment" items="${requestScope.c}">
                         <c:if test="${rate.mentor.mentorID == comment.mentor.mentorID && rate.mentee.menteeID == comment.mentee.menteeID}">
-                            <div class="items-rate-comment" data-aos="fade-left" data-aos-duration="1000">
-                                <p class="cv-comment"> ${comment.mentee.user.fullname}</p>
-                                <span class="rating"><i class="fa-solid fa-star"></i><span class="rating-number">${rate.rateStar}</span></span>
+                            <div class="items-rate-comment pl-4" data-aos="fade-left" data-aos-duration="1000">
+                                <h5 class="cv-comment font-weight-bold"> ${comment.mentee.user.fullname}</h5>
+                                <span class="rating"><i class="fa-solid fa-star"></i><span class="rating-number font-weight-bold">${rate.rateStar}</span></span>
                                         <c:forEach var="fd" items="${requestScope.fd}">
                                             <c:if test="${fd.key == comment.commentID}">
-                                        <p class="cv-comment">${fd.value}</p>  
+                                    <p class="cv-comment" style="color: #777;">${fd.value}</p>  
                                     </c:if>
                                 </c:forEach>
-                                <p class="cv-comment">${comment.cmtContent}</p>                  
+                                <h5 class="cv-comment">${comment.cmtContent}</h5>                  
                             </div>
                         </c:if>
                     </c:forEach>

@@ -56,12 +56,29 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="changepassword">Change password</a>
                                     <a class="dropdown-item" href="userprofile">Profile</a>
-                                    <a class="dropdown-item" href="userprofile">Invitation</a>
-                                    <a class="dropdown-item" href="userprofile">Request</a>
+                                    <a class="dropdown-item" href="invitation">Invitation</a>
+                                    <a class="dropdown-item" href="ViewRequest">Request</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="logout">Log out</a>
                                 </div>
                             </div>
+
+                            <div class="contain_notify_parent nav-item dropdown ml-3 mr-5">
+                                <div class="contain_notify nav-link dropdown-toggle" id="notifyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                     aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="text-light new_notify" id="newNoti">new</span>
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="notifyDropdown" >
+                                    <a class="dropdown-item" href="invitation.html">Invitation<span class="ml-3 new_notify">1</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="request.html">Request<span class="ml-3 new_notify">1</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="response.html">Response<span class="ml-3 new_notify">1</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="viewBecomeMentorRequest.html">List be mentor request<span class="ml-3 new_notify">1</span></a>
+                                </div>
+                            </div>         
                         </div> 
                     </c:if>
 
@@ -84,7 +101,6 @@
                         <div class="left_bar">
                             <ul>
                                 <li class="category cate1 bg_active" onclick="openCate1()">Technologies ></li>
-                                <li class="category cate2" onclick="openCate2()">Rate ></li>
                             </ul>
                         </div>
                     </div>
@@ -97,27 +113,7 @@
                                             <a class="subCategory" href="#">${s.skillName}</a>
                                         </div>
                                     </c:forEach>
-                                    
-                                </div>
-                            </div>
 
-                            <div class="secondSubCategory">
-                                <div class="row">
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 0 - 1</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 1 - 2</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 2 - 3</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 3 - 4</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 4 - 5</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
