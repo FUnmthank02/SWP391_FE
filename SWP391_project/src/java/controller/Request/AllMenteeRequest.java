@@ -12,7 +12,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import model.Request;
+import java.sql.Date;
 
 /**
  *
@@ -37,7 +39,7 @@ public class AllMenteeRequest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AllMenteeRequest</title>");            
+            out.println("<title>Servlet AllMenteeRequest</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet AllMenteeRequest at " + request.getContextPath() + "</h1>");
@@ -56,16 +58,20 @@ public class AllMenteeRequest extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     DAO d = new DAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        
-        
-        ArrayList<Request> requests = d.getRequests();
-        
-        
-        request.setAttribute("requests", requests);
+
+        HashMap<Date, Float> averageRequest = d.getAvrReqPerUserPerDay();
+        HashMap<Date, Integer> countRequest = d.countReqPerDay();
+        ArrayList<Float> percentage = d.getPercentage();
+
+        request.setAttribute("averageRequest", averageRequest);
+        request.setAttribute("countRequest", countRequest);
+        request.setAttribute("percentage", percentage);
+
         request.getRequestDispatcher("view/allMenteeRequest.jsp").forward(request, response);
     }
 

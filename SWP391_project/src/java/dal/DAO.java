@@ -57,6 +57,72 @@ public class DAO extends DBContext {
         }
     }
 
+    //get average requests per user per day
+    public HashMap<Date, Float> getAvrReqPerUserPerDay() {
+        HashMap<Date, Float> AvrReq = new HashMap<>();
+        String sql = "select CAST(r.time as date) 'Date', cast(count(r.requestID) as float)/cast(count(distinct r.menteeID) as float) 'Requests per user per day'\n"
+                + "from\n"
+                + "Request r\n"
+                + "group by CAST(r.time as date)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Date date = rs.getDate(1);
+                Float AvrRequest = rs.getFloat(2);
+                AvrReq.put(date, AvrRequest);
+            }
+        } catch (Exception e) {
+
+        }
+        return AvrReq;
+    }
+
+    //count request each day
+    public HashMap<Date, Integer> countReqPerDay() {
+        HashMap<Date, Integer> requests = new HashMap<>();
+        String sql = "select CAST(r.time as date) 'Date', count(r.requestID) 'Request'\n"
+                + "from\n"
+                + "Request r\n"
+                + "group by CAST(r.time as date)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Date date = rs.getDate(1);
+                Integer numberOfRequest = rs.getInt(2);
+                requests.put(date, numberOfRequest);
+            }
+        } catch (Exception e) {
+
+        }
+        return requests;
+    }
+
+    //get percentage of requests had been responsed
+    public ArrayList<Float> getPercentage() {
+        ArrayList<Float> percentage = new ArrayList<>();
+        String sql = "select cast(m.[Not responsed] as float)/cast( m.[Responsed]+m.[Not responsed] as float) 'Not responsed',\n"
+                + "1-cast(m.[Not responsed] as float)/cast( m.[Responsed]+m.[Not responsed] as float) 'Responsed'\n"
+                + "from\n"
+                + "(select(select count(r.requestID) from\n"
+                + "Request r) as 'Not responsed',\n"
+                + "(select count(r.requestID) from\n"
+                + "Request r \n"
+                + "where r.status = 'Responsed') as 'Responsed') as m";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                percentage.add(rs.getFloat(1));
+                percentage.add(rs.getFloat(2));
+            }
+        } catch (Exception e) {
+
+        }
+        return percentage;
+    }
+
     //get all request
     public ArrayList<Request> getRequests() {
         ArrayList<Request> requests = new ArrayList<>();
@@ -890,10 +956,10 @@ public class DAO extends DBContext {
         }
         return s.getMentors();
     }
-    
-    public User getUserByEmail(String email){
+
+    public User getUserByEmail(String email) {
         for (User user : userList) {
-            if(user.getEmail().equals(email)){
+            if (user.getEmail().equals(email)) {
                 return user;
             }
         }
