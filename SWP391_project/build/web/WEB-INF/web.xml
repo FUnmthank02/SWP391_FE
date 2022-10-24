@@ -6,19 +6,19 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>update_userprofile</servlet-name>
-        <servlet-class>controler.update_userprofile</servlet-class>
+        <servlet-class>controler.UserProfile.update_userprofile</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userprofile</servlet-name>
-        <servlet-class>controler.userprofile</servlet-class>
+        <servlet-class>controler.UserProfile.userprofile</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>register</servlet-name>
-        <servlet-class>controler.register</servlet-class>
+        <servlet-class>controler.Register.register</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>verify</servlet-name>
-        <servlet-class>controler.verify</servlet-class>
+        <servlet-class>controler.Register.verify</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>home</servlet-name>
@@ -51,6 +51,22 @@
     <servlet>
         <servlet-name>AllMenteeRequest</servlet-name>
         <servlet-class>controller.Request.AllMenteeRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>mentorRegister</servlet-name>
+        <servlet-class>controler.MentorRegister.mentorRegister</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>search</servlet-name>
+        <servlet-class>controler.Search.search</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewListMentorRegister</servlet-name>
+        <servlet-class>controler.MentorRegister.viewListMentorRegister</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>actionForMentorRegister</servlet-name>
+        <servlet-class>controler.MentorRegister.actionForMentorRegister</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
@@ -99,6 +115,22 @@
     <servlet-mapping>
         <servlet-name>AllMenteeRequest</servlet-name>
         <url-pattern>/AllMenteeRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mentorRegister</servlet-name>
+        <url-pattern>/mentor-register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>search</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewListMentorRegister</servlet-name>
+        <url-pattern>/view-list-mentor-register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>actionForMentorRegister</servlet-name>
+        <url-pattern>/action-manage-mentor-register</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

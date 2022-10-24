@@ -56,23 +56,27 @@ public class mentorRegister extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
         String existedSkill = "";
         for (String i : skill) {
-            existedSkill += i;
+            existedSkill += (i+" ");
         }
+        existedSkill = existedSkill.trim();
 
         //check userId trong bang mentor register neu existed thi thong bao la da gui request
-//        if (uti.getMentorRegisterByUserID(userId) == null) {
-//            if (ckbOtherTech  != null) {
-//                //neu checked vao other thi insert new skill
-//                dao.insertMentorRegister(achievement, exp, bio, existedSkill, otherSkills, userId, 0);
-//            } else {
-//                dao.insertMentorRegister(achievement, exp, bio, existedSkill, otherSkills, userId, 1);
-//            }
-//
-//            request.setAttribute("sendRequestSuccess", "Your mentor register's request has been sent successfully!");
-//        } else {
-//            request.setAttribute("requestInProgress", "You've sent request before. You can not send more request!");
-//        }
-//            doGet(request, response);
+        if (uti.getMentorRegisterByUserID(userId) == null) {
+            if (ckbOtherTech  != null) {
+                //neu checked vao other thi insert new skill
+                dao.insertMentorRegister(achievement, exp, bio, existedSkill, otherSkills, userId, 0);
+            } else {
+                dao.insertMentorRegister(achievement, exp, bio, existedSkill, otherSkills, userId, 1);
+            }
+            
+            // add to mentor table with 'inactive'
+            dao.insertUserToMentor(userId);
+            
+            request.setAttribute("sendRequestSuccess", "Your mentor register's request has been sent successfully!");
+        } else {
+            request.setAttribute("requestInProgress", "You've sent request before. You can not send more request!");
+        }
+            doGet(request, response);
 
     }
 

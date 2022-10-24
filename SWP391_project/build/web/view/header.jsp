@@ -23,7 +23,7 @@
 
             <nav id="nav_home" class="navbar navbar-expand-lg navbar-light">
                 <div>
-                    <a href=""><img class="navbar-brand logo" src="image/mylogo.png" alt="logo" /></a>
+                    <a href="home"><img class="navbar-brand logo" src="image/mylogo.png" alt="logo" /></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -38,7 +38,7 @@
                                     &#9207;</p>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link nav_item_text" href="">Become Mentor</a>
+                                <a class="nav-link nav_item_text" href="mentor-register">Become Mentor</a>
                             </li>
 
                         </ul>
@@ -54,14 +54,29 @@
                                      id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                      aria-expanded="false" />
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="changepassword">Change password</a>
+                                    <a class="dropdown-item" href="change-password">Change password</a>
                                     <a class="dropdown-item" href="userprofile">Profile</a>
-                                    <a class="dropdown-item" href="userprofile">Invitation</a>
-                                    <a class="dropdown-item" href="userprofile">Request</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="logout">Log out</a>
                                 </div>
                             </div>
+
+                            <div class="contain_notify_parent nav-item dropdown ml-3 mr-5">
+                                <div class="contain_notify nav-link dropdown-toggle" id="notifyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                     aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="text-light new_notify" id="newNoti">new</span>
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="notifyDropdown" >
+                                    <a class="dropdown-item" href="invitation">Invitation<span class="ml-3 new_notify">1</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="ViewRequest">Request<span class="ml-3 new_notify">1</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="ViewRequest">Response<span class="ml-3 new_notify">1</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="view-list-mentor-register">List mentor register request<span class="ml-3 new_notify">1</span></a>
+                                </div>
+                            </div>         
                         </div> 
                     </c:if>
 
@@ -84,7 +99,6 @@
                         <div class="left_bar">
                             <ul>
                                 <li class="category cate1 bg_active" onclick="openCate1()">Technologies ></li>
-                                <li class="category cate2" onclick="openCate2()">Rate ></li>
                             </ul>
                         </div>
                     </div>
@@ -93,31 +107,11 @@
                             <div class="firstSubCategory active">
                                 <div class="row">
                                     <c:forEach var="s" items="${as}">
-                                        <div class="col-md-4 item_subcategory">
-                                            <a class="subCategory" href="#">${s.skillName}</a>
+                                        <div class="col-md-4 item_subcategory" style="cursor: auto">
+                                            <a class="subCategory" href="search?technologyID=${s.skillId}">${s.skillName}</a>
                                         </div>
                                     </c:forEach>
-                                    
-                                </div>
-                            </div>
 
-                            <div class="secondSubCategory">
-                                <div class="row">
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 0 - 1</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 1 - 2</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 2 - 3</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 3 - 4</a>
-                                    </div>
-                                    <div class="col-md-4 item_subcategory">
-                                        <a class="subCategory" href=""><i class="fa-solid fa-star"></i> 4 - 5</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
