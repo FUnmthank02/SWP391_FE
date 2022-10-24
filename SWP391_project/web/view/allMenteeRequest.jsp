@@ -13,53 +13,65 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <p>Requests per User per Day</p>
         <table border="2">
             <tr>
                 <td>
-                    Mentee 
-                </td>
-                <td> 
-                    Mentor
+                    Date
                 </td>
                 <td>
-                    Title
+                    Requests per User per Day
                 </td>
-                <td>
-                    Content
-                </td>
-                <td> 
-                    Status
-                </td>
-                <td>
-                    Skill
-                </td>
-                <td>
-                    Time
-                </td>
-
             </tr>
-            <c:forEach var="r" items="${requestScope.requests}">
+            <c:forEach var="a" items="${requestScope.averageRequest}">
                 <tr>
                     <td>
-                        ${r.mentee.user.fullname} 
-                    </td>
-                    <td> 
-                        ${r.mentor.user.fullname}
+                        ${a.key}
                     </td>
                     <td>
-                        ${r.title}
+                        ${a.value}
+                    </td>
+                </tr>
+            </c:forEach>        
+        </table>
+        <p>Count requests per day</p>
+        <table border="2">
+            <tr>
+                <td>
+                    Date
+                </td>
+                <td>
+                    Request
+                </td>
+            </tr>
+            <c:forEach var="c" items="${requestScope.countRequest}">
+                <tr>
+                    <td>
+                        ${c.key}
                     </td>
                     <td>
-                        ${r.reqContent}
+                        ${c.value}
                     </td>
-                    <td> 
-                        ${r.status}
+                </tr>
+            </c:forEach>
+        </table>
+        <p>Responsed Request Percentage</p>
+        <table border="2">
+            <tr>
+                <td>
+                    Not responsed
+                </td>
+                <td>
+                    Reponsed
+                </td>
+            </tr>
+            <c:forEach var="p" items="${requestScope.percentage}">
+                <tr>
+                    <td>
+                        ${p}
                     </td>
                     <td>
-                        ${r.skill.skillName}
-                    </td>
-                    <td>
-                        ${r.time}
+                        ${p}
                     </td>
                 </tr>
             </c:forEach>
