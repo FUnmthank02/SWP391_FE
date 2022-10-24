@@ -11,7 +11,7 @@ body::-webkit-scrollbar {
 }
 
 .contain_notify::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
 }
 
 .contain_notify::-webkit-scrollbar-track {
@@ -20,7 +20,6 @@ body::-webkit-scrollbar {
 
 .contain_notify::-webkit-scrollbar-thumb {
     box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
-    /* background: linear-gradient(to right bottom, #28a745, #47B5FF); */
     background-color: #40394A;
     border-radius: 100px;
     height: 30px;
@@ -33,19 +32,42 @@ body::-webkit-scrollbar {
 
 .head {
     margin-bottom: 50px;
+    display: flex;
 }
 
 .subhead {
     width: fit-content;
     padding: 1px 10px;
+    cursor: pointer;
+}
+
+.subhead a {
+    color: black;
+    text-decoration: none;
+}
+
+.subhead a:hover {
+    /* color: #47B5FF; */
+    text-decoration: none;
+
+}
+
+.page_active {
     background: linear-gradient(to right bottom, #28a745, #47B5FF);
+    color: #fff;
     border-radius: 5px;
+}
+
+.page_active a {
     color: #fff;
 }
 
-.subhead:hover {
-    background: linear-gradient(to left top, #28a745, #47B5FF);
+.page_active a:hover {
+    color: #fff;
+}
 
+.page_active:hover {
+    background: linear-gradient(to left top, #28a745, #47B5FF);
 }
 
 .count_new_invitation {
@@ -64,13 +86,11 @@ body::-webkit-scrollbar {
     overflow-y: scroll;
     background-color: #DCD7C9;
     border-radius: 5px;
-    padding-left: 5px;
+    padding-left: 3px;
 }
 
-
 .content_invitation {
-    /* background-color: rgb(195, 194, 194); */
-    background-color: rgb(242, 231, 219);
+    background-color: #FFE7CC;
     padding: 30px 15px;
     display: flex;
     justify-content: space-between;
@@ -91,10 +111,6 @@ body::-webkit-scrollbar {
     color: #354259;
 }
 
-.unread {
-    background-color: #FFE7CC;
-}
-
 .text_invitation {
     margin-bottom: 0;
     display: inline-block;
@@ -102,6 +118,7 @@ body::-webkit-scrollbar {
 
 .action_reply {
     text-decoration: none;
+    cursor: pointer;
     margin: 0 5px;
 }
 

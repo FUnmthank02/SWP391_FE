@@ -60,6 +60,14 @@
         <servlet-name>search</servlet-name>
         <servlet-class>controler.Search.search</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewListMentorRegister</servlet-name>
+        <servlet-class>controler.MentorRegister.viewListMentorRegister</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>actionForMentorRegister</servlet-name>
+        <servlet-class>controler.MentorRegister.actionForMentorRegister</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
         <url-pattern>/update_userprofile</url-pattern>
@@ -115,6 +123,14 @@
     <servlet-mapping>
         <servlet-name>search</servlet-name>
         <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewListMentorRegister</servlet-name>
+        <url-pattern>/view-list-mentor-register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>actionForMentorRegister</servlet-name>
+        <url-pattern>/action-manage-mentor-register</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

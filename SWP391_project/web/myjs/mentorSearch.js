@@ -1,9 +1,8 @@
+        
+const scrollBtn = document.querySelector('#myBtn')
 const btn_seemore = document.getElementById('btn_seemore')
 const seemorepart = document.querySelector('.seemore')
 const listItemMentorCard = document.getElementsByClassName('card-mentor')
-const scrollBtn = document.querySelector('#myBtn')
-
-
 
 //handle scroll
 window.onscroll = () => {
@@ -36,8 +35,6 @@ const defaultDisplayItemMentor = () => {
     } else {
         seemorepart.classList.add('disable')
     }
-                console.log('hello')
-
 }
 
 defaultDisplayItemMentor()

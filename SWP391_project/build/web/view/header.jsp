@@ -23,7 +23,7 @@
 
             <nav id="nav_home" class="navbar navbar-expand-lg navbar-light">
                 <div>
-                    <a href=""><img class="navbar-brand logo" src="image/mylogo.png" alt="logo" /></a>
+                    <a href="home"><img class="navbar-brand logo" src="image/mylogo.png" alt="logo" /></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -38,7 +38,7 @@
                                     &#9207;</p>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link nav_item_text" href="">Become Mentor</a>
+                                <a class="nav-link nav_item_text" href="mentor-register">Become Mentor</a>
                             </li>
 
                         </ul>
@@ -54,10 +54,8 @@
                                      id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                      aria-expanded="false" />
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="changepassword">Change password</a>
+                                    <a class="dropdown-item" href="change-password">Change password</a>
                                     <a class="dropdown-item" href="userprofile">Profile</a>
-                                    <a class="dropdown-item" href="invitation">Invitation</a>
-                                    <a class="dropdown-item" href="ViewRequest">Request</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="logout">Log out</a>
                                 </div>
@@ -70,13 +68,13 @@
                                     <span class="text-light new_notify" id="newNoti">new</span>
                                 </div>
                                 <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="notifyDropdown" >
-                                    <a class="dropdown-item" href="invitation.html">Invitation<span class="ml-3 new_notify">1</span></a>
+                                    <a class="dropdown-item" href="invitation">Invitation<span class="ml-3 new_notify">1</span></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="request.html">Request<span class="ml-3 new_notify">1</span></a>
+                                    <a class="dropdown-item" href="ViewRequest">Request<span class="ml-3 new_notify">1</span></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="response.html">Response<span class="ml-3 new_notify">1</span></a>
+                                    <a class="dropdown-item" href="ViewRequest">Response<span class="ml-3 new_notify">1</span></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="viewBecomeMentorRequest.html">List be mentor request<span class="ml-3 new_notify">1</span></a>
+                                    <a class="dropdown-item" href="view-list-mentor-register">List mentor register request<span class="ml-3 new_notify">1</span></a>
                                 </div>
                             </div>         
                         </div> 
@@ -109,8 +107,8 @@
                             <div class="firstSubCategory active">
                                 <div class="row">
                                     <c:forEach var="s" items="${as}">
-                                        <div class="col-md-4 item_subcategory">
-                                            <a class="subCategory" href="#">${s.skillName}</a>
+                                        <div class="col-md-4 item_subcategory" style="cursor: auto">
+                                            <a class="subCategory" href="search?technologyID=${s.skillId}">${s.skillName}</a>
                                         </div>
                                     </c:forEach>
 

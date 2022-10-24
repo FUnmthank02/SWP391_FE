@@ -1,3 +1,4 @@
+
 const handleMultiSlideRange = () => {
 
 // Initialize slider:

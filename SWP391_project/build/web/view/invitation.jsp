@@ -26,13 +26,16 @@
     <div class="container contain_invitationPage">
 
         <div class="head">
-            <div class="subhead">
+            <div class="subhead page_active">
                 <h4 class="font-weight-bold">List invitation</h4>
+            </div>
+            <div class="subhead">
+                <h4 class="font-weight-bold"><a href="viewMentorRegisterRequest.jsp">List mentor register's request</a></h4>
             </div>
         </div>
 
         <div class="contain_notify">
-            <div class="content_invitation unread">
+            <div class="content_invitation">
                 <div>
                     <p class="text_invitation">${nameMentee} has sent you a invitation to be mentor</p>
                 </div>

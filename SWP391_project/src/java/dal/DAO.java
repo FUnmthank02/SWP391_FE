@@ -56,7 +56,28 @@ public class DAO extends DBContext {
             status = "Error connection " + e.getMessage();
         }
     }
-
+    
+    //get mentor with userid
+    public Mentor getMentorByUserId(User user) {
+        String sql = "select * from Mentor where userId = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, user.getUserId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int mentorId = rs.getInt(1);
+                User u = new User();
+                u.setUserId(rs.getInt(2));
+                String status = rs.getString(3);
+                Mentor m = new Mentor(mentorId, u, status);
+                return m;
+            }
+        } catch (Exception e) {
+            status = "Error get mentor by userId: " + e.getMessage();
+        }
+        return null;
+    }
+    
     //get all request
     public ArrayList<Request> getRequests() {
         ArrayList<Request> requests = new ArrayList<>();
@@ -271,16 +292,16 @@ public class DAO extends DBContext {
         }
     }
 
-    public ArrayList<Mentor> getMentorWithTech(String tech) {
+    public ArrayList<Mentor> getMentorWithTech(int skillId) {
         ArrayList<Mentor> listMentor = new ArrayList<Mentor>();
 
-        String sql = "select m.mentorID, m.userID from Mentor m,\n"
+        String sql = "select m.mentorID, m.userID, m.status from Mentor m,\n"
                 + "(select s.skillID,s.skillName,es.mentorID from Skill s, EnrollSkill es\n"
-                + "where s.skillID = es.skillID and s.skillName = ? ) a\n"
+                + "where s.skillID = es.skillID and s.skillId = ? ) a\n"
                 + "where m.mentorID = a.mentorID";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, tech);
+            ps.setInt(1, skillId);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -288,8 +309,9 @@ public class DAO extends DBContext {
 
                 int mentorID = rs.getInt(1);
                 user.setUserId(rs.getInt(2));
+                String status = rs.getString(3);
 
-                Mentor m = new Mentor(mentorID, user);
+                Mentor m = new Mentor(mentorID, user, status);
                 listMentor.add(m);
             }
         } catch (Exception e) {
@@ -371,9 +393,12 @@ public class DAO extends DBContext {
     //get rating by mentorId
     public HashMap<Integer, Float> getRateByMentorID() {
         HashMap<Integer, Float> ratesHashMap = new HashMap<>();
-        String sql = "select r.mentorID,cast((sum(rateStar)) as float) / cast((count(rateStar)) as float) as 'averageStar' \n"
+        String sql = "select r.mentorID,cast(cast((sum(rateStar)) as float) / cast((count(rateStar)) as float) as decimal(10,1)) as 'averageStar' \n"
                 + "from Rating r\n"
                 + "group by r.mentorID";
+//        String sql = "select r.mentorID,cast((sum(rateStar)) as float) / cast((count(rateStar)) as float) as 'averageStar' \n"
+//                + "from Rating r\n"
+//                + "group by r.mentorID";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -612,7 +637,7 @@ public class DAO extends DBContext {
                 return m;
             }
         } catch (Exception e) {
-            status = "Error load enroll skill: " + e.getMessage();
+            status = "Error get mentor: " + e.getMessage();
         }
         return null;
     }
@@ -816,7 +841,7 @@ public class DAO extends DBContext {
                 return s;
             }
         } catch (Exception e) {
-            status = "Error load enroll skill: " + e.getMessage();
+            status = "Error get skill by skillID: " + e.getMessage();
         }
         return null;
     }
@@ -900,6 +925,27 @@ public class DAO extends DBContext {
         return null;
     }
 
+    //get all mentor
+    public ArrayList<Mentor> getAllMentor() {
+        ArrayList<Mentor> list = new ArrayList<>();
+        String sql = "select * from Mentor";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int mentorId = rs.getInt(1);
+                User u = new User();
+                u.setUserId(rs.getInt(2));
+                String status = rs.getString(3);
+                list.add(new Mentor(mentorId, u, status));
+            }
+        } catch (Exception e) {
+            System.out.println("Error at get All mentor: " + e.getMessage());
+        }
+
+        return list;
+    }
+    //get all mentor register
     public ArrayList<MentorRegister> getAllMentorRegister() {
         ArrayList<MentorRegister> list = new ArrayList<>();
         String sql = "select * from MentorRegister";
@@ -969,10 +1015,34 @@ public class DAO extends DBContext {
     }
 
     public void insertUserToMentee(int userId) {
-        String sql = "INSERT INTO [dbo].[Mentee]\n"
-                + "           ([userID])\n"
-                + "     VALUES\n"
-                + "           (?)";
+        String sql = "INSERT INTO [dbo].[Mentee] ([userID]) VALUES(?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, userId);
+
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at insert user to mentee" + e.getMessage();
+        }
+    }
+
+    public void insertUserToMentor(int userId) {
+        String sql = "INSERT INTO [dbo].[Mentor] ([userID]\n VALUES(?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, userId);
+
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at insert user to mentor" + e.getMessage();
+        }
+    }
+
+    //update active mentor
+    public void updateActiveMentor(int userId) {
+        String sql = "update [Mentor] set status = 'active' where userID = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
@@ -980,12 +1050,33 @@ public class DAO extends DBContext {
             
             ps.execute();
         } catch (Exception e) {
-            status = "Error at insert user to mentee" + e.getMessage();
+            status = "Error at update mentor active" + e.getMessage();
         }
     }
     
+    //delete mentor register
+    public void deleteMentorRegister(int userId) {
+        String sql = "DELETE FROM [dbo].[MentorRegister] WHERE userId = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
+            
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at delete mentor register" + e.getMessage();
+        }
+    }
     
-    public static void main(String[] args) {
-
+    //delete mentor
+    public void deleteMentor(int userId) {
+        String sql = "DELETE FROM [dbo].[Mentor] WHERE userId = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
+            
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at delete mentor" + e.getMessage();
+        }
     }
 }
