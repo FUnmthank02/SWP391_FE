@@ -72,7 +72,7 @@ public class AllMenteeRequest extends HttpServlet {
         request.setAttribute("countRequest", countRequest);
         request.setAttribute("percentage", percentage);
 
-        request.getRequestDispatcher("view/allMenteeRequest.jsp").forward(request, response);
+        request.getRequestDispatcher("view/demoChart.jsp").forward(request, response);
     }
 
     /**
