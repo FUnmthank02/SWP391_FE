@@ -24,7 +24,32 @@ public class Utilities {
     public ArrayList<User> getListUser() {
         return listUser;
     }
+    
+    // to split existedSkill
+    public String handleSplitExistedSkill(String string, String regex) {
+        String[] arrString = string.split(regex);
+        int arrLength = arrString.length;
+        int skillID;
+        String existedSkill = "";
+        for (int i = 0; i < arrLength; i++) {
+            skillID = Integer.parseInt(arrString[i]);
+            Skill skill = d.getSKill(skillID);
+            existedSkill += (skill.getSkillName() + " ");
+        }
+        return existedSkill.trim();
+    }
 
+    // to split new skill
+    public String handleSplitNewSkill(String string, String regex) {
+        String[] arrString = string.split(regex);
+        int arrLength = arrString.length;
+        String newSkill = "";
+        for (int i = 0; i < arrLength; i++) {
+            newSkill += (arrString[i] + " ");
+        }
+        return newSkill.trim();
+    }
+    
     public User getUserbyUsername(String username) {
         for(User u : getListUser()) {
             if(username.equals(u.getUsername()))
@@ -42,6 +67,7 @@ public class Utilities {
         return null;
     }
     
+    //get USer by user id
     public User getUser(int userId) {
         for (User u : getListUser()) {
             if (u.getUserId() == userId) {

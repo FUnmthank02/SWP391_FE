@@ -16,7 +16,7 @@
     </head>
     <body class="auth_class">
 
-        <div class="container login-container">
+        <div class="container login-container" style="transform: translateY(-10vh);">
             <img class="triangleA" src="https://res.cloudinary.com/procraftstudio/image/upload/v1613965232/triangleA_lwqhnl.png" alt='Onestop triangle'>
             <div class="row">
                 <div class="col-md-6 welcome_auth">
