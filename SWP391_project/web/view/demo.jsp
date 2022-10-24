@@ -12,8 +12,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="CreateRequest" method="post">
-            <input type="submit" value="Submit" />
+        <form action="demo" method="post">
+            <input type="text" name="name" required />
+            <button type="submit">submit</button>
         </form>
     </body>
 </html>

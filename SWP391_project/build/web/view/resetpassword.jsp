@@ -20,7 +20,7 @@
         <img class="triangleA"
             src="https://res.cloudinary.com/procraftstudio/image/upload/v1613965232/triangleA_lwqhnl.png"
             alt='Onestop triangle'>
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-md-6 welcome_auth">
                 <div class="auth_welcome">6HP, programing is happy</div>
             </div>
@@ -28,22 +28,26 @@
                 <div class="login_form_in">
                     <div class="form-group other_auth_links">
                         <div class="contain_logo">
-                            <a href="../home" class="original-logo"><img src="../image/mylogo.png"alt="img"></a>
+                            <a href="../home" class="original-logo"><img src="../image/mylogo.png" alt="img"></a>
                         </div>
                     </div>
-
-                    <h1 class="auth_title text-left text-success">Forgot password</h1>
-                    <form action="../forgot-password" method="post">
+                    <h1 class="auth_title text-left text-success">Reset password</h1>
+                    <form action="../resetpassword" method="post">
                         <div class="alert alert-success bg-soft-primary border-0" role="alert">
-                            Enter your email.
+                            Enter your new password.
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" name="email" placeholder="">
+                            <input type="password" class="form-control" name="newpass" placeholder="New password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="rpnewpass"
+                                placeholder="Repeat new password">
                         </div>
 
                         <!-- get error or noti from servlet -->
-                        <!-- <p id="noti">${requestScope.mailSended}</p>
-                        <p class="err">${requestScope.errNotExistUser}</p> -->
+                        <!-- <p id="noti">${requestScope.resetSuccess}</p> -->
+                        <!-- <p class="err">${requestScope.errRpPassNotMatch} </p>  -->
+                        <!-- <p class="err">${requestScope.errNewPassNotValid} </p>  -->
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
@@ -64,7 +68,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
         </script>
-
 </body>
 
 </html>
