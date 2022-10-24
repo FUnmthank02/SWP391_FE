@@ -10,7 +10,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>6HP - Happy Programing</title>
-        <link rel="stylesheet" href="../style/createRequest.css">
+        <link rel="stylesheet" href="style/createRequest.css">
         <link rel="icon" type="image/x-icon" href="../image/mylogo.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -29,10 +29,10 @@
         <div class="container contain_listRequest">
             <div class="heading mt-4 mb-2">
                 <div class="sub_heading pl-3 pr-3">
-                    <h4><a href="./request.html" class="font-weight-bold">List Request</a></h4>
+                    <h4><a href="listRequest" class="font-weight-bold">List Request</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3">
-                    <h4><a href="./response.html" class="font-weight-bold">List Response</a></h4>
+                    <h4><a href="listResponse" class="font-weight-bold">List Response</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3 request_page_active">
                     <h4><a href="" class="font-weight-bold">Create Request</a></h4>

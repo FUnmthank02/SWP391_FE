@@ -1,13 +1,16 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package utility;
 
 import dal.DAO;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import model.*;
-import org.eclipse.jdt.internal.compiler.ast.ThisReference;
 
 /**
  *
@@ -66,6 +69,13 @@ public class Utilities {
 
     }
 
+    public String formateDate(Date date) {
+        Instant now = date.toInstant();
+        System.out.println(now.toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
+        return formatter.format(now);
+    }
+
 //    public ArrayList<User> findMentorByTech(String tech) {
 //        ArrayList<Mentor> listMentor = d.getMentorWithTech(tech);
 //        ArrayList<User> listFound = new ArrayList<>();
@@ -79,13 +89,11 @@ public class Utilities {
 //        }
 //        return listFound;
 //    }
-
- //   public ArrayList<Rating> getRatingStar(String tech) {
+    //   public ArrayList<Rating> getRatingStar(String tech) {
 ////        int totalRate = 0;
 ////        int count = 0;
 //        ArrayList<Mentor> listMentor = d.getMentorWithTech(tech);
 //        ArrayList<Rating> listRate = new ArrayList<>();
-
 //        for (Mentor m : listMentor) {
 //            for (Rating r : d.getRating()) {
 //                if (m.getMentorId() == r.getMentorId()) {
@@ -94,11 +102,9 @@ public class Utilities {
 //            }
 //
 //        }
-
 ////        int rateStar = totalRate / count; //chia lay phan nguyen
-        //return listRate;
-  //  }
-
+    //return listRate;
+    //  }
 //    public void getRate(String tech) {
 //        ArrayList<Mentor> listMentor = d.getMentorWithTech(tech);
 //        int totalRate = 0;
@@ -118,12 +124,14 @@ public class Utilities {
 //        
 //
 //    }
-
 //    public ArrayList<String> 
     //main to test function working or not
     public static void main(String[] args) {
         Utilities uti = new Utilities();
-        User u = uti.getExistedUser("mra", "1");
-        System.out.println(u.getFullname());
+        DAO dao = new DAO();
+
+        for (Response response : dao.loadResponse()) {
+            System.out.println(uti.formateDate(response.getTime()));
+        }
     }
 }
