@@ -6,19 +6,19 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>update_userprofile</servlet-name>
-        <servlet-class>controler.update_userprofile</servlet-class>
+        <servlet-class>controler.UserProfile.update_userprofile</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userprofile</servlet-name>
-        <servlet-class>controler.userprofile</servlet-class>
+        <servlet-class>controler.UserProfile.userprofile</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>register</servlet-name>
-        <servlet-class>controler.register</servlet-class>
+        <servlet-class>controler.Register.register</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>verify</servlet-name>
-        <servlet-class>controler.verify</servlet-class>
+        <servlet-class>controler.Register.verify</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>home</servlet-name>
@@ -30,7 +30,7 @@
     </servlet>
     <servlet>
         <servlet-name>logOut</servlet-name>
-        <servlet-class>controler.logOut</servlet-class>
+        <servlet-class>controler.LogOut.logOut</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>mentorProfile</servlet-name>
@@ -41,24 +41,24 @@
         <servlet-class>controler.ChangePassword.changePassword</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>createResponse</servlet-name>
-        <servlet-class>controler.CreateResponse.createResponse</servlet-class>
+        <servlet-name>CreateRequest</servlet-name>
+        <servlet-class>controller.Request.CreateRequest</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>viewRequest</servlet-name>
-        <servlet-class>controler.ViewResquest.viewRequest</servlet-class>
+        <servlet-name>ViewRequest</servlet-name>
+        <servlet-class>controller.Request.ViewRequest</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>viewResponse</servlet-name>
-        <servlet-class>controler.ViewResponse.viewResponse</servlet-class>
+        <servlet-name>AllMenteeRequest</servlet-name>
+        <servlet-class>controller.Request.AllMenteeRequest</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>listResponse</servlet-name>
-        <servlet-class>controler.listResponse.listResponse</servlet-class>
+        <servlet-name>mentorRegister</servlet-name>
+        <servlet-class>controler.MentorRegister.mentorRegister</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>listRequest</servlet-name>
-        <servlet-class>controler.listRequest.listRequest</servlet-class>
+        <servlet-name>search</servlet-name>
+        <servlet-class>controler.Search.search</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>viewListMentorRegister</servlet-name>
@@ -105,24 +105,24 @@
         <url-pattern>/change-password</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>createResponse</servlet-name>
-        <url-pattern>/createResponse</url-pattern>
+        <servlet-name>CreateRequest</servlet-name>
+        <url-pattern>/CreateRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>viewRequest</servlet-name>
-        <url-pattern>/viewRequest</url-pattern>
+        <servlet-name>ViewRequest</servlet-name>
+        <url-pattern>/ViewRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>viewResponse</servlet-name>
-        <url-pattern>/viewResponse</url-pattern>
+        <servlet-name>AllMenteeRequest</servlet-name>
+        <url-pattern>/AllMenteeRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>listResponse</servlet-name>
-        <url-pattern>/listResponse</url-pattern>
+        <servlet-name>mentorRegister</servlet-name>
+        <url-pattern>/mentor-register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>listRequest</servlet-name>
-        <url-pattern>/listRequest</url-pattern>
+        <servlet-name>search</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>viewListMentorRegister</servlet-name>

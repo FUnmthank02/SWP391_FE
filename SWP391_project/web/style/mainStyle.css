@@ -3,24 +3,58 @@
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    font-family: Verdana, Geneva, Tahoma, sans-serif, 'Times New Roman', Times, serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.contain_notify {
+    cursor: pointer;
+}
+
+.contain_notify i {
+    font-size: 25px;
+}
+
+.new_notify {
+    /* background: rgb(227, 227, 227); */
+    background: red;
+    font-size: 13px;
+    margin-left: -10px;
+    padding: 1px;
+    border-radius: 3px;
+    color: #fff;
+}
+
+#newNoti {
+    font-size: 10px;
 }
 
 ::-webkit-scrollbar {
     display: none;
 }
 
-.wrapper_homepage {}
+.wrapper_homepage {
+}
 
 #nav_home {
     background-color: #fff;
     display: flex;
     justify-content: space-evenly;
     border-bottom: 1px solid green;
+    box-shadow: 0 0 20px rgb(0, 0, 0);
+}
+
+.changeBg {
+    background: linear-gradient(to left bottom, #D9F8C4, #F9F3EE);
+}
+
+.wrap_nav_home {
+    position: fixed;
+    width: 100%;
+    z-index: 999;
 }
 
 .logo {
-    width: 80px;
+    width: 60px;
     height: auto;
     margin-left: 100px;
 }
@@ -52,19 +86,12 @@
 }
 
 #navbarDropdown {
-    height: 60px;
-    width: 60px;
-    border: 1px solid #fff;
-    background-color: rgb(159, 159, 159);
+    height: 80px;
+    width: 80px;
 }
 
 #navbarSupportedContent .nav_item_text:hover {
     color: #6ECB63 !important;
-}
-
-.nav_drop {
-    margin-right: 120px;
-
 }
 
 .acti {
@@ -101,8 +128,10 @@
 .bar {
     background-color: #F9F9F9;
     display: none;
-    z-index: 10;
+    z-index: inherit;
     border-bottom: 1px solid green;
+    position: absolute;
+
 }
 
 .left {
@@ -125,12 +154,11 @@
     cursor: pointer;
     color: #14C38E;
     background: linear-gradient(to left bottom, #D9F8C4, #F9F3EE);
-
 }
 
 .bg_active {
     color: #14C38E;
-    background: linear-gradient(to right bottom, #D9F8C4, #F9F3EE);
+    background: linear-gradient(to left bottom, #D9F8C4, #F9F3EE);
 }
 
 .firstSubCategory,
@@ -143,7 +171,7 @@
 }
 
 .item_subcategory:hover {
-    background: linear-gradient(to right bottom, #D9F8C4, #F9F3EE);
+    background: linear-gradient(to left bottom, #D9F8C4, #F9F3EE);
     cursor: pointer;
 }
 
@@ -201,7 +229,9 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: linear-gradient(to right bottom, #D9F8C4, #F9F3EE);
+    background: #b2f3b783;
+    padding-top: 100px;
+
 }
 
 .banner_intro {
@@ -244,7 +274,7 @@
 /* techonologies list */
 .technology {
     margin-top: 100px;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
 }
 
 .part {
@@ -253,12 +283,12 @@
     margin-bottom: 50px;
 }
 
-.part h2 {
+.part h4 {
     transition: all 1s ease-in-out;
     font-weight: 500;
 }
 
-.part:hover h2 {
+.part:hover h4 {
     transform: translateX(10%);
     color: #A91079;
 }
@@ -323,6 +353,17 @@
     padding: 40px 20px;
 }
 
+.item_technology_description {
+    font-size: 12px;
+    color: rgb(240, 240, 240);
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .item_techonology a {
     color: #fff;
 }
@@ -362,7 +403,7 @@
     border: none;
     border-radius: 10px;
     color: #fff;
-    outline: 1px solid #3330E4;
+    outline: none;
 }
 
 #btn_seemore:hover {

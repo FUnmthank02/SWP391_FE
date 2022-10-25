@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controler.ChangePassword;
+package controller.Request;
 
 import dal.DAO;
 import java.io.IOException;
@@ -11,13 +11,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.Mentee;
+import model.Mentor;
+import model.Request;
+import model.Skill;
 import model.User;
+import utility.Utilities;
 
 /**
  *
- * @author DELL
+ * @author Admin
  */
-public class changePassword extends HttpServlet {
+public class CreateRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +42,10 @@ public class changePassword extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet changePassword</title>");            
+            out.println("<title>Servlet CreateRequest</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet changePassword at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateRequest at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,10 +60,24 @@ public class changePassword extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    DAO d = new DAO();
+    utility.Utilities u = new Utilities();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/ChangePassword/changepassword.jsp").forward(request, response);
+        //get user 
+        User U = (User) request.getSession().getAttribute("user");
+
+        //get all skill for header
+        ArrayList<Skill> skills = d.getSkill();
+        //get mentee of current user
+        Mentee mentee = d.getMentee(U);
+        //get information of mentors belong to a mentee
+        ArrayList<User> mi = d.getUser(mentee);
+        request.setAttribute("as", skills);
+        request.setAttribute("mi", mi);
+        request.getRequestDispatcher("view/createRequest.jsp").forward(request, response);
     }
 
     /**
@@ -71,31 +91,43 @@ public class changePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String oldPass = request.getParameter("oldPass");
-        String newPass = request.getParameter("newPass");
-        String cfNewPass = request.getParameter("cfNewPass");
-        User u = (User)request.getSession(true).getAttribute("user");
-        boolean isCorrect = false;
-        DAO dao = new DAO();
-        if(u.getPassword().equals(oldPass)){
-            if(newPass.equals(cfNewPass)){
-            dao.changePassword(u.getUserId(), newPass);
-            request.getSession().removeAttribute("user");
-            isCorrect = true;
-            }
-            else{
-                request.setAttribute("errRpPassNotMatch", "Confirm password does not match!!!");
-            }
-        }
-        else{
-            request.setAttribute("errNewPassNotValid", "Wrong password!!!");    
-        }
-        if(isCorrect){
-            response.sendRedirect("login");
-        }
-        else{
-            request.getRequestDispatcher("view/ChangePassword/changepassword.jsp").forward(request, response);
-        }
+
+        //get user 
+        User U = (User) request.getSession().getAttribute("user");
+
+//        //get mentee of current user
+        Mentee mentee = d.getMentee(U);
+
+        //get userID of mentor
+        int userID = Integer.parseInt(request.getParameter("mentor"));
+        User u = new User();
+        u.setUserId(userID);
+        Mentor mentor = d.getMentor(u);
+
+        //get request title
+        String title = request.getParameter("title");
+
+        //get request content
+        String content = request.getParameter("requestContent");
+
+        //request status
+        String status = "Processing";
+
+        //request skill ID
+        int skillID = 1;
+        Skill skill = new Skill();
+        skill.setSkillId(skillID);
+
+        model.Request req = new Request();
+        req.setMentee(mentee);
+        req.setMentor(mentor);
+        req.setReqContent(content);
+        req.setSkill(skill);
+        req.setStatus(status);
+        req.setTitle(title);
+
+        d.insertRequest(req);
+        response.sendRedirect("CreateRequest");
     }
 
     /**
