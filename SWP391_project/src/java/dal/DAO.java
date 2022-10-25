@@ -10,11 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.*;
 import sun.nio.cs.MS1250;
 
@@ -1070,6 +1073,60 @@ public class DAO extends DBContext {
 //        }
 //
 //    }
+    
+        public void UpdateStatus(int id){
+        try {
+            String sql ="UPDATE [Invitation]\n" +
+                        "   SET \n" +
+                        "     status = 'accept'\n" +
+                        "     \n" +
+                        " WHERE invitationID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        }
+        public void deleteInvitation(int id){
+            String querry = "DELETE FROM Invitation where invitationID = ?";
+            try {
+                PreparedStatement ps = con.prepareStatement(querry);
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        public List<Invitation> getInvitations(){
+             List<Invitation> invitations = new ArrayList<>();
+        try {
+           
+            String sql = "select m.menteeID, m.userID,u.fullname,i.invitationID,i.mentorID,i.status,i.time from Invitation i join Mentee m on i.menteeID = m.menteeID join [User] u on m.userID = u.userID";
+            PreparedStatement stm = con.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {                
+                Invitation i  = new Invitation();
+                Mentee mentee = new Mentee();
+                User user = new User();
+                user.setFullname(rs.getString("fullname"));
+                mentee.setUser(user);
+                mentee.setMenteeID(rs.getInt("menteeID"));
+                i.setInvitationID(rs.getInt("invitationID"));
+                i.setMentee(mentee);
+                i.setStatus(rs.getString("status"));
+                i.setTime(rs.getDate("time"));
+                invitations.add(i);
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return invitations;
+        }
+    
     public static void main(String[] args) {
         DAO d = new DAO();
         Mentor m = new Mentor();

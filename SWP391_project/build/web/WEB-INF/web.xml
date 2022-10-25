@@ -52,6 +52,22 @@
         <servlet-name>AllMenteeRequest</servlet-name>
         <servlet-class>controller.Request.AllMenteeRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>invitation</servlet-name>
+        <servlet-class>controler.Invitation.invitation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>acceptInvitation</servlet-name>
+        <servlet-class>controler.Invitation.acceptInvitation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>rejectInvitation</servlet-name>
+        <servlet-class>controler.Invitation.rejectInvitation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>rejectControler</servlet-name>
+        <servlet-class>controler.Invitation.rejectControler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
         <url-pattern>/update_userprofile</url-pattern>
@@ -99,6 +115,18 @@
     <servlet-mapping>
         <servlet-name>AllMenteeRequest</servlet-name>
         <url-pattern>/AllMenteeRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>invitation</servlet-name>
+        <url-pattern>/invitation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>acceptInvitation</servlet-name>
+        <url-pattern>/acceptInvitation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>rejectControler</servlet-name>
+        <url-pattern>/rejectInvitation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
