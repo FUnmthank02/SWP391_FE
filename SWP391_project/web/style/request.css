@@ -56,7 +56,7 @@
 
 .request_item {
     padding: 20px;
-    background-color: #FFE7CC;
+    background-color: rgb(242, 231, 219);
     margin-top: 3px;
     margin-bottom: 3px;
     display: flex;

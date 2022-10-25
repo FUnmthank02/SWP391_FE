@@ -23,7 +23,7 @@ public class home extends HttpServlet {
 
     DAO d = new DAO();
     Utilities u = new Utilities();
-  
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class home extends HttpServlet {
         
         request.setAttribute("as", skills);
         request.getRequestDispatcher("view/home.jsp").forward(request, response);
-        
+
     }
 
     @Override
