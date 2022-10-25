@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FPT/FALL22/SWP391/SWP391_FE/SWP391_project/src/java/controller/Request/AllMenteeRequest.java</file>
-            <file>file:/D:/FPT/FALL22/SWP391/SWP391_FE/SWP391_project/src/java/dal/DAO.java</file>
-            <file>file:/D:/FPT/FALL22/SWP391/SWP391_FE/SWP391_project/web/view/allMenteeRequest.jsp</file>
-            <file>file:/D:/FPT/FALL22/SWP391/SWP391_FE/SWP391_project/src/java/model/Request.java</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/myjs/header.js</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/style/mainStyle.css</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/style/viewingMentor.css</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/myjs/mentorView.js</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/view/viewmentor.jsp</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/view/search.jsp</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/view/demo.jsp</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/src/java/controler/Search/search.java</file>
+            <file>file:/G:/Github-source/SWP391_FE/SWP391_project/web/myjs/toSearch.js</file>
         </group>
     </open-files>
 </project-private>

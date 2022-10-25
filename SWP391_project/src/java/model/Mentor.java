@@ -10,13 +10,15 @@ import java.util.ArrayList;
 public class Mentor {
     private int mentorID;
     private User user;
+    private String status;
     private ArrayList<Skill> skills;
     public Mentor() {
     }
 
-    public Mentor(int mentorID, User user) {
+    public Mentor(int mentorID, User user, String status) {
         this.mentorID = mentorID;
         this.user = user;
+        this.status = status;
     }
 
     public Mentor(int mentorID, User user, ArrayList<Skill> skills) {
@@ -25,6 +27,15 @@ public class Mentor {
         this.skills = skills;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
     public int getMentorID() {
         return mentorID;
     }
@@ -51,11 +62,9 @@ public class Mentor {
 
     @Override
     public String toString() {
-        return "Mentor{" + "mentorID=" + mentorID + ", user=" + user + ", skills=" + skills + '}';
+        return "Mentor{" + "mentorID=" + mentorID + ", user=" + user + ", status=" + status + ", skills=" + skills + '}';
     }
-    
 
-    
-    
+
     
 }

@@ -6,8 +6,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>6HP - Happy Programing</title>
-    <link rel="stylesheet" href="../style/resetpass.css" />
-    <link rel="icon" type="image/x-icon" href="../image/mylogo.png">
+    <link rel="stylesheet" href="style/resetpass.css" />
+    <link rel="icon" type="image/x-icon" href="image/mylogo.png">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -28,17 +28,17 @@
                 <div class="login_form_in">
                     <div class="form-group other_auth_links">
                         <div class="contain_logo">
-                            <a href="../home" class="original-logo"><img src="../image/mylogo.png"alt="img"></a>
+                            <a href="home" class="original-logo"><img src="image/mylogo.png"alt="img"></a>
                         </div>
                     </div>
 
                     <h1 class="auth_title text-left text-success">Forgot password</h1>
-                    <form action="../forgotpass" method="post">
+                    <form action="forgot-password" method="post">
                         <div class="alert alert-success bg-soft-primary border-0" role="alert">
-                            Enter your username.
+                            Enter your email.
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="username" placeholder="Username">
+                            <input type="email" class="form-control" name="email" placeholder="">
                         </div>
 
                         <!-- get error or noti from servlet -->
