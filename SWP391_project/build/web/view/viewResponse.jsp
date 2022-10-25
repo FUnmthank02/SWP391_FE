@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>6HP - Happy Programing</title>
-        <link rel="stylesheet" href="../style/request.css">
+        <link rel="stylesheet" href="style/request.css">
         <link rel="icon" type="image/x-icon" href="../image/mylogo.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -24,85 +24,40 @@
         <div class="container contain_listRequest">
             <div class="heading mt-4 mb-2">
                 <div class="sub_heading pl-3 pr-3">
-                    <h4><a href="./request.html" class="font-weight-bold">List Request</a></h4>
+                    <h4><a href="viewRequest" class="font-weight-bold">List Request</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3 request_page_active">
                     <h4><a href="" class="font-weight-bold">List Response</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3">
-                    <h4><a href="./createRequest.html" class="font-weight-bold">Create Request</a></h4>
+                    <h4><a href="CreateRequest" class="font-weight-bold">Create Request</a></h4>
                 </div>
             </div>
             <hr>
             <div class="wrap_request">
-                <div class="request_item unread">
-                    <div class="left_side_item">
-                        <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> Mentor B
-                        </p>
-                        <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">To:</span> Nguyen Van A
-                        </p>
-                        <p class="left_side_text requestTitle mt-2 mb-2"><span class="left_side_span">Title:</span> This is
-                            title</p>
-                        <p class="left_side_text requestContent mt-2 mb-2"><span class="left_side_span">Content:</span> This
-                            is response content</p>
-                        <p class="left_side_text requestCreateAt mt-2 mb-2"><span class="left_side_span">Create At:</span>
-                            12/12/2022</p>
-                    </div>
+                <c:if test="${requestScope.resList.size()-1 < 0}">
+                    <p>There is no response now</p>
+                </c:if>
+                <c:if test="${requestScope.resList.size()-1 >= 0}">
+                    <c:forEach var="i" begin="0" end="${requestScope.resList.size()-1}">
+                        <div class="request_item unread">
+                            <div class="left_side_item">
+                                <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> ${resList.get(i).getMentor().getUser().getFullname()}</p>
+                                <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">To:</span> ${resList.get(i).getMentee().getUser().getFullname()}</p>
+                                <p class="left_side_text requestTitle mt-2 mb-2"><span class="left_side_span">Question:</span> ${resList.get(i).getRequest().getReqContent()}</p>
+                                <p class="left_side_text requestContent mt-2 mb-2"><span class="left_side_span">Content:</span> ${resList.get(i).getResContent()}</p>
+                                <p class="left_side_text requestCreateAt mt-2 mb-2"><span class="left_side_span">Create At:</span> ${dateList[i]}</p>
+                            </div>
 
-                    <div class="right_side_item">
-                        <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                           data-target="#modal_form_reply">Reply</a><br>
-                        <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                           data-target="#modal_form_update">Update</a>
-                    </div>
-                </div>
-
-                <div class="request_item">
-                    <div class="left_side_item">
-                        <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> Mentor B
-                        </p>
-                        <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">To:</span> Nguyen Van A
-                        </p>
-                        <p class="left_side_text requestTitle mt-2 mb-2"><span class="left_side_span">Title:</span> This is
-                            title</p>
-                        <p class="left_side_text requestContent mt-2 mb-2"><span class="left_side_span">Content:</span> This
-                            is response content</p>
-                        <p class="left_side_text requestCreateAt mt-2 mb-2"><span class="left_side_span">Create At:</span>
-                            12/12/2022</p>
-                    </div>
-
-                    <div class="right_side_item">
-                        <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                           data-target="#modal_form_reply">Reply</a><br>
-                        <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                           data-target="#modal_form_update">Update</a>
-                    </div>
-                </div>
-
-                <div class="request_item">
-                    <div class="left_side_item">
-                        <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> Mentor B
-                        </p>
-                        <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">To:</span> Nguyen Van A
-                        </p>
-                        <p class="left_side_text requestTitle mt-2 mb-2"><span class="left_side_span">Title:</span> This is
-                            title</p>
-                        <p class="left_side_text requestContent mt-2 mb-2"><span class="left_side_span">Content:</span> This
-                            is response content</p>
-                        <p class="left_side_text requestCreateAt mt-2 mb-2"><span class="left_side_span">Create At:</span>
-                            12/12/2022</p>
-                    </div>
-
-                    <div class="right_side_item">
-                        <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                           data-target="#modal_form_reply">Reply</a><br>
-                        <a class="text-primary action_button" style="cursor: pointer;" data-toggle="modal"
-                           data-target="#modal_form_update">Update</a>
-                    </div>
-                </div>
-
-
-
+                            <div class="right_side_item">
+                                <a class="text-primary action_button" style="cursor: pointer;" data-id="${resList.get(i).getRequest().getRequestID()}" data-toggle="modal"
+                                   data-target="#modal_form_reply">Reply</a><br>
+                                <a class="text-primary action_button" style="cursor: pointer;" data-id="${resList.get(i).getResponseID()}" data-toggle="modal"
+                                   data-target="#modal_form_update">Update</a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </c:if>    
             </div>
         </div>
 
@@ -117,7 +72,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="" method="post">
+                    <form action="" method="post" name="reply-form" novalidate="">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="replyContent" class="">Content</label>
@@ -125,7 +80,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Reply</button>
+                            <button type="submit" class="btn btn-primary" id="btn-reply-response">Reply</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </form>
@@ -143,7 +98,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="" method="post">
+                    <form action="" method="post" name="update-form" novalidate="">
                         <div class="modal-body">
 
                             <div class="form-group">
@@ -152,7 +107,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary" id="btn-update-response">Update</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </form>
@@ -163,6 +118,32 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var id;
+                var updateForm = document.forms['update-form'];
+                var replyForm = document.forms['reply-form'];
+                var btnUpdateResponse = document.getElementById('btn-update-response');
+                var btnReplyResponse = document.getElementById('btn-reply-response');
+
+                $('#modal_form_update').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    id = button.data('id'); // Extract info from data-* attributes
+                });
+
+                btnUpdateResponse.onclick = function () {
+                    updateForm.action = 'viewResponse?reqId=' + id + '&action=update';
+                };
+
+                $('#modal_form_reply').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    id = button.data('id'); // Extract info from data-* attributes
+                });
+
+                btnReplyResponse.onclick = function () {
+                    replyForm.action = 'viewResponse?reqId=' + id + '&action=reply';
+                };
+            });
+
             var replyValue;
             ClassicEditor
                     .create(document.querySelector('#replyContent'))

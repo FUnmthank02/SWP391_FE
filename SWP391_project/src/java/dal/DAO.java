@@ -56,7 +56,18 @@ public class DAO extends DBContext {
             status = "Error connection " + e.getMessage();
         }
     }
-    
+
+    public void updateStatus(int reqId) {
+        String sql = "UPDATE [dbo].[Request] SET status = 'processing' WHERE requestID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, reqId);
+            ResultSet rs = ps.executeQuery();
+        } catch (Exception e) {
+            status = "Error load user: " + e.getMessage();
+        }
+    }
+
     //get mentor with userid
     public Mentor getMentorByUserId(User user) {
         String sql = "select * from Mentor where userId = ?";
@@ -77,7 +88,7 @@ public class DAO extends DBContext {
         }
         return null;
     }
-    
+
     //get all request
     public ArrayList<Request> getRequests() {
         ArrayList<Request> requests = new ArrayList<>();
@@ -140,6 +151,55 @@ public class DAO extends DBContext {
             status = "Error load user: " + e.getMessage();
         }
         return userList;
+    }
+
+    //load request from database
+    public ArrayList<Request> loadRequest(int id, String dbid) {
+        ArrayList<Request> reqList = new ArrayList<>();
+        String sql = "select * from Request where " + dbid + " = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int requestID = rs.getInt(1);
+                Mentor mentor = getMentor(rs.getInt(2));
+                Mentee mentee = getMentee(rs.getInt(3));
+                Date time = null;
+                String title = rs.getString(4);
+                String reqContent = rs.getString(5);
+                String status = rs.getString(6);
+                Skill skill = getSKill(rs.getInt(7));
+                reqList.add(new Request(requestID, mentor, mentee, time, title, reqContent, status, skill));
+            }
+        } catch (Exception e) {
+            status = "Error load user: " + e.getMessage();
+        }
+        return reqList;
+    }
+
+    //load response from database
+    public ArrayList<Response> loadResponse(int id, String dbid) {
+        ArrayList<Response> resList = new ArrayList<>();
+        String sql = "select * from Response where " + dbid + " = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int responseID = rs.getInt(1);
+                Mentor mentor = getMentor(rs.getInt(3));
+                Mentee mentee = getMentee(rs.getInt(2));
+                String resContent = rs.getString(4);
+                String status = rs.getString(5);
+                Date time = null;
+                Request request = getRequest(rs.getInt(6));
+                resList.add(new Response(responseID, mentor, mentee, resContent, status, time, request));
+            }
+        } catch (Exception e) {
+            status = "Error load user: " + e.getMessage();
+        }
+        return resList;
     }
 
     //insert comment to DB
@@ -214,6 +274,44 @@ public class DAO extends DBContext {
             ps.setInt(1, r.getMentor().getMentorID());
             ps.setInt(2, r.getMentee().getMenteeID());
             ps.setInt(3, r.getRateStar());
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at update user profile" + e.getMessage();
+        }
+    }
+
+    //insert response to DB
+    public void insertResponse(int reqId, String resContent) {
+        String sql = "INSERT INTO [dbo].[Response]([menteeID],[mentorID],[resContent],[status],[requestID],[time])\n"
+                + "VALUES(?,?,?,?,?,GETDATE())";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            Request req = getRequest(reqId);
+            ps.setInt(1, req.getMentee().getMenteeID());
+            ps.setInt(2, req.getMentor().getMentorID());
+            ps.setString(3, resContent);
+            ps.setString(4, "open");
+            ps.setInt(5, reqId);
+            updateStatus(reqId);
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at update user profile" + e.getMessage();
+        }
+    }
+
+    //insert request to DB
+    public void insertRequest(int reqId, String resContent) {
+        String sql = "INSERT INTO [dbo].[Request]([menteeID],[mentorID],[title],[reqcontent],[status],[skillID],[time])\n"
+                + "VALUES(?,?,?,?,?,?,GETDATE())";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            Request req = getRequest(reqId);
+            ps.setInt(1, req.getMentee().getMenteeID());
+            ps.setInt(2, req.getMentor().getMentorID());
+            ps.setString(3, "request title");
+            ps.setString(4, resContent);
+            ps.setString(5, "open");
+            ps.setInt(6, req.getSkill().getSkillId());
             ps.execute();
         } catch (Exception e) {
             status = "Error at update user profile" + e.getMessage();
@@ -557,6 +655,31 @@ public class DAO extends DBContext {
         }
 
         return users;
+    }
+
+    // get request by id
+    public Request getRequest(int requestId) {
+        String sql = "select * from Request where requestID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, requestId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int requestID = rs.getInt(1);
+                Mentor mentor = getMentor(rs.getInt(2));
+                Mentee mentee = getMentee(rs.getInt(3));
+                Date time = null;
+                String title = rs.getString(4);
+                String reqContent = rs.getString(5);
+                String status = rs.getString(6);
+                Skill skill = getSKill(rs.getInt(7));
+                Request req = new Request(requestID, mentor, mentee, time, title, reqContent, status, skill);
+                return req;
+            }
+        } catch (Exception e) {
+            status = "Error load enroll skill: " + e.getMessage();
+        }
+        return null;
     }
 
     //get mentor information with mentorID
@@ -945,6 +1068,7 @@ public class DAO extends DBContext {
 
         return list;
     }
+
     //get all mentor register
     public ArrayList<MentorRegister> getAllMentorRegister() {
         ArrayList<MentorRegister> list = new ArrayList<>();
@@ -1047,36 +1171,52 @@ public class DAO extends DBContext {
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setInt(1, userId);
-            
+
             ps.execute();
         } catch (Exception e) {
             status = "Error at update mentor active" + e.getMessage();
         }
     }
-    
+
     //delete mentor register
     public void deleteMentorRegister(int userId) {
         String sql = "DELETE FROM [dbo].[MentorRegister] WHERE userId = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, userId);
-            
+
             ps.execute();
         } catch (Exception e) {
             status = "Error at delete mentor register" + e.getMessage();
         }
     }
-    
+
     //delete mentor
     public void deleteMentor(int userId) {
         String sql = "DELETE FROM [dbo].[Mentor] WHERE userId = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, userId);
-            
+
             ps.execute();
         } catch (Exception e) {
             status = "Error at delete mentor" + e.getMessage();
         }
+    }
+
+    //get hash map with mentorID-key formatted time-value
+    public ArrayList<String> formatDate(int id, String db, String dbid) {
+        String sql = "select format(r.time,'dd/MM/yyyy HH:mm') as 'date' from " + db + " r where r." + dbid + " = ?";
+        ArrayList<String> dateList = new ArrayList<>();
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dateList.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+        }
+        return dateList;
     }
 }
