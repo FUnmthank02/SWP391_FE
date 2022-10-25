@@ -21,7 +21,7 @@
     <body>
         <!--header-->
 
-        <c:import url="./header.jsp"/>
+        <c:import url="header.jsp"/>
 
         <!--body-->
         <div class="container-fluid banner">

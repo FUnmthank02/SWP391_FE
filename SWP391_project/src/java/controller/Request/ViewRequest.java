@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controler.ChangePassword;
+package controller.Request;
 
 import dal.DAO;
 import java.io.IOException;
@@ -11,13 +11,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.Mentee;
+import model.Mentor;
+import model.Request;
 import model.User;
 
 /**
  *
- * @author DELL
+ * @author Admin
  */
-public class changePassword extends HttpServlet {
+public class ViewRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +40,10 @@ public class changePassword extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet changePassword</title>");            
+            out.println("<title>Servlet ViewRequest</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet changePassword at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewRequest at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,10 +58,47 @@ public class changePassword extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    DAO d = new DAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/ChangePassword/changepassword.jsp").forward(request, response);
+        //processRequest(request, response);
+        
+        //paramter that express user is mentor (true) or mentee (false)
+        boolean role = false;
+
+        //get user 
+        User U = (User) request.getSession().getAttribute("user"); 
+        User from = new User();
+        User to = new User();
+        //find out if user is mentee or mentor
+        Mentor mentor = null;
+        Mentee mentee = null;
+        try {
+            mentor = d.getMentor(U);
+        } catch (Exception e) {
+        }
+        if (mentor != null) {
+            role = true;
+            to = U;             
+        }
+        else
+        {
+            mentee = d.getMentee(U);
+            from = U;
+        }
+        ArrayList<Request> requests = d.getRequests(U, role);
+        ArrayList<User> mentorUsers = d.getUser(mentee);
+        ArrayList<User> menteeUsers = d.getMenteeUsers(mentor);
+        
+        request.setAttribute("user", U);
+        request.setAttribute("mentorUsers", mentorUsers);
+        request.setAttribute("menteeUsers", menteeUsers);
+        request.setAttribute("role", role);
+        request.setAttribute("from", from);
+        request.setAttribute("to", to);
+        request.setAttribute("requests", requests);
+        request.getRequestDispatcher("view/viewRequest.jsp").forward(request, response);
     }
 
     /**
@@ -71,31 +112,8 @@ public class changePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String oldPass = request.getParameter("oldPass");
-        String newPass = request.getParameter("newPass");
-        String cfNewPass = request.getParameter("cfNewPass");
-        User u = (User)request.getSession(true).getAttribute("user");
-        boolean isCorrect = false;
-        DAO dao = new DAO();
-        if(u.getPassword().equals(oldPass)){
-            if(newPass.equals(cfNewPass)){
-            dao.changePassword(u.getUserId(), newPass);
-            request.getSession().removeAttribute("user");
-            isCorrect = true;
-            }
-            else{
-                request.setAttribute("errRpPassNotMatch", "Confirm password does not match!!!");
-            }
-        }
-        else{
-            request.setAttribute("errNewPassNotValid", "Wrong password!!!");    
-        }
-        if(isCorrect){
-            response.sendRedirect("login");
-        }
-        else{
-            request.getRequestDispatcher("view/ChangePassword/changepassword.jsp").forward(request, response);
-        }
+        //processRequest(request, response);
+
     }
 
     /**
