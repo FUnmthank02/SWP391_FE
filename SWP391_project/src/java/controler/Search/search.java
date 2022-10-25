@@ -24,22 +24,36 @@ public class search extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String tech = request.getParameter("technology");
-        String rating = request.getParameter("rating");
-
+        
         DAO dao = new DAO();
         Utilities uti = new Utilities();
         
-        HashMap<Integer,Float> rateMap = dao.getRateByMentorID();
+        if(request.getParameter("technologyID") != null) {
+            int tech = Integer.parseInt(request.getParameter("technologyID"));
+            request.setAttribute("listMentorTech", dao.getMentorWithTech(tech));
+            request.setAttribute("tech", tech);
+        }
+        if (request.getParameter("preRating") != null && request.getParameter("aftRating") != null) {
+            float preRating = Float.parseFloat(request.getParameter("preRating"));
+            float aftRating = Float.parseFloat(request.getParameter("aftRating"));
+            request.setAttribute("preRating", preRating);
+            request.setAttribute("aftRating", aftRating);
+        }
+
+
+        HashMap<Integer, Float> rateMap = dao.getRateByMentorID();
 
         request.setAttribute("rateMap", rateMap);
-        request.setAttribute("listMentor", dao.getMentorWithTech(tech));
+        request.setAttribute("listMentor", dao.getAllMentor());
         request.setAttribute("listUser", uti.getListUser());
-        request.setAttribute("listSkill", dao.getSkill());
+        request.setAttribute("as", dao.getSkill());
         request.setAttribute("listEnrollSkill", dao.getEnrollSkills());
-        request.setAttribute("tech", tech);
-        
-        request.getRequestDispatcher("view/viewmentor.jsp").forward(request, response);
+//        
+
+        if(request.getParameter("technologyID") == null &&request.getParameter("preRating") == null && request.getParameter("aftRating") == null)
+            request.getRequestDispatcher("view/search.jsp").forward(request, response);
+        else
+            request.getRequestDispatcher("view/viewmentor.jsp").forward(request, response);
 
     }
 

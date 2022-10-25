@@ -2,20 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controler.CreateResponse;
+package controller.Request;
 
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import model.Request;
+import java.sql.Date;
 
 /**
  *
  * @author Admin
  */
-public class createResponse extends HttpServlet {
+public class AllMenteeRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,15 +39,15 @@ public class createResponse extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet createResponse</title>");            
+            out.println("<title>Servlet AllMenteeRequest</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet createResponse at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AllMenteeRequest at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-
+    //asdasd
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -52,10 +57,22 @@ public class createResponse extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    DAO d = new DAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/createRequest.jsp").forward(request, response);
+        //processRequest(request, response);
+
+        HashMap<Date, Float> averageRequest = d.getAvrReqPerUserPerDay();
+        HashMap<Date, Integer> countRequest = d.countReqPerDay();
+        ArrayList<Float> percentage = d.getPercentage();
+
+        request.setAttribute("averageRequest", averageRequest);
+        request.setAttribute("countRequest", countRequest);
+        request.setAttribute("percentage", percentage);
+
+        request.getRequestDispatcher("view/demoChart.jsp").forward(request, response);
     }
 
     /**
@@ -69,7 +86,7 @@ public class createResponse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**
