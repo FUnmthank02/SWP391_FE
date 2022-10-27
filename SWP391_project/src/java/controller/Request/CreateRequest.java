@@ -122,7 +122,6 @@ public class CreateRequest extends HttpServlet {
         req.setMentee(mentee);
         req.setMentor(mentor);
         req.setReqContent(content);
-        req.setSkill(skill);
         req.setStatus(status);
         req.setTitle(title);
 

@@ -29,10 +29,10 @@
         <div class="container contain_listRequest">
             <div class="heading mt-4 mb-2">
                 <div class="sub_heading pl-3 pr-3">
-                    <h4><a href="./request.html" class="font-weight-bold">List Request</a></h4>
+                    <h4><a href="viewRequest" class="font-weight-bold">List Request</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3">
-                    <h4><a href="./response.html" class="font-weight-bold">List Response</a></h4>
+                    <h4><a href="viewResponse" class="font-weight-bold">List Response</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3 request_page_active">
                     <h4><a href="" class="font-weight-bold">Create Request</a></h4>

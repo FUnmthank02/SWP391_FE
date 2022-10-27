@@ -18,12 +18,11 @@ public class Request {
     private String title;
     private String reqContent;
     private String status;
-    private Skill skill;
 
     public Request() {
     }
 
-    public Request(int requestID, Mentor mentor, Mentee mentee, Date time, String title, String reqContent, String status, Skill skill) {
+    public Request(int requestID, Mentor mentor, Mentee mentee, Date time, String title, String reqContent, String status) {
         this.requestID = requestID;
         this.mentor = mentor;
         this.mentee = mentee;
@@ -31,7 +30,6 @@ public class Request {
         this.title = title;
         this.reqContent = reqContent;
         this.status = status;
-        this.skill = skill;
     }
 
     public int getRequestID() {
@@ -62,10 +60,6 @@ public class Request {
         return status;
     }
 
-    public Skill getSkill() {
-        return skill;
-    }
-
     public void setRequestID(int requestID) {
         this.requestID = requestID;
     }
@@ -93,9 +87,4 @@ public class Request {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-    
 }

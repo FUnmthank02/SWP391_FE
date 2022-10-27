@@ -68,6 +68,14 @@
         <servlet-name>actionForMentorRegister</servlet-name>
         <servlet-class>controler.MentorRegister.actionForMentorRegister</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewResponse</servlet-name>
+        <servlet-class>controler.ViewResponse.viewResponse</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewRequest</servlet-name>
+        <servlet-class>controler.ViewRequest.viewRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
         <url-pattern>/update_userprofile</url-pattern>
@@ -131,6 +139,14 @@
     <servlet-mapping>
         <servlet-name>actionForMentorRegister</servlet-name>
         <url-pattern>/action-manage-mentor-register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewResponse</servlet-name>
+        <url-pattern>/viewResponse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewRequest</servlet-name>
+        <url-pattern>/viewRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
