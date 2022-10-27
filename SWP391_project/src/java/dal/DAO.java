@@ -113,7 +113,6 @@ public class DAO extends DBContext {
                 Skill skill = new Skill();
                 skill.setSkillId(rs.getInt(7));
                 skill = getSKill(rs.getInt(7));
-                r.setSkill(skill);
                 r.setTime(rs.getDate(8));
                 requests.add(r);
             }
@@ -169,8 +168,7 @@ public class DAO extends DBContext {
                 String title = rs.getString(4);
                 String reqContent = rs.getString(5);
                 String status = rs.getString(6);
-                Skill skill = getSKill(rs.getInt(7));
-                reqList.add(new Request(requestID, mentor, mentee, time, title, reqContent, status, skill));
+                reqList.add(new Request(requestID, mentor, mentee, time, title, reqContent, status));
             }
         } catch (Exception e) {
             status = "Error load user: " + e.getMessage();
@@ -234,11 +232,9 @@ public class DAO extends DBContext {
                 + "           ,[title]\n"
                 + "           ,[reqcontent]\n"
                 + "           ,[status]\n"
-                + "           ,[skillID]\n"
                 + "           ,[time])\n"
                 + "     VALUES\n"
                 + "           (?\n"
-                + "           ,?\n"
                 + "           ,?\n"
                 + "           ,?\n"
                 + "           ,?\n"
@@ -251,7 +247,6 @@ public class DAO extends DBContext {
             ps.setString(3, r.getTitle());
             ps.setString(4, r.getReqContent());
             ps.setString(5, r.getStatus());
-            ps.setInt(6, r.getSkill().getSkillId());
             ps.execute();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -301,8 +296,8 @@ public class DAO extends DBContext {
 
     //insert request to DB
     public void insertRequest(int reqId, String resContent) {
-        String sql = "INSERT INTO [dbo].[Request]([menteeID],[mentorID],[title],[reqcontent],[status],[skillID],[time])\n"
-                + "VALUES(?,?,?,?,?,?,GETDATE())";
+        String sql = "INSERT INTO [dbo].[Request]([menteeID],[mentorID],[title],[reqcontent],[status],[time])\n"
+                + "VALUES(?,?,?,?,?,GETDATE())";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             Request req = getRequest(reqId);
@@ -310,8 +305,7 @@ public class DAO extends DBContext {
             ps.setInt(2, req.getMentor().getMentorID());
             ps.setString(3, "request title");
             ps.setString(4, resContent);
-            ps.setString(5, "open");
-            ps.setInt(6, req.getSkill().getSkillId());
+            ps.setString(5, "processing");
             ps.execute();
         } catch (Exception e) {
             status = "Error at update user profile" + e.getMessage();
@@ -672,8 +666,7 @@ public class DAO extends DBContext {
                 String title = rs.getString(4);
                 String reqContent = rs.getString(5);
                 String status = rs.getString(6);
-                Skill skill = getSKill(rs.getInt(7));
-                Request req = new Request(requestID, mentor, mentee, time, title, reqContent, status, skill);
+                Request req = new Request(requestID, mentor, mentee, time, title, reqContent, status);
                 return req;
             }
         } catch (Exception e) {
@@ -807,7 +800,6 @@ public class DAO extends DBContext {
                 r.setStatus(rs.getString(6));
                 Skill skill = new Skill();
                 skill.setSkillId(rs.getInt(7));
-                r.setSkill(skill);
                 requests.add(r);
             }
         } catch (Exception e) {

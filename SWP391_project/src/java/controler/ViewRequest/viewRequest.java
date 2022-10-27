@@ -33,7 +33,6 @@ public class viewRequest extends HttpServlet {
         ArrayList<Request> reqList = new ArrayList<>();
         ArrayList<String> dateList = new ArrayList<>();
         DAO dao = new DAO();
-        System.out.println(dao.getMentee(a));
         if (dao.getMentee(a) != null) {
             reqList = dao.loadRequest(dao.getMentee(a).getMenteeID(), "menteeID");
             dateList = dao.formatDate(dao.getMentee(a).getMenteeID(), "Request", "menteeID");
@@ -54,8 +53,6 @@ public class viewRequest extends HttpServlet {
         if (action.equals("reply")) {
             int id = Integer.parseInt(request.getParameter("reqId"));
             String replyReq = request.getParameter("replyContent");
-            System.out.println(id);
-            System.out.println(replyReq);
             dao.insertResponse(id, replyReq);
         } else {
             int id = Integer.parseInt(request.getParameter("reqId"));
