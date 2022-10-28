@@ -42,11 +42,11 @@
     </servlet>
     <servlet>
         <servlet-name>CreateRequest</servlet-name>
-        <servlet-class>controler.Request.CreateRequest</servlet-class>
+        <servlet-class>controller.Request.CreateRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewRequest</servlet-name>
-        <servlet-class>controler.Request.ViewRequest</servlet-class>
+        <servlet-class>controller.Request.ViewRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AllMenteeRequest</servlet-name>
