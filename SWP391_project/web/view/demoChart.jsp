@@ -1,45 +1,112 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <body>
+
+        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+        <script>
+            var xValues = ["Not responsed", "Responsed"];
+            var yValues = [];
+            <c:forEach var="p" items="${requestScope.percentage}">
+            yValues.push(${p});
+            </c:forEach>
+            var barColors = [
+                "#b91d47",
+                "#00aba9"
+            ];
+
+            new Chart("myChart", {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: "Percentage of responsed request"
+                    }
+                }
+            });
+        </script>
+        <br/>
+    <h style="font-weight: bold">Requests each month</h> <br>
+        <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+    
+    <script>
+        var xValues = [];
+        var yValues = [];
+        <c:forEach var="c" items="${requestScope.countRequest}">
+        xValues.push("${c.key.toString()}")
+        </c:forEach>
+        <c:forEach var="c" items="${requestScope.countRequest}">
+        yValues.push(${c.value})
+        </c:forEach>
+        new Chart("myChart1", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                        fill: false,
+                        lineTension: 0,
+                        backgroundColor: "rgba(0,0,255,1.0)",
+                        borderColor: "rgba(0,0,255,0.1)",
+                        data: yValues
+                    }]
+            },
+            options: {
+                legend: {display: false},
+                scales: {
+                    yAxes: [{ticks: {min: 0, max: 10}}],
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+<!--<!DOCTYPE html>
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <body>
-<canvas id="bar-chart" width="1000" height="150"></canvas>
+
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
 <script>
-//var xyValues = [
-//  {x:50, y:7},
-//  {x:60, y:8},
-//  {x:70, y:8},
-//  {x:80, y:9},
-//  {x:90, y:9},
-//  {x:100, y:9},
-//  {x:110, y:10},
-//  {x:120, y:11},
-//  {x:130, y:14},
-//  {x:140, y:14},
-//  {x:150, y:15}
-//];
+var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+var yValues = [55, 49, 44, 24, 15];
+var barColors = [
+  "#b91d47",
+  "#00aba9",
+  "#2b5797",
+  "#e8c3b9",
+  "#1e7145"
+];
 
-new Chart(document.getElementById("bar-chart"), {
-    type: 'bar',
-    data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-      datasets: [
-        {
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: [2478,5267,734,784,433]
-        }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'Predicted world population (millions) in 2050'
-      }
+new Chart("myChart", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "World Wide Wine Production 2018"
     }
+  }
 });
 </script>
 
 </body>
-</html>
+</html>-->
+

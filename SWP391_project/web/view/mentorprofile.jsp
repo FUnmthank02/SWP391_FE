@@ -31,9 +31,27 @@
                     <h4 class="part-title">Mentor's profile</h4>
                     <div class="line_part"></div>
                 </div>
-                <div class="contain_invitation">
-                    <button class="btn_invitation"> Send Invitation </button>
-                </div>              
+                <c:if test="${mt ne null}">
+                    <form action="InvitationHandler" method="POST">  
+                        <input type="hidden" value="${m.mentorID}" name="mentorID">
+                        <input type="hidden" value="${mt.menteeID}" name="menteeID">
+                        <c:if test="${i eq null}">
+                            <div class="contain_invitation">
+                                <button name="button" value="1" class="btn_invitation"> Send Invitation </button>
+                            </div>
+                        </c:if>
+                        <c:if test="${i.status eq 'Accepted'}">
+                            <div class="contain_invitation">
+                                <button name="button" value="-1" class="btn_invitation"> Break relationship </button>
+                            </div>
+                        </c:if>
+                        <c:if test="${i.status eq 'Processing'}">
+                            <div class="contain_invitation">
+                                <button name="button" value="0" class="btn_invitation"> Cancel Invitation  </button>
+                            </div>                          
+                        </c:if>
+                    </form>
+                </c:if>
             </div>
 
             <div class="container p-5 wrapCV">
@@ -98,7 +116,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div class="col-md-5 col-sm-6 col-xs-12 right-second-infor pl-4" data-aos="fade-up" data-aos-duration="1000">
                         <div class="title mb-3">
                             <i class="fa-solid fa-pencil"></i>
@@ -186,7 +204,7 @@
                                 <span class="rating"><i class="fa-solid fa-star"></i><span class="rating-number font-weight-bold">${rate.rateStar}</span></span>
                                         <c:forEach var="fd" items="${requestScope.fd}">
                                             <c:if test="${fd.key == comment.commentID}">
-                                    <p class="cv-comment" style="color: #777;">${fd.value}</p>  
+                                        <p class="cv-comment" style="color: #777;">${fd.value}</p>  
                                     </c:if>
                                 </c:forEach>
                                 <h5 class="cv-comment">${comment.cmtContent}</h5>                  

@@ -42,15 +42,15 @@
     </servlet>
     <servlet>
         <servlet-name>CreateRequest</servlet-name>
-        <servlet-class>controller.Request.CreateRequest</servlet-class>
+        <servlet-class>controler.Request.CreateRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewRequest</servlet-name>
-        <servlet-class>controller.Request.ViewRequest</servlet-class>
+        <servlet-class>controler.Request.ViewRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AllMenteeRequest</servlet-name>
-        <servlet-class>controller.Request.AllMenteeRequest</servlet-class>
+        <servlet-class>controler.Request.AllMenteeRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>mentorRegister</servlet-name>
@@ -67,6 +67,10 @@
     <servlet>
         <servlet-name>actionForMentorRegister</servlet-name>
         <servlet-class>controler.MentorRegister.actionForMentorRegister</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InvitationHandler</servlet-name>
+        <servlet-class>controler.Invitation.InvitationHandler</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
@@ -131,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>actionForMentorRegister</servlet-name>
         <url-pattern>/action-manage-mentor-register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InvitationHandler</servlet-name>
+        <url-pattern>/InvitationHandler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

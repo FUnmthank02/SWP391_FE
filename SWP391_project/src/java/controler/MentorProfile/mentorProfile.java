@@ -72,6 +72,8 @@ public class mentorProfile extends HttpServlet {
         //get formatted date of comments belong a mentor
         HashMap<Integer,String> formattedDates = d.formattedDate(m);
 
+        request.setAttribute("m", m);
+        request.setAttribute("mt", mentee);
         request.setAttribute("fd", formattedDates);
         request.setAttribute("as", allSkills);
         request.setAttribute("i", invitation);
