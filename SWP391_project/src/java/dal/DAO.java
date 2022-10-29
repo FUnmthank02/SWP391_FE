@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import model.*;
@@ -87,6 +88,74 @@ public class DAO extends DBContext {
             status = "Error get mentor by userId: " + e.getMessage();
         }
         return null;
+    }
+        //get average requests per user per day
+
+    public HashMap<Date, Float> getAvrReqPerUserPerDay() {
+        HashMap<Date, Float> AvrReq = new HashMap<>();
+        String sql = "select CAST(r.time as date) 'Date', cast(count(r.requestID) as float)/cast(count(distinct r.menteeID) as float) 'Requests per user per day'\n"
+                + "from\n"
+                + "Request r\n"
+                + "group by CAST(r.time as date)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Date date = rs.getDate(1);
+                Float AvrRequest = rs.getFloat(2);
+                AvrReq.put(date, AvrRequest);
+            }
+        } catch (Exception e) {
+
+        }
+        return AvrReq;
+    }
+
+    //count request each day
+    public HashMap<String, Integer> countReqPerMonth() {
+        HashMap<String, Integer> requests = new LinkedHashMap<>();
+        String sql = "Select FORMAT(time,'MM/yyyy') 'Time', count(r.requestID) 'Request'\n"
+                + "from\n"
+                + "Request r\n"
+                + "where YEAR(time) = YEAR(getdate())\n"
+                + "group by FORMAT(time,'MM/yyyy')\n"
+                + "order by FORMAT(time,'MM/yyyy') ";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getString(1) + "   " + rs.getInt(2));
+                requests.put(rs.getString(1), rs.getInt(2));
+            }
+        } catch (Exception e) {
+
+        }
+        return requests;
+    }
+
+    //get percentage of requests had been responsed
+    public float[] getPercentage() {
+        float[] percentage = new float[2];
+        String sql = "select cast(m.[Not responsed] as float)/cast( m.[Responsed]+m.[Not responsed] as float) 'Not responsed',\n"
+                + "1-cast(m.[Not responsed] as float)/cast( m.[Responsed]+m.[Not responsed] as float) 'Responsed'\n"
+                + "from\n"
+                + "(select(select count(r.requestID) from\n"
+                + "Request r) as 'Not responsed',\n"
+                + "(select count(r.requestID) from\n"
+                + "Request r \n"
+                + "where r.status = 'Responsed') as 'Responsed') as m";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                percentage[0] = rs.getFloat(1);
+                percentage[1] = rs.getFloat(2);
+            }
+        } catch (Exception e) {
+
+        }
+
+        return percentage;
     }
 
     //get all request
