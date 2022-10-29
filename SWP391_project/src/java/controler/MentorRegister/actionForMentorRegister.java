@@ -22,7 +22,7 @@ public class actionForMentorRegister extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.sendRedirect("view-list-mentor-register");
     }
 
    
@@ -38,7 +38,10 @@ public class actionForMentorRegister extends HttpServlet {
             dao.updateActiveMentor(userId);
         }
         if(reject != null) {
-            
+            dao.deleteMentorRegister(userId);
+            dao.deleteMentor(userId);
         }
+        
+        doGet(request, response);
     }
 }

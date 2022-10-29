@@ -28,7 +28,7 @@ public class update_userprofile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("view/home.jsp");
+        response.sendRedirect("userprofile");
     }
 
     @Override
@@ -37,16 +37,15 @@ public class update_userprofile extends HttpServlet {
 
         HttpSession ses = request.getSession();
         User user = (User) ses.getAttribute("user");
-        
+
         String fullname = request.getParameter("fullname").trim();
         String address = request.getParameter("address").trim();
         String email = request.getParameter("email").trim();
         String phonenumber = request.getParameter("phonenumber").trim();
         boolean gender = request.getParameter("gender").equals("male") ? true : false;
-        
+
         String date = request.getParameter("dob");
         Date dob = Date.valueOf(date);
-
 
         String uploadFolder = request.getServletContext().getRealPath("/img_upload");
         Path uploadPath = Paths.get(uploadFolder);
@@ -58,13 +57,13 @@ public class update_userprofile extends HttpServlet {
 
         if (!imageFilename.equals("")) {
             imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString()); //save to foder 'img_upload'
-        }        
-//        System.out.println(fullname + " | " + address + " | " + email + " | " + phonenumber + " | " + gender + " | " + dob + " | " +imageFilename);
-    
+        }
+
         DAO dao = new DAO();
-        
-        // nho sua 8 = user.getUserId();
-        dao.updateUserProfile(imageFilename, fullname, dob, address, email, phonenumber, gender, 8);
+
+        dao.updateUserProfile(imageFilename, fullname, dob, address, email, phonenumber, gender, user.getUserId());
+
+        doGet(request, response);
     }
 
 }

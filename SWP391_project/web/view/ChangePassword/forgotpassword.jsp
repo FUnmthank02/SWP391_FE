@@ -42,8 +42,9 @@
                         </div>
 
                         <!-- get error or noti from servlet -->
-                        <!-- <p id="noti">${requestScope.mailSended}</p>
-                        <p class="err">${requestScope.errNotExistUser}</p> -->
+                        <p id="noti">${requestScope.mailSended}</p>
+                        <p class="err">${requestScope.errNotExistUser}</p> 
+                        <p class="err">${requestScope.errorWhileSendMail}</p> 
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>

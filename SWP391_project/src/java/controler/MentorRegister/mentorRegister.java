@@ -30,6 +30,9 @@ public class mentorRegister extends HttpServlet {
         if (user != null) {
             DAO dao = new DAO();
             ArrayList<Skill> listSkill = dao.getSkill();
+            if (dao.getAdminByUserId(user) != null) {
+                request.setAttribute("isAdmin", true);
+            }
 
             request.setAttribute("userId", user.getUserId());
             request.setAttribute("as", listSkill);

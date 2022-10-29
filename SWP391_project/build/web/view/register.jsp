@@ -64,8 +64,8 @@
 
                 <button class="btn-submit" type="submit">Register</button><br /><br>
                 <div class="action_loginform">
-                    <a class='link_button' href="/forgotpassword">Forgot password ?</a>
-                    <a class="login-register" href='./login.jsp'>LOGIN</a>
+                    <a class='link_button' href="forgot-password">Forgot password ?</a>
+                    <a class="login-register" href='login'>LOGIN</a>
                 </div>
             </form>
 

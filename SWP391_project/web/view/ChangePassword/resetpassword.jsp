@@ -48,9 +48,9 @@
                         </div>
 
                         <!-- get error or noti from servlet -->
-                         <p id="noti">${requestScope.resetSuccess}</p> 
                          <p class="err">${requestScope.errRpPassNotMatch} </p>  
                          <p class="err">${requestScope.errNewPassNotValid} </p>  
+                         <p class="err">${requestScope.errNotFoundUser} </p>  
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
