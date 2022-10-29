@@ -22,8 +22,8 @@
 
             <div class="mb-3 mt-3">
                 <span class="text-danger">${requestScope.errWrongAcc}</span>
-                
                 <span class="text-success">${requestScope.activeSuccess}</span>
+                <span class="text-success">${requestScope.resetSuccess}</span>
             </div>
             <form class="form" action="login" method="post">
                 <input class="form-control form-input" type="text" name="username" id="username" placeholder="Enter username" required /><br>

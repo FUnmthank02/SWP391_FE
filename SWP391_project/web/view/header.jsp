@@ -40,7 +40,11 @@
                             <li class="nav-item active">
                                 <a class="nav-link nav_item_text" href="mentor-register">Become Mentor</a>
                             </li>
-
+                            <c:if test="${requestScope.isAdmin == true}">
+                                <li class="nav-item active">
+                                    <a class="nav-link nav_item_text" href="dashboard">Dashboard</a>
+                                </li>
+                            </c:if>
                         </ul>
                     </div>
 
@@ -50,9 +54,16 @@
                         <div class="acti">
                             <div id='user_email' class="text-primary">${sessionScope.user.getFullname()}</div>
                             <div class="nav-item dropdown nav_drop">
-                                <img class="nav-link dropdown-toggle rounded-circle" src="img_upload/${sessionScope.user.getAvatar()}" alt="avtuser"
-                                     id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                     aria-expanded="false" />
+                                <c:if test="${!sessionScope.user.getAvatar() eq 'avtuser.png'}">
+                                    <img class="nav-link dropdown-toggle rounded-circle" src="img_upload/${sessionScope.user.getAvatar()}" alt="avtuser"
+                                         id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                         aria-expanded="false" />
+                                </c:if>
+                                <c:if test="${sessionScope.user.getAvatar() eq 'avtuser.png'}">
+                                    <img class="nav-link dropdown-toggle rounded-circle" src="image/avtuser.png" alt="avtuser"
+                                         id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                         aria-expanded="false" />
+                                </c:if>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="change-password">Change password</a>
                                     <a class="dropdown-item" href="userprofile">Profile</a>
@@ -61,22 +72,43 @@
                                 </div>
                             </div>
 
-                            <div class="contain_notify_parent nav-item dropdown ml-3 mr-5">
-                                <div class="contain_notify nav-link dropdown-toggle" id="notifyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                     aria-expanded="false">
-                                    <i class="fa fa-bell"></i>
-                                    <span class="text-light new_notify" id="newNoti">new</span>
-                                </div>
-                                <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="notifyDropdown" >
-                                    <a class="dropdown-item" href="invitation">Invitation<span class="ml-3 new_notify">1</span></a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="ViewRequest">Request<span class="ml-3 new_notify">1</span></a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="ViewRequest">Response<span class="ml-3 new_notify">1</span></a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="view-list-mentor-register">List mentor register request<span class="ml-3 new_notify">1</span></a>
-                                </div>
-                            </div>         
+                            <!--check da dang nhap-->
+                            <c:if test="${sessionScope.user != null}"> 
+                                <div class="contain_notify_parent nav-item dropdown ml-3 mr-5">
+                                    <div class="contain_notify nav-link dropdown-toggle" id="notifyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                         aria-expanded="false">
+                                        <i class="fa fa-bell"></i>
+                                        <c:if test="${listInviteSize>0 || listReqSize>0 || listResSize>0 || listMentorRegisterSize>0}">
+                                            <span class="text-light new_notify" id="newNoti">new</span>
+                                        </c:if>
+                                    </div>
+                                    <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="notifyDropdown" >
+                                        <a class="dropdown-item" href="invitation">Invitation
+                                            <c:if test="${requestScope.listInviteSize > 0}">
+                                                <span class="ml-3 new_notify">${requestScope.listInviteSize}</span>
+                                            </c:if>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="ViewRequest">Request
+                                            <c:if test="${requestScope.listReqSize > 0}">
+                                                <span class="ml-3 new_notify">${requestScope.listReqSize}</span>
+                                            </c:if>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="ViewRequest">Response
+                                            <c:if test="${requestScope.listResSize > 0}">
+                                                <span class="ml-3 new_notify">${requestScope.listResSize}</span>
+                                            </c:if>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="view-list-mentor-register">List mentor register request
+                                            <c:if test="${requestScope.listMentorRegisterSize > 0}">
+                                                <span class="ml-3 new_notify">${requestScope.listMentorRegisterSize}</span>
+                                            </c:if>
+                                        </a>
+                                    </div>
+                                </div> 
+                            </c:if> 
                         </div> 
                     </c:if>
 

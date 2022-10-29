@@ -150,11 +150,10 @@
                 <div class="line_part"></div>
             </div>
             <c:if test="${i.status eq 'Accepted'}">
-                <form action="mentorprofile" method="POST">
                     <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->
-                    <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
                     <div class="contain_form_comment">
-                        <form class="form_comment">
+                        <form class="form_comment" action="mentorprofile" method="POST">
+                            <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
                             <label for="rate" class="form_comment_lable">Rate</label>
                             <select name="rate" id="rate">
                                 <option value="1">1</option>
@@ -169,9 +168,7 @@
                             <button class="btn_comment" type="submit">Submit</button>
                         </form>
                     </div>
-
                     <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->                     
-                </form>
 
             </c:if>
 

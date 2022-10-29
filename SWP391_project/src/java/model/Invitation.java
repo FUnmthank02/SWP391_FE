@@ -16,16 +16,27 @@ public class Invitation {
     private Mentee mentee;
     private String status;
     private Date time;
+    private String seenStatus;
+
 
     public Invitation() {
     }
 
-    public Invitation(int invitationID, Mentor mentor, Mentee mentee, String status, Date time) {
+    public Invitation(int invitationID, Mentor mentor, Mentee mentee, String status, Date time,String seenStatus) {
         this.invitationID = invitationID;
         this.mentor = mentor;
         this.mentee = mentee;
         this.status = status;
         this.time = time;
+        this.seenStatus = seenStatus;
+    }
+
+    public String getSeenStatus() {
+        return seenStatus;
+    }
+
+    public void setSeenStatus(String seenStatus) {
+        this.seenStatus = seenStatus;
     }
 
     public int getInvitationID() {

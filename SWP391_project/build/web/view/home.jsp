@@ -9,6 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>6HP - Happy Programing</title>
         <link rel="stylesheet" href="style/home.css">
+        <link rel="stylesheet" href="style/viewingMentor.css">
+
         <link rel="icon" type="image/x-icon" href="image/mylogo.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -17,6 +19,18 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .items-card-mentor{
+                transition: all 0.5s ease-in-out;
+            }
+            .items-card-mentor:hover {
+                transform: scale(1.04);
+            }
+            #btn-openCV:hover {
+                border: 1px solid #4dc2ef;
+                outline: 1px solid #4dc2ef;
+            }
+        </style>
     </head>
     <body>
         <!--header-->
@@ -73,7 +87,7 @@
 
         <!-- techonologies -->
         <div class="container technology">
-            <div class="part">
+            <div class="part" data-aos="fade-up" data-aos-duration="1000">
                 <h4 class="font-weight-bold">TECHNOLOGIES</h4>
                 <div class="line_part"></div>
             </div>
@@ -94,6 +108,89 @@
 
             <div class="seemore" data-aos="fade-left" data-aos-duration="1000">
                 <button id="btn_seemore" onclick="handleDisplayItemTech()">See All &#9207;</button>
+            </div>
+        </div>
+
+        <!--all mentor-->
+        <div class="container wrap-outstanding-mentor">
+            <div class="part"  data-aos="fade-up" data-aos-duration="1000">
+                <h4 style="text-transform: capitalize;" class="font-weight-bold">Mentors</h4>
+                <div class="line_part"></div>
+            </div>
+
+            <!--search only by tech-->
+            <div class="list-mentors">
+                <div class="row">
+                    <c:forEach items="${requestScope.listMentor}" var="m" begin="${cp.begin}" end="${cp.end}">
+
+                        <div class="col-md-3 col-sm-6 col-xs-12 card-mentor" data-aos="fade-up" data-aos-duration="1000">
+                            <div class="items-card-mentor">
+
+                                <c:forEach items="${requestScope.listUser}" var="u">
+                                    <c:if test="${m.getUser().getUserId() == u.getUserId()}">
+                                        <div class="card-upper-part">
+                                            <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
+                                            <h4>${u.getFullname()}</h4>
+                                            <c:forEach var="r" items="${requestScope.rateMap}">
+                                                <c:if test="${r.key == m.getMentorID()}">
+                                                    <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
+                                                        </c:if>
+                                                    </c:forEach>
+
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+
+                                <div class="card-lower-part">
+                                    <c:forEach items="${requestScope.as}" var="s">
+                                        <c:forEach items="${requestScope.listEnrollSkill}" var="es">
+                                            <c:if test="${m.getMentorID() == es.getMentor().getMentorID() && es.getSkill().getSkillId() == s.getSkillId()}">
+                                                <div class="card-technologies-knowledge">${s.getSkillName()}</div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:forEach>
+                                </div>
+
+                                <div class="openCV">
+                                    <button id="btn-openCV"><a href="mentorprofile?mentorID=${m.getMentorID()}">Open CV</a></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </c:forEach>
+
+
+
+                </div>
+            </div>
+            <!--phan trang-->
+            <div>
+                <form action="home" method="post">
+                    <c:if test="${cp.cp!=0}">
+                        <input class="btn_page" type="submit" name="home" value="Home"/>
+                        <input class="btn_page" type="submit" name="pre" value="Pre"/>
+                    </c:if>
+
+                    <c:forEach begin="${cp.pageStart}" end="${cp.pageEnd}" var="i">
+                        <span><input class="btn_page" type="submit" name="btn${i}" value="${i+1}"/></span>
+                        </c:forEach>
+
+                    <c:if test="${cp.cp!=cp.np-1}">
+                        <input class="btn_page" type="submit" name="next" value="Next"/>
+                        <input class="btn_page" type="submit" name="end" value="End"/>
+                    </c:if>
+                    <input type="text" hidden name="cp" value="${cp.cp}"/>
+                    <input type="text" hidden name="np" value="${cp.np}"/>
+                    <select name="nrpp">
+                        <c:forEach items="${cp.arrNrpp}" var="i" varStatus="loop">
+                            <option value="${loop.index}"
+                                    <c:if test="${loop.index==sessionScope.nrpp}">
+                                        selected
+                                    </c:if>
+                                    >${i}</option>
+                        </c:forEach>
+                    </select>
+                </form>
             </div>
         </div>
 

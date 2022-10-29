@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import model.*;
 import utility.Utilities;
@@ -25,6 +26,12 @@ public class viewListMentorRegister extends HttpServlet {
             throws ServletException, IOException {
         DAO dao = new DAO();
         Utilities uti = new Utilities();
+        HttpSession ses = request.getSession();
+
+        User user = (User) ses.getAttribute("user");
+        if (dao.getAdminByUserId(user) != null) {
+                request.setAttribute("isAdmin", true);
+            }
         
         ArrayList<MentorRegister> listMentorRegister = dao.getAllMentorRegister();
         ArrayList<Skill> skills = dao.getSkill();

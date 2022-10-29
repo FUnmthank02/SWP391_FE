@@ -56,7 +56,7 @@
                                     <form method="post" action="action-manage-mentor-register">
                                         <input type="hidden" value="reject" name="reject"/>
                                         <input type="hidden" value="${o.getUser().getUserId()}" name="userID"/>
-                                        <input style="border-radius: 5px; padding: 1px 2px;" class="btn-outline-primary ml-2" type="submit" value="Reject"/>
+                                        <input style="border-radius: 5px; padding: 1px 2px;" class="btn-outline-danger ml-2" type="submit" value="Reject"/>
                                     </form>
                                 </div>      
                             </c:if>

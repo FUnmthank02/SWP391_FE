@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.*;
@@ -27,6 +28,15 @@ public class search extends HttpServlet {
         
         DAO dao = new DAO();
         Utilities uti = new Utilities();
+        HttpSession ses = request.getSession();
+        User u = (User) ses.getAttribute("user");
+
+        if (u != null) {
+            //check co phai admin hay ko
+            if (dao.getAdminByUserId(u) != null) {
+                request.setAttribute("isAdmin", true);
+            }
+        }
         
         if(request.getParameter("technologyID") != null) {
             int tech = Integer.parseInt(request.getParameter("technologyID"));

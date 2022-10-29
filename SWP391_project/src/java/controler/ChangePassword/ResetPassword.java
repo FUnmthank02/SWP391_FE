@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
+import utility.Utilities;
 
 /**
  *
@@ -28,7 +29,6 @@ public class ResetPassword extends HttpServlet {
         request.getRequestDispatcher("view/ChangePassword/resetpassword.jsp").forward(request, response);
     }
 
-  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,15 +36,25 @@ public class ResetPassword extends HttpServlet {
         String rpNewPass = request.getParameter("rpNewPass");
         String email = request.getParameter("email");
         DAO dao = new DAO();
-        User u = dao.getUserByEmail(email);
-        if(rpNewPass.equals(newPass)){
-            dao.changePassword(u.getUserId(), newPass);
-            request.setAttribute("resetSuccess", "Reset password successful");
-        }
-        else{
-            request.setAttribute("errRpPassNotMatch", "Password does not match");
+        Utilities uti = new Utilities();
+        User u = uti.getUserByEmail(email);
+        if (u != null) {
+            if (rpNewPass.equals(newPass)) {
+                dao.changePassword(u.getUserId(), newPass);
+                request.setAttribute("resetSuccess", "Reset password successful! Now login, please");
+                request.getRequestDispatcher("view/login.jsp").forward(request, response);
+
+            } else {
+                request.setAttribute("errRpPassNotMatch", "Password does not match");
+                request.getRequestDispatcher("view/ChangePassword/resetpassword.jsp").forward(request, response);
+
+            }
+        } else {
+            request.setAttribute("errNotFoundUser", "This user does not exist");
             request.getRequestDispatcher("view/ChangePassword/resetpassword.jsp").forward(request, response);
         }
+        
+
     }
 
 }
