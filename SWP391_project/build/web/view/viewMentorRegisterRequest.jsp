@@ -37,7 +37,7 @@
 
             <div class="contain_notify">
 
-                <c:forEach var="o" items="${requestScope.listMentorRegister}">
+                <c:forEach var="o" items="${requestScope.listMentorRegisters}">
                     <div class="content_invitation">
                         <div>
                             <p class="text_invitation">${o.getUser().getFullname()} has sent you a request to become a mentor</p>

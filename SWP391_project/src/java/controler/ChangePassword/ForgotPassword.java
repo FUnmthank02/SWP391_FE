@@ -95,7 +95,7 @@ public class ForgotPassword extends HttpServlet {
               
                 Email e = new Email();
                 e.setFrom("thanhnmhe161531@fpt.edu.vn");        //from mail's infor
-                e.setFromPassword("Nguyenthanh29200@");     //from mail's infor
+                e.setFromPassword("");     //from mail's infor
                 e.setTo(email);                                     //receive mail's infor
                 e.setSubject("Reset password");                 //mail's subject
                 StringBuilder sb = new StringBuilder();         

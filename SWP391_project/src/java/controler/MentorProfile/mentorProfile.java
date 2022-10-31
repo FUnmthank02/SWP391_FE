@@ -11,16 +11,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import model.Comment;
-import model.Invitation;
-import model.Mentee;
-import model.Mentor;
-import model.Profile;
-import model.Rating;
-import model.Skill;
-import model.User;
+import java.util.*;
+import model.*;
 import utility.Utilities;
 
 /**
@@ -35,42 +27,69 @@ public class mentorProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        DAO dao = new DAO();
+        Utilities uti = new Utilities();
         User U = (User) request.getSession().getAttribute("user");
-        
+
+        ArrayList<Request> listReq = new ArrayList<>();
+        ArrayList<Response> listRes = new ArrayList<>();
+        ArrayList<Invitation> listInvite = new ArrayList<>();
+        ArrayList<MentorRegister> listMentorRegister = new ArrayList<>();
+        // da dang nhap roi
+        if (U != null) {
+            //la admin
+            if (dao.getAdminByUserId(U) != null) {
+                listMentorRegister = dao.getNotifyMentorRegister();
+                request.setAttribute("isAdmin", true);
+            } else {  // khong phai la admin
+                // la mentor hoac mentee
+                listReq = uti.getSizeOfRequest(U);
+                listRes = uti.getSizeOfResponse(U);
+
+                //chi la mentor
+                if (dao.getMentorByUserId(U) != null) {
+                    listInvite = uti.getSizeOfInvitation(U);
+                    request.setAttribute("isMentor", true);
+                }
+            }
+        }
+
         //get mentorID in URL
         String mentorID = request.getParameter("mentorID");
-        
+
         //create mentor
         Mentor m = new Mentor();
         m.setMentorID(Integer.parseInt(mentorID));
-        
+
         //get list skill of mentor
         ArrayList<Skill> skills = d.getSkills(m);
-        
+
         //get profile of mentor
         Profile profile = d.getProfile(m);
-        
+
         //get user info of mentor
         User user = d.getUser(m);
-        
+
         //get comment of mentor
         ArrayList<Comment> comments = d.getComments(m);
-        
+
         //get rates of mentor
         ArrayList<Rating> rates = d.getRates(m);
-        
+
         //get mentee of current user
         Mentee mentee = d.getMentee(U);
-        
+
         //get invitation of mentee and mentor
         Invitation invitation = d.getInvitation(m, mentee);
-        
+
         //get all skills
         ArrayList<Skill> allSkills = d.getSkill();
-        
-        //get formatted date of comments belong a mentor
-        HashMap<Integer,String> formattedDates = d.formattedDate(m);
 
+        //get formatted date of comments belong a mentor
+        HashMap<Integer, String> formattedDates = d.formattedDate(m);
+
+        request.setAttribute("m", m);
+        request.setAttribute("mt", mentee);
         request.setAttribute("fd", formattedDates);
         request.setAttribute("as", allSkills);
         request.setAttribute("i", invitation);
@@ -79,6 +98,10 @@ public class mentorProfile extends HttpServlet {
         request.setAttribute("u", user);
         request.setAttribute("s", skills);
         request.setAttribute("p", profile);
+        request.setAttribute("listInviteSize", listInvite.size());
+        request.setAttribute("listReqSize", listReq.size());
+        request.setAttribute("listResSize", listRes.size());
+        request.setAttribute("listMentorRegisterSize", listMentorRegister.size());
         request.getRequestDispatcher("view/mentorprofile.jsp").forward(request, response);
     }
 
@@ -87,18 +110,18 @@ public class mentorProfile extends HttpServlet {
             throws ServletException, IOException {
         int rate = Integer.parseInt(request.getParameter("rate"));
         String comment = request.getParameter("comment");
-        
+
         //get current user
         User U = (User) request.getSession().getAttribute("user");
-        
+
         //get mentorID in URL
         String mentorID = request.getParameter("hiddenMentorID");
         Mentor m = new Mentor();
         m.setMentorID(Integer.parseInt(mentorID));
-        
+
         //get mentee of current user
         Mentee mentee = d.getMentee(U);
-        
+
         //create new comment
         Comment c = new Comment();
         c.setCmtContent(comment);
@@ -106,19 +129,17 @@ public class mentorProfile extends HttpServlet {
         c.setMentor(m);
         java.util.Date utilDate = new java.util.Date();
         c.setTime(new Date(utilDate.getTime()));
-        
+
         //insert comment to db
         d.insertComment(c);
-        
+
         //create new rate
         Rating r = new Rating();
         r.setMentee(mentee);
         r.setMentor(m);
         r.setRateStar(rate);
         d.insertRate(r);
-        
-        
-        
+
         //URL reload
         String url = "mentorprofile?mentorID=" + mentorID;
         response.sendRedirect(url);

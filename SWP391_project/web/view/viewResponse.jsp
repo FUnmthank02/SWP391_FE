@@ -20,6 +20,7 @@
               crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
+        <c:import url="./header.jsp" />
 
         <div class="container contain_listRequest">
             <div class="heading mt-4 mb-2">
@@ -27,10 +28,10 @@
                     <h4><a href="viewRequest" class="font-weight-bold">List Request</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3 request_page_active">
-                    <h4><a href="" class="font-weight-bold">List Response</a></h4>
+                    <h4><a href="viewResponse" class="font-weight-bold">List Response</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3">
-                    <h4><a href="CreateRequest" class="font-weight-bold">Create Request</a></h4>
+                    <h4><a href="create-request" class="font-weight-bold">Create Request</a></h4>
                 </div>
             </div>
             <hr>
@@ -49,12 +50,12 @@
                                 <p class="left_side_text requestCreateAt mt-2 mb-2"><span class="left_side_span">Create At:</span> ${dateList[i]}</p>
                             </div>
 
-                            <div class="right_side_item">
-                                <a class="text-primary action_button" style="cursor: pointer;" data-id="${resList.get(i).getRequest().getRequestID()}" data-toggle="modal"
-                                   data-target="#modal_form_reply">Reply</a><br>
-                                <a class="text-primary action_button" style="cursor: pointer;" data-id="${resList.get(i).getResponseID()}" data-toggle="modal"
-                                   data-target="#modal_form_update">Update</a>
-                            </div>
+                            <c:if test="${requestScope.isMentee == true}">
+                                <div class="right_side_item">
+                                    <a class="text-primary action_button" style="cursor: pointer;" data-id="${resList.get(i).getRequest().getRequestID()}" data-toggle="modal"
+                                       data-target="#modal_form_reply">Reply</a><br>
+                                </div>
+                            </c:if>
                         </div>
                     </c:forEach>
                 </c:if>    
@@ -88,51 +89,15 @@
             </div>
         </div>
 
-        <!-- modal update -->
-        <div class="modal" tabindex="-1" role="dialog" id="modal_form_update">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title font-weight-bold">Update response</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="" method="post" name="update-form" novalidate="">
-                        <div class="modal-body">
-
-                            <div class="form-group">
-                                <label for="updateResponse" class="">Content</label>
-                                <textarea class="" name="updateResponse" id="updateResponse" rows="5" placeholder="Enter content" required></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="btn-update-response">Update</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <c:import url="./footer.jsp" />
 
         <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var id;
-                var updateForm = document.forms['update-form'];
                 var replyForm = document.forms['reply-form'];
-                var btnUpdateResponse = document.getElementById('btn-update-response');
                 var btnReplyResponse = document.getElementById('btn-reply-response');
-
-                $('#modal_form_update').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget); // Button that triggered the modal
-                    id = button.data('id'); // Extract info from data-* attributes
-                });
-
-                btnUpdateResponse.onclick = function () {
-                    updateForm.action = 'viewResponse?reqId=' + id + '&action=update';
-                };
 
                 $('#modal_form_reply').on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -153,17 +118,6 @@
                     .catch(error => {
                         console.error(error);
                     });
-
-            var updateValue;
-            ClassicEditor
-                    .create(document.querySelector('#updateResponse'))
-                    .then(editor => {
-                        updateValue = editor;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-
 
         </script>
 

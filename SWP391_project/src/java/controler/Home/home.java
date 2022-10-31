@@ -51,6 +51,7 @@ public class home extends HttpServlet {
                 //chi la mentor
                 if (dao.getMentorByUserId(u) != null) {
                     listInvite = uti.getSizeOfInvitation(u);
+                    request.setAttribute("isMentor", true);
                 }
             }
 
