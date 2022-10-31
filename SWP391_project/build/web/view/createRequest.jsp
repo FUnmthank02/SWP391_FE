@@ -35,7 +35,7 @@
                     <h4><a href="viewResponse" class="font-weight-bold">List Response</a></h4>
                 </div>
                 <div class="sub_heading pl-3 pr-3 request_page_active">
-                    <h4><a href="" class="font-weight-bold">Create Request</a></h4>
+                    <h4><a href="create-request" class="font-weight-bold">Create Request</a></h4>
                 </div>
             </div>
             <hr>

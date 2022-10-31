@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import model.*;
@@ -57,6 +58,368 @@ public class DAO extends DBContext {
         }
     }
 
+    // Tổng số invitation theo từng tháng ( 6 tháng gần nhất )
+    public int[] statisticInvitation() {
+        String sql = "select COUNT(*) from Invitation \n"
+                + "where MONTH(time) >= MONTH(GETDATE()) - 6 and MONTH(time) < MONTH(GETDATE()) \n"
+                + "group by MONTH(time)";
+        int[] list = new int[6];
+        int i = 0;
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list[i++] = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            status = "Error load enroll skill: " + e.getMessage();
+        }
+        return list;
+    }
+
+// tổng số mentee 
+    public int statisticMentee() {
+        String sql = "select COUNT(*) from Mentee";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+//tổng số mentor 
+    public int statisticMentor() {
+        String sql = "select COUNT(*) from Mentor";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+// format date của cái invitation để chuyền vào cái cột dưới chart ( 6 tháng gần nhất )
+    public ArrayList<String> formatDate() {
+        String sql = "select FORMAT(time, 'MMM,yyyy') from Invitation \n"
+                + "where MONTH(time) >= MONTH(GETDATE()) - 6 and MONTH(time) < MONTH(GETDATE()) \n"
+                + "group by MONTH(time), time";
+        ArrayList<String> dateList = new ArrayList<>();
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dateList.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+        }
+        return dateList;
+    }
+
+    //remove relationship between mentor and mentee OR cancel invitation
+    public void breakRelationship(int mentorID, int menteeID) {
+        String sql = "delete from Invitation\n"
+                + "where \n"
+                + "mentorID = ? and menteeID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mentorID);
+            ps.setInt(2, menteeID);
+            ps.execute();
+        } catch (Exception e) {
+            status = e.getMessage();
+        }
+    }
+
+    //insert invitation 
+    public void insertInvitation(int mentorID, int menteeID) {
+        String sql = "INSERT INTO [dbo].[Invitation]\n"
+                + "           ([menteeID]\n"
+                + "           ,[mentorID]\n"
+                + "           ,[status]\n"
+                + "           ,[time])\n"
+                + "           \n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,'Processing'\n"
+                + "           ,GETDATE()\n"
+                + "           )";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mentorID);
+            ps.setInt(2, menteeID);
+            ps.execute();
+        } catch (Exception e) {
+            status = e.getMessage();
+        }
+    }
+
+    //load request from database
+    public ArrayList<Request> loadRequest(int id, String dbid) {
+        ArrayList<Request> reqList = new ArrayList<>();
+        String sql = "select * from Request where " + dbid + " = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int requestID = rs.getInt(1);
+                Mentor mentor = getMentor(rs.getInt(2));
+                Mentee mentee = getMentee(rs.getInt(3));
+                Date time = null;
+                String title = rs.getString(4);
+                String reqContent = rs.getString(5);
+                String status = rs.getString(6);
+                reqList.add(new Request(requestID, mentor, mentee, time, title, reqContent, status));
+            }
+        } catch (Exception e) {
+            status = "Error load user: " + e.getMessage();
+        }
+        return reqList;
+    }
+
+    //load response from database
+    public ArrayList<Response> loadResponse(int id, String dbid) {
+        ArrayList<Response> resList = new ArrayList<>();
+        String sql = "select * from Response where " + dbid + " = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int responseID = rs.getInt(1);
+                Mentor mentor = getMentor(rs.getInt(3));
+                Mentee mentee = getMentee(rs.getInt(2));
+                String resContent = rs.getString(4);
+                String status = rs.getString(5);
+                Date time = null;
+                Request request = getRequest(rs.getInt(6));
+                resList.add(new Response(responseID, mentor, mentee, resContent, status, time, request));
+            }
+        } catch (Exception e) {
+            status = "Error load user: " + e.getMessage();
+        }
+        return resList;
+    }
+
+    //insert response to DB
+    public void insertResponse(int reqId, String resContent) {
+        String sql = "INSERT INTO [dbo].[Response]([menteeID],[mentorID],[resContent],[status],[requestID],[time])\n"
+                + "VALUES(?,?,?,?,?,GETDATE())";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            Request req = getRequest(reqId);
+            ps.setInt(1, req.getMentee().getMenteeID());
+            ps.setInt(2, req.getMentor().getMentorID());
+            ps.setString(3, resContent);
+            ps.setString(4, "open");
+            ps.setInt(5, reqId);
+            updateStatus(reqId);
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at update user profile" + e.getMessage();
+        }
+    }
+
+    //insert request to DB
+    public void insertRequest(int reqId, String resContent) {
+        String sql = "INSERT INTO [dbo].[Request]([menteeID],[mentorID],[title],[reqcontent],[status],[time])\n"
+                + "VALUES(?,?,?,?,?,GETDATE())";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            Request req = getRequest(reqId);
+            ps.setInt(1, req.getMentee().getMenteeID());
+            ps.setInt(2, req.getMentor().getMentorID());
+            ps.setString(3, "request title");
+            ps.setString(4, resContent);
+            ps.setString(5, "processing");
+            ps.execute();
+        } catch (Exception e) {
+            status = "Error at update user profile" + e.getMessage();
+        }
+    }
+
+    public void updateStatus(int reqId) {
+        String sql = "UPDATE [dbo].[Request] SET status = 'processing' WHERE requestID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, reqId);
+            ResultSet rs = ps.executeQuery();
+        } catch (Exception e) {
+            status = "Error load user: " + e.getMessage();
+        }
+    }
+
+    // get request by id
+    public Request getRequest(int requestId) {
+        String sql = "select * from Request where requestID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, requestId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int requestID = rs.getInt(1);
+                Mentor mentor = getMentor(rs.getInt(2));
+                Mentee mentee = getMentee(rs.getInt(3));
+                Date time = null;
+                String title = rs.getString(4);
+                String reqContent = rs.getString(5);
+                String status = rs.getString(6);
+                Request req = new Request(requestID, mentor, mentee, time, title, reqContent, status);
+                return req;
+            }
+        } catch (Exception e) {
+            status = "Error load enroll skill: " + e.getMessage();
+        }
+        return null;
+    }
+
+    //get hash map with mentorID-key formatted time-value
+    public ArrayList<String> formatDate(int id, String db, String dbid) {
+        String sql = "select format(r.time,'dd/MM/yyyy HH:mm') as 'date' from " + db + " r where r." + dbid + " = ?";
+        ArrayList<String> dateList = new ArrayList<>();
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dateList.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+        }
+        return dateList;
+    }
+
+    //get average requests per user per day
+    public HashMap<Date, Float> getAvrReqPerUserPerDay() {
+        HashMap<Date, Float> AvrReq = new HashMap<>();
+        String sql = "select CAST(r.time as date) 'Date', cast(count(r.requestID) as float)/cast(count(distinct r.menteeID) as float) 'Requests per user per day'\n"
+                + "from\n"
+                + "Request r\n"
+                + "group by CAST(r.time as date)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Date date = rs.getDate(1);
+                Float AvrRequest = rs.getFloat(2);
+                AvrReq.put(date, AvrRequest);
+            }
+        } catch (Exception e) {
+
+        }
+        return AvrReq;
+    }
+
+    //count request each day
+    public HashMap<String, Integer> countReqPerMonth() {
+        HashMap<String, Integer> requests = new LinkedHashMap<>();
+        String sql = "Select FORMAT(time,'MM/yyyy') 'Time', count(r.requestID) 'Request'\n"
+                + "from\n"
+                + "Request r\n"
+                + "where YEAR(time) = YEAR(getdate())\n"
+                + "group by FORMAT(time,'MM/yyyy')\n"
+                + "order by FORMAT(time,'MM/yyyy') ";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getString(1) + "   " + rs.getInt(2));
+                requests.put(rs.getString(1), rs.getInt(2));
+            }
+        } catch (Exception e) {
+
+        }
+        return requests;
+    }
+
+    //get percentage of requests had been responsed
+    public float[] getPercentage() {
+        float[] percentage = new float[2];
+        String sql = "select cast(m.[Not responsed] as float)/cast( m.[Responsed]+m.[Not responsed] as float) 'Not responsed',\n"
+                + "1-cast(m.[Not responsed] as float)/cast( m.[Responsed]+m.[Not responsed] as float) 'Responsed'\n"
+                + "from\n"
+                + "(select(select count(r.requestID) from\n"
+                + "Request r) as 'Not responsed',\n"
+                + "(select count(r.requestID) from\n"
+                + "Request r \n"
+                + "where r.status = 'Responsed') as 'Responsed') as m";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                percentage[0] = rs.getFloat(1);
+                percentage[1] = rs.getFloat(2);
+            }
+        } catch (Exception e) {
+
+        }
+
+        return percentage;
+    }
+
+    //get invitation of mentor
+    public ArrayList<Invitation> getInvitationOfMentor(Mentor mentor) {
+        ArrayList<Invitation> list = new ArrayList<>();
+        String sql = "select * from Invitation where mentorID=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mentor.getMentorID());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int invitationId = rs.getInt(1);
+                Mentee mentee = new Mentee();
+                mentee.setMenteeID(rs.getInt(2));
+                Mentor mento = new Mentor();
+                mento.setMentorID(rs.getInt(3));
+                String status = rs.getString(4);
+                Date time = rs.getDate(5);
+                String seenStatus = rs.getString(6);
+
+                list.add(new Invitation(invitationId, mentor, mentee, status, time, seenStatus));
+            }
+        } catch (Exception e) {
+            status = "Error get mentor by userId: " + e.getMessage();
+        }
+        return list;
+    }
+
+    //update status of invitation
+    public void UpdateStatus(int id) {
+        try {
+            String sql = "UPDATE [Invitation]\n"
+                    + "   SET \n"
+                    + "     status = 'accepted'\n"
+                    + "     \n"
+                    + " WHERE invitationID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println("error at update status of invitation: " + ex.getMessage());
+        }
+
+    }
+
+    //delete invitation
+    public void deleteInvitation(int id) {
+        String querry = "DELETE FROM Invitation where invitationID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(querry);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println("error at update status of invitation: " + ex.getMessage());
+        }
+    }
+
     //get mentee and personal information of that mentee
     public ArrayList<Mentee> getListMenteeDashboard() {
         ArrayList<Mentee> list = new ArrayList<>();
@@ -75,7 +438,7 @@ public class DAO extends DBContext {
                 u.setAddress(rs.getString(6));
                 u.setGender(rs.getBoolean(7));
                 u.setPhonenumber(rs.getString(8));
-                
+
                 list.add(new Mentee(menteeID, u));
             }
         } catch (Exception e) {
@@ -83,7 +446,7 @@ public class DAO extends DBContext {
         }
         return list;
     }
-    
+
     //get mentor and personal information of that mentor
     public ArrayList<Mentor> getListMentorDashboard() {
         ArrayList<Mentor> list = new ArrayList<>();
@@ -103,7 +466,7 @@ public class DAO extends DBContext {
                 u.setGender(rs.getBoolean(7));
                 u.setPhonenumber(rs.getString(8));
                 String status = rs.getString(9);
-                
+
                 list.add(new Mentor(mentorID, u, status));
             }
         } catch (Exception e) {
@@ -113,10 +476,11 @@ public class DAO extends DBContext {
     }
 
     //Update List invitation to be Seen
-    public void UpdateListInvitationSeen() {
-        String sql = "update [Invitation] set seenStatus = 'seen' where seenStatus = 'unseen'";
+    public void UpdateListInvitationSeen(Mentor m) {
+        String sql = "update [Invitation] set seenStatus = 'seen' where mentorID = ? and seenStatus = 'unseen'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, m.getMentorID());
             ps.execute();
         } catch (Exception e) {
             status = "Error at update list invitation to be seen" + e.getMessage();
@@ -135,10 +499,16 @@ public class DAO extends DBContext {
     }
 
     //Update List Response to be Seen
-    public void UpdateListResponseSeen() {
-        String sql = "update [Response] set status = 'seen' where status = 'processing'";
+    public void UpdateListResponseSeen(int id, int type) {
+        String sql = "";
+        if (type == 0) {
+            sql = "update [Response] set status = 'seen' where mentorID = ? and status = 'Processing'";
+        } else {
+            sql = "update [Response] set status = 'seen' where menteeID = ? and status = 'Processing'";
+        }
         try {
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.execute();
         } catch (Exception e) {
             status = "Error at update list response to be seen" + e.getMessage();
@@ -146,10 +516,16 @@ public class DAO extends DBContext {
     }
 
     //Update List Request to be Seen
-    public void UpdateListRequestSeen() {
-        String sql = "update [Request] set status = 'seen' where status = 'Processing'";
+    public void UpdateListRequestSeen(int id, int type) {
+        String sql = "";
+        if (type == 0) {
+            sql = "update [Request] set status = 'seen' where mentorID = ? and status = 'Processing'";
+        } else {
+            sql = "update [Request] set status = 'seen' where menteeID = ? and status = 'Processing'";
+        }
         try {
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.execute();
         } catch (Exception e) {
             status = "Error at update list request to be seen" + e.getMessage();

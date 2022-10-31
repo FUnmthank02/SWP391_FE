@@ -16,6 +16,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .box-drop {
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+            }
+        </style>
     </head>
     <body>
         <!-- navbar -->
@@ -82,30 +87,38 @@
                                             <span class="text-light new_notify" id="newNoti">new</span>
                                         </c:if>
                                     </div>
-                                    <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="notifyDropdown" >
-                                        <a class="dropdown-item" href="invitation">Invitation
-                                            <c:if test="${requestScope.listInviteSize > 0}">
-                                                <span class="ml-3 new_notify">${requestScope.listInviteSize}</span>
-                                            </c:if>
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="ViewRequest">Request
-                                            <c:if test="${requestScope.listReqSize > 0}">
-                                                <span class="ml-3 new_notify">${requestScope.listReqSize}</span>
-                                            </c:if>
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="ViewRequest">Response
-                                            <c:if test="${requestScope.listResSize > 0}">
-                                                <span class="ml-3 new_notify">${requestScope.listResSize}</span>
-                                            </c:if>
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="view-list-mentor-register">List mentor register request
-                                            <c:if test="${requestScope.listMentorRegisterSize > 0}">
-                                                <span class="ml-3 new_notify">${requestScope.listMentorRegisterSize}</span>
-                                            </c:if>
-                                        </a>
+                                    <div class="dropdown-menu dropdown-menu-right box-drop mt-2" aria-labelledby="notifyDropdown" >
+                                        <c:if test="${requestScope.isMentor == true}">
+                                            <a class="dropdown-item" href="invitation">Invitation
+                                                <c:if test="${requestScope.listInviteSize > 0}">
+                                                    <span class="ml-3 new_notify">${requestScope.listInviteSize}</span>
+                                                </c:if>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                        </c:if>
+                                        
+                                        <c:if test="${!requestScope.isAdmin == true}">
+                                            <a class="dropdown-item" href="viewRequest">Request
+                                                <c:if test="${requestScope.listReqSize > 0}">
+                                                    <span class="ml-3 new_notify">${requestScope.listReqSize}</span>
+                                                </c:if>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="viewResponse">Response
+                                                <c:if test="${requestScope.listResSize > 0}">
+                                                    <span class="ml-3 new_notify">${requestScope.listResSize}</span>
+                                                </c:if>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                        </c:if>
+                                        
+                                        <c:if test="${requestScope.isAdmin == true}">
+                                            <a class="dropdown-item" href="view-list-mentor-register">List mentor register request
+                                                <c:if test="${requestScope.listMentorRegisterSize > 0}">
+                                                    <span class="ml-3 new_notify">${requestScope.listMentorRegisterSize}</span>
+                                                </c:if>
+                                            </a>
+                                        </c:if>
                                     </div>
                                 </div> 
                             </c:if> 

@@ -31,9 +31,30 @@
                     <h4 class="part-title">Mentor's profile</h4>
                     <div class="line_part"></div>
                 </div>
-                <div class="contain_invitation">
-                    <button class="btn_invitation"> Send Invitation </button>
-                </div>              
+                <!--                <div class="contain_invitation">
+                                    <button class="btn_invitation"> Send Invitation </button>
+                                </div>              -->
+                <c:if test="${mt != null}">
+                    <form action="invitation-handler" method="POST">  
+                        <input type="hidden" value="${m.mentorID}" name="mentorID">
+                        <input type="hidden" value="${mt.menteeID}" name="menteeID">
+                        <c:if test="${i eq null}">
+                            <div class="contain_invitation">
+                                <button name="button" value="1" class="btn_invitation"> Send Invitation </button>
+                            </div>
+                        </c:if>
+                        <c:if test="${i.status eq 'accepted'}">
+                            <div class="contain_invitation">
+                                <button name="button" value="-1" class="btn_invitation"> Break relationship </button>
+                            </div>
+                        </c:if>
+                        <c:if test="${i.status eq 'processing'}">
+                            <div class="contain_invitation">
+                                <button name="button" value="0" class="btn_invitation"> Cancel Invitation  </button>
+                            </div>                          
+                        </c:if>
+                    </form>
+                </c:if>
             </div>
 
             <div class="container p-5 wrapCV">
@@ -98,7 +119,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div class="col-md-5 col-sm-6 col-xs-12 right-second-infor pl-4" data-aos="fade-up" data-aos-duration="1000">
                         <div class="title mb-3">
                             <i class="fa-solid fa-pencil"></i>
@@ -149,26 +170,26 @@
                 <h4 class="part-title">Comment and rate</h4>
                 <div class="line_part"></div>
             </div>
-            <c:if test="${i.status eq 'Accepted'}">
-                    <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->
-                    <div class="contain_form_comment">
-                        <form class="form_comment" action="mentorprofile" method="POST">
-                            <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
-                            <label for="rate" class="form_comment_lable">Rate</label>
-                            <select name="rate" id="rate">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                            <i class="fa-solid fa-star text-warning"></i><br>
-                            <label for="comment" class="form_comment_lable">Comment</label>
-                            <textarea name="comment" id="comment" rows="5" placeholder="Your comment..."></textarea>
-                            <button class="btn_comment" type="submit">Submit</button>
-                        </form>
-                    </div>
-                    <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->                     
+            <c:if test="${i.status eq 'accepted'}">
+                <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->
+                <div class="contain_form_comment">
+                    <form class="form_comment" action="mentorprofile" method="POST">
+                        <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
+                        <label for="rate" class="form_comment_lable">Rate</label>
+                        <select name="rate" id="rate">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <i class="fa-solid fa-star text-warning"></i><br>
+                        <label for="comment" class="form_comment_lable">Comment</label>
+                        <textarea name="comment" id="comment" rows="5" placeholder="Your comment..."></textarea>
+                        <button class="btn_comment" type="submit">Submit</button>
+                    </form>
+                </div>
+                <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->                     
 
             </c:if>
 
@@ -183,7 +204,7 @@
                                 <span class="rating"><i class="fa-solid fa-star"></i><span class="rating-number font-weight-bold">${rate.rateStar}</span></span>
                                         <c:forEach var="fd" items="${requestScope.fd}">
                                             <c:if test="${fd.key == comment.commentID}">
-                                    <p class="cv-comment" style="color: #777;">${fd.value}</p>  
+                                        <p class="cv-comment" style="color: #777;">${fd.value}</p>  
                                     </c:if>
                                 </c:forEach>
                                 <h5 class="cv-comment">${comment.cmtContent}</h5>                  

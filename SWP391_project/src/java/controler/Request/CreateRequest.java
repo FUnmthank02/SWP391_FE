@@ -2,21 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.Request;
+package controler.Request;
 
+import controller.Request.*;
 import dal.DAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.Mentee;
-import model.Mentor;
-import model.Request;
-import model.Skill;
-import model.User;
+import java.util.*;
+import model.*;
 import utility.Utilities;
 
 /**
@@ -25,7 +21,6 @@ import utility.Utilities;
  */
 public class CreateRequest extends HttpServlet {
 
- 
     DAO d = new DAO();
     utility.Utilities u = new Utilities();
 
@@ -35,15 +30,42 @@ public class CreateRequest extends HttpServlet {
         //get user 
         User U = (User) request.getSession().getAttribute("user");
 
-        //get all skill for header
-        ArrayList<Skill> skills = d.getSkill();
-        //get mentee of current user
-        Mentee mentee = d.getMentee(U);
-        //get information of mentors belong to a mentee
-        ArrayList<User> mi = d.getUser(mentee);
-        request.setAttribute("as", skills);
-        request.setAttribute("mi", mi);
-        request.getRequestDispatcher("view/createRequest.jsp").forward(request, response);
+        if (U != null) {
+            ArrayList<Request> listReq = new ArrayList<>();
+            ArrayList<Response> listRes = new ArrayList<>();
+            ArrayList<Invitation> listInvite = new ArrayList<>();
+            ArrayList<MentorRegister> listMentorRegister = new ArrayList<>();
+            //la admin
+            if (d.getAdminByUserId(U) != null) {
+                listMentorRegister = d.getNotifyMentorRegister();
+                request.setAttribute("isAdmin", true);
+            } else {  // khong phai la admin
+                // la mentor hoac mentee
+                listReq = u.getSizeOfRequest(U);
+                listRes = u.getSizeOfResponse(U);
+
+                //chi la mentor
+                if (d.getMentorByUserId(U) != null) {
+                    listInvite = u.getSizeOfInvitation(U);
+                }
+            }
+
+            //get all skill for header
+            ArrayList<Skill> skills = d.getSkill();
+            //get mentee of current user
+            Mentee mentee = d.getMentee(U);
+            //get information of mentors belong to a mentee
+            ArrayList<User> mi = d.getUser(mentee);
+
+            request.setAttribute("listInviteSize", listInvite.size());
+            request.setAttribute("listReqSize", listReq.size());
+            request.setAttribute("listResSize", listRes.size());
+            request.setAttribute("listMentorRegisterSize", listMentorRegister.size());
+            request.setAttribute("as", skills);
+            request.setAttribute("mi", mi);
+            request.getRequestDispatcher("view/createRequest.jsp").forward(request, response);
+        } else 
+            response.sendRedirect("home");
     }
 
     @Override
@@ -87,5 +109,4 @@ public class CreateRequest extends HttpServlet {
         response.sendRedirect("CreateRequest");
     }
 
-   
 }

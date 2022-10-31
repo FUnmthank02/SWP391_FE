@@ -17,6 +17,19 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .items-card-mentor{
+                transition: all 0.5s ease-in-out;
+                box-shadow: rgba(86, 172, 243, 0.4) -5px 5px, rgba(86, 172, 243, 0.3) -10px 10px, rgba(86, 172, 243, 0.2) -15px 15px, rgba(86, 172, 243, 0.1) -20px 20px, rgba(86, 172, 243, 0.05) -25px 25px;
+            }
+            .items-card-mentor:hover {
+                transform: scale(1.04);
+            }
+            #btn-openCV:hover {
+                border: 1px solid #4dc2ef;
+                outline: 1px solid #4dc2ef;
+            }
+        </style>
     </head>
 
     <body>

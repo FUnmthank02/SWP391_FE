@@ -37,13 +37,13 @@
                                 Enter your old password and new password.
                             </div>                 
                             <div class="form-group">
-                                <input type="password" class="form-control" name="oldPass" placeholder="Old password">
+                                <input type="password" class="form-control" name="oldPass" placeholder="Old password" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="newPass" placeholder="New password">
+                                <input type="password" class="form-control" name="newPass" placeholder="New password" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="cfNewPass" placeholder="Repeat new password">
+                                <input type="password" class="form-control" name="cfNewPass" placeholder="Repeat new password" required>
                             </div>
 
                             <!-- get error or noti from servlet -->

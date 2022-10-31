@@ -19,12 +19,38 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <style>
+            .select_form {
+                width: fit-content !important;
+                display: inline !important;
+                cursor: pointer;
+            }
+            .btn_page {
+                width: fit-content;
+                padding: 4px 7px;
+                background-color: #25c481;
+                color: #ffffff;
+                border: 1px solid #25b7c4;
+                cursor: pointer;
+            }
+            .btn_page:hover {
+                background-color: rgba(37, 196, 129, 0.6);
+                color: #000000
+            }
+
+            .phantrang {
+                margin: 50px;
+                display: flex;
+                justify-content: end;
+            }
+        </style>
     </head>
 
     <body>
         <!--header-->
         <c:import url="header.jsp"/>
-        
+
         <div class="container-fluid">
             <div class="row">
                 <div class="side-bar col-md-2" style="padding: 100px 0 !important;">
@@ -116,35 +142,35 @@
                             <!-- bieu do thong ke so luong -->
 
                             <!-- bieu do thong ke request -->
-                            <div class="mt-4 col-md-6">
+                            <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
                                     <h5 class="">Pie Chart</h5>
                                     <hr>
-                                    <canvas id="myChart" style="width:100%; max-width:600px"></canvas>
+                                    <canvas id="myChart" style="width:100%; max-width:1000px;"></canvas>
                                 </div>
                             </div>
-                            <div class="mt-4 col-md-6">
+                            <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
                                     <h5 class="">Line Chart</h5>
                                     <hr>
-                                    <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+                                    <canvas id="myChart1" style="width:100%;max-width:1000px;"></canvas>
                                 </div>
                             </div>
                             <!-- bieu do thong ke request -->
 
                             <!-- bieu do thong ke response -->
-                            <div class="mt-4 col-md-6">
+                            <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
                                     <h5 class="">Bar Chart</h5>
                                     <hr>
-                                    <canvas id="myChart2" style="width:100%; max-width:600px"></canvas>
+                                    <canvas id="myChart2" style="width:100%; max-width:1000px;"></canvas>
                                 </div>
                             </div>
-                            <div class="mt-4 col-md-6">
+                            <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
                                     <h5 class="">Line Chart</h5>
                                     <hr>
-                                    <canvas id="myChart3" style="width:100%;max-width:600px"></canvas>
+                                    <canvas id="myChart3" style="width:100%;max-width:1000px;"></canvas>
                                 </div>
                             </div>
                             <!-- bieu do thong ke response -->
@@ -176,20 +202,50 @@
                             <div class="tbl-content">
                                 <table cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
-                                        <c:forEach items="${requestScope.listMentee}" var="o">
-                                        <tr>
-                                            <td>${o.getUser().getFullname()}</td>
-                                            <td>${o.getUser().getEmail()}</td>
-                                            <td>${o.getUser().getDob()}</td>
-                                            <td>${o.getUser().getAddress()}</td>
-                                            <td>${o.getUser().getGender()}</td>
-                                            <td>${o.getUser().getPhonenumber()}</td>
-                                        </tr>
+                                        <c:forEach items="${requestScope.listMentee}" var="o" begin="${cpMentee.begin}" end="${cpMentee.end}">
+                                            <tr>
+                                                <td>${o.getUser().getFullname()}</td>
+                                                <td>${o.getUser().getEmail()}</td>
+                                                <td>${o.getUser().getDob()}</td>
+                                                <td>${o.getUser().getAddress()}</td>
+                                                <td>${o.getUser().getGender()}</td>
+                                                <td>${o.getUser().getPhonenumber()}</td>
+                                            </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
                         </section>
+
+                        <!--phan trang-->
+                        <div class="phantrang">
+                            <form action="dashboard" method="post">
+                                <c:if test="${cpMentee.cp!=0}">
+                                    <input class="btn_page" type="submit" name="home" value="Home"/>
+                                    <input class="btn_page" type="submit" name="pre" value="Pre"/>
+                                </c:if>
+
+                                <c:forEach begin="${cpMentee.pageStart}" end="${cpMentee.pageEnd}" var="i">
+                                    <span><input class="btn_page" type="submit" name="btn${i}" value="${i+1}"/></span>
+                                    </c:forEach>
+
+                                <c:if test="${cpMentee.cp != cpMentee.np-1}">
+                                    <input class="btn_page" type="submit" name="next" value="Next"/>
+                                    <input class="btn_page" type="submit" name="end" value="End"/>
+                                </c:if>
+                                <input type="text" hidden name="cp" value="${cpMentee.cp}"/>
+                                <input type="text" hidden name="np" value="${cpMentee.np}"/>
+                                <select class="form-control select_form ml-2" name="nrpp">
+                                    <c:forEach items="${cpMentee.arrNrpp}" var="i" varStatus="loop">
+                                        <option value="${loop.index}"
+                                                <c:if test="${loop.index==sessionScope.nrpp}">
+                                                    selected
+                                                </c:if>
+                                                >${i}</option>
+                                    </c:forEach>
+                                </select>
+                            </form>
+                        </div>
                     </div>
                     <!-- mentee part -->
 
@@ -214,20 +270,50 @@
                             <div class="tbl-content">
                                 <table cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
-                                        <c:forEach items="${requestScope.listMentor}" var="o">
-                                        <tr>
-                                            <td>${o.getUser().getFullname()}</td>
-                                            <td>${o.getUser().getEmail()}</td>
-                                            <td>${o.getUser().getDob()}</td>
-                                            <td>${o.getUser().getAddress()}</td>
-                                            <td>${o.getUser().getGender()}</td>
-                                            <td>${o.getUser().getPhonenumber()}</td>
-                                        </tr>
+                                        <c:forEach items="${requestScope.listMentor}" var="o" begin="${cpMentor.begin}" end="${cpMentor.end}">
+                                            <tr>
+                                                <td>${o.getUser().getFullname()}</td>
+                                                <td>${o.getUser().getEmail()}</td>
+                                                <td>${o.getUser().getDob()}</td>
+                                                <td>${o.getUser().getAddress()}</td>
+                                                <td>${o.getUser().getGender()}</td>
+                                                <td>${o.getUser().getPhonenumber()}</td>
+                                            </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
                         </section>
+                        
+                        <!--phan trang-->
+                        <div class="phantrang">
+                            <form action="dashboard" method="post">
+                                <c:if test="${cpMentor.cp!=0}">
+                                    <input class="btn_page" type="submit" name="home" value="Home"/>
+                                    <input class="btn_page" type="submit" name="pre" value="Pre"/>
+                                </c:if>
+
+                                <c:forEach begin="${cpMentor.pageStart}" end="${cpMentor.pageEnd}" var="i">
+                                    <span><input class="btn_page" type="submit" name="btn${i}" value="${i+1}"/></span>
+                                    </c:forEach>
+
+                                <c:if test="${cpMentor.cp != cpMentor.np-1}">
+                                    <input class="btn_page" type="submit" name="next" value="Next"/>
+                                    <input class="btn_page" type="submit" name="end" value="End"/>
+                                </c:if>
+                                <input type="text" hidden name="cp" value="${cpMentor.cp}"/>
+                                <input type="text" hidden name="np" value="${cpMentor.np}"/>
+                                <select class="form-control select_form ml-2" name="nrpp">
+                                    <c:forEach items="${cpMentor.arrNrpp}" var="i" varStatus="loop">
+                                        <option value="${loop.index}"
+                                                <c:if test="${loop.index==sessionScope.nrpp}">
+                                                    selected
+                                                </c:if>
+                                                >${i}</option>
+                                    </c:forEach>
+                                </select>
+                            </form>
+                        </div>
                     </div>
                     <!-- mentor part -->
 
@@ -235,7 +321,7 @@
             </div>
         </div>
 
-        
+
         <!--footer-->
         <c:import url="footer.jsp"/>
 

@@ -22,6 +22,7 @@
         <style>
             .items-card-mentor{
                 transition: all 0.5s ease-in-out;
+                box-shadow: rgba(86, 172, 243, 0.4) -5px 5px, rgba(86, 172, 243, 0.3) -10px 10px, rgba(86, 172, 243, 0.2) -15px 15px, rgba(86, 172, 243, 0.1) -20px 20px, rgba(86, 172, 243, 0.05) -25px 25px;
             }
             .items-card-mentor:hover {
                 transform: scale(1.04);
@@ -29,6 +30,41 @@
             #btn-openCV:hover {
                 border: 1px solid #4dc2ef;
                 outline: 1px solid #4dc2ef;
+            }
+            .item_techonology {
+                box-shadow: rgba(86, 172, 243, 0.4) -5px 5px, rgba(86, 172, 243, 0.3) -10px 10px, rgba(86, 172, 243, 0.2) -15px 15px, rgba(86, 172, 243, 0.1) -20px 20px, rgba(86, 172, 243, 0.05) -25px 25px;
+            }
+            .select_form {
+                width: fit-content !important;
+                display: inline !important;
+                cursor: pointer;
+            }
+            .btn_page {
+                width: fit-content;
+                padding: 4px 7px;
+                background-color: #25c481;
+                color: #ffffff;
+                border: 1px solid #25b7c4;
+                cursor: pointer;
+            }
+            .btn_page:hover {
+                background-color: rgba(37, 196, 129, 0.6);
+                color: #000000
+            }
+            .items_details_2 {
+                animation: animation_slider 1s ease-in-out;
+            }
+            @keyframes animation_slider {
+                from {
+                    opacity: 0;
+                    transform: translate(10%, 0);
+                    filter: blur(3px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(0, 0);
+
+                }
             }
         </style>
     </head>
@@ -58,7 +94,7 @@
                 <div class="line_part"></div>
             </div>
 
-            <div class="row">
+            <div class="row" id="contain_slider">
                 <div class="col-md-4 col-sm-6 col-xs-12 items_details_2">
                     <div class="details_2_wrap_img">
                         <img src="image/home_img3.png" alt="img_details">
@@ -97,8 +133,7 @@
                     <c:forEach var="skills" items="${requestScope.as}">
                         <div class="col-md-3 col-sm-6 col-xs-12 item_contain">
                             <div class="item_techonology">
-                                <h3><a href="#" class="item_name">${skills.skillName}</a></h3>
-                                <!--                                <span class="rating"><i class="fa-solid fa-star"></i><span>4/5 average rating</span></span>-->
+                                <h3><a href="search?technologyID=${skills.skillId}" class="item_name">${skills.skillName}</a></h3>
                                 <p class="item_technology_description">${skills.skillDescription}</p>
                             </div>
                         </div>                        
@@ -129,7 +164,12 @@
                                 <c:forEach items="${requestScope.listUser}" var="u">
                                     <c:if test="${m.getUser().getUserId() == u.getUserId()}">
                                         <div class="card-upper-part">
-                                            <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
+                                            <c:if test="${!u.getAvatar() eq 'avtuser.png'}">
+                                                <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
+                                            </c:if>
+                                            <c:if test="${u.getAvatar() eq 'avtuser.png'}">
+                                                <img class="rounded-circle" src="image/avtuser.png" alt="avatar">
+                                            </c:if>
                                             <h4>${u.getFullname()}</h4>
                                             <c:forEach var="r" items="${requestScope.rateMap}">
                                                 <c:if test="${r.key == m.getMentorID()}">
@@ -181,7 +221,7 @@
                     </c:if>
                     <input type="text" hidden name="cp" value="${cp.cp}"/>
                     <input type="text" hidden name="np" value="${cp.np}"/>
-                    <select name="nrpp">
+                    <select class="form-control select_form ml-2" name="nrpp">
                         <c:forEach items="${cp.arrNrpp}" var="i" varStatus="loop">
                             <option value="${loop.index}"
                                     <c:if test="${loop.index==sessionScope.nrpp}">
@@ -206,6 +246,17 @@
 
 
         <script src="myjs/myhome.js"></script>
+        <script>
+                const handleSlider = () => {
+                    setInterval(() => {
+                        let lists = document.querySelectorAll('.items_details_2')
+
+                        document.getElementById('contain_slider').appendChild(lists[0])
+                    }, 3000)
+                }
+
+                handleSlider()
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
                 integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
