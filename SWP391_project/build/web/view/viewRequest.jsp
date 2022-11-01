@@ -47,8 +47,8 @@
                             <div class="left_side_item">
                                 <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> ${reqList.get(i).getMentor().getUser().getFullname()}</p>
                                 <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">To:</span> ${reqList.get(i).getMentee().getUser().getFullname()}</p>
-                                <p class="left_side_text requestTitle mt-2 mb-2"><span class="left_side_span">Title</span> ${reqList.get(i).getTitle()}</p>
-                                <p class="left_side_text requestContent mt-2 mb-2"><span class="left_side_span">Content:</span> ${reqList.get(i).getReqContent()}</p>
+                                <!--<p class="left_side_text requestTitle mt-2 mb-2"><span class="left_side_span">Title</span> ${reqList.get(i).getTitle()}</p>-->
+                                <!--<p class="left_side_text requestContent mt-2 mb-2"><span class="left_side_span">Content:</span> ${reqList.get(i).getReqContent()}</p>-->
                                 <p class="left_side_text requestCreateAt mt-2 mb-2"><span class="left_side_span">Create At:</span> ${dateList[i]}</p>
                             </div>
 
