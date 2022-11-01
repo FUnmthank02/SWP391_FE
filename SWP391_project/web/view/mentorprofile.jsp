@@ -252,7 +252,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="rate" class="form_comment_lable">Rate</label>
-                            <select name="rate" id="rate">
+                            <select name="rateUpdate" id="rate">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -261,7 +261,7 @@
                             </select>
                             <i class="fa-solid fa-star text-warning"></i> <br>
                             <label for="replyContent" class="">Comment</label>
-                            <textarea class="form-control" name="replyContent" id="replyContent" rows="5"
+                            <textarea class="form-control" name="replyContentUpdate" id="replyContent" rows="5"
                                       placeholder="Enter content" required></textarea>
 
                         </div>
@@ -291,7 +291,7 @@
             id = button.data('id'); // Extract info from data-* attributes
         });
         btnUpdateComment.onclick = function () {
-            updateForm.action = 'editComment?menteeID=' + id + '&';
+            updateForm.action = 'editComment?menteeID=' + id + '&mentorID=' + ${p.mentor.mentorID} ;
         };
 
     </script>

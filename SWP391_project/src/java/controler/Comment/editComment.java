@@ -4,12 +4,17 @@
  */
 package controler.Comment;
 
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Comment;
+import model.Mentee;
+import model.Mentor;
+import model.Rating;
 
 /**
  *
@@ -34,7 +39,7 @@ public class editComment extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet editComment</title>");            
+            out.println("<title>Servlet editComment</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet editComment at " + request.getContextPath() + "</h1>");
@@ -55,7 +60,7 @@ public class editComment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**
@@ -66,10 +71,33 @@ public class editComment extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    DAO d = new DAO();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        int menteeID = Integer.parseInt(request.getParameter("menteeID"));
+        Mentee mt = new Mentee();
+        mt.setMenteeID(menteeID);
+        String mentorID = request.getParameter("mentorID");
+        Mentor m = new Mentor();
+        m.setMentorID(Integer.parseInt(mentorID));
+        String content = request.getParameter("replyContentUpdate");
+        int rate = Integer.parseInt(request.getParameter("rateUpdate"));
+        Comment c = new Comment();
+        c.setMentee(mt);
+        c.setCmtContent(content);
+        Rating r = new Rating();
+        r.setMentee(mt);
+        r.setRateStar(rate);
+        d.updateRating(r);
+        d.updateComment(c);
+
+        //URL reload
+        String url = "mentorprofile?mentorID=" + mentorID;
+        response.sendRedirect(url);
+
     }
 
     /**

@@ -1730,4 +1730,37 @@ public class DAO extends DBContext {
         }
     }
 
+    //update comment
+    public void updateComment(Comment c) {
+        String sql = "UPDATE [dbo].[Comment]\n"
+                + "   SET \n"
+                + "      [cmtContent] = ?\n"
+                + "      ,[time] = getdate()\n"
+                + " WHERE menteeID=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, c.getCmtContent());
+            ps.setInt(2, c.getMentee().getMenteeID());
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+
+    //update rating
+    public void updateRating(Rating c) {
+        String sql = "UPDATE [dbo].[Rating]\n"
+                + "   SET \n"
+                + "      [rateStar] = ?\n"
+                + " WHERE menteeID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, c.getRateStar());
+            ps.setInt(2, c.getMentee().getMenteeID());
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+
 }

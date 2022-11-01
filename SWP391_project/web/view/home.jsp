@@ -62,6 +62,7 @@
                 to {
                     opacity: 1;
                     transform: translate(0, 0);
+
                 }
             }
         </style>
@@ -248,9 +249,11 @@
                 const handleSlider = () => {
                     setInterval(() => {
                         let lists = document.querySelectorAll('.items_details_2')
+
                         document.getElementById('contain_slider').appendChild(lists[0])
                     }, 3000)
                 }
+
                 handleSlider()
         </script>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
