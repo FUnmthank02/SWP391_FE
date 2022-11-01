@@ -35,7 +35,7 @@
                 <button class="btn-submit">Login</button><br /><br>
                 <div class="action_loginform">
                     <a class='link_button' href="forgot-password">Forgot password ?</a>
-                    <a class="login-register" href='./register.jsp'>REGISTER</a>
+                    <a class="login-register" href='register'>REGISTER</a>
                 </div>
             </form>
 

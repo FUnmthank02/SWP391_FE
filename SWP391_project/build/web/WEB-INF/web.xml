@@ -84,6 +84,14 @@
         <servlet-name>InvitationHandler</servlet-name>
         <servlet-class>controler.Invitation.InvitationHandler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>deleteComment</servlet-name>
+        <servlet-class>controler.Comment.deleteComment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editComment</servlet-name>
+        <servlet-class>controler.Comment.editComment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
         <url-pattern>/update_userprofile</url-pattern>
@@ -163,6 +171,14 @@
     <servlet-mapping>
         <servlet-name>InvitationHandler</servlet-name>
         <url-pattern>/invitation-handler</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteComment</servlet-name>
+        <url-pattern>/deleteComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editComment</servlet-name>
+        <url-pattern>/editComment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
