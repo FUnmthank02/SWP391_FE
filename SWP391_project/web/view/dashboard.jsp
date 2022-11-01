@@ -271,7 +271,7 @@
                                 <table cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
                                         <c:forEach items="${requestScope.listMentor}" var="o" begin="${cpMentor.begin}" end="${cpMentor.end}">
-                                            <tr>
+                                            <tr onclick="show(${o.getMentorID()})">
                                                 <td>${o.getUser().getFullname()}</td>
                                                 <td>${o.getUser().getEmail()}</td>
                                                 <td>${o.getUser().getDob()}</td>
@@ -346,6 +346,10 @@
                                     }
                                 }, duration);
                             });
+                            
+                            function show(id) {
+                                window.location.href = 'mentorprofile?mentorID=' + id;
+                            }
         </script>
 
         <!-- bieu do demo request -->
