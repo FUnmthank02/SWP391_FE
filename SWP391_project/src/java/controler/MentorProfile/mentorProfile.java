@@ -61,6 +61,7 @@ public class mentorProfile extends HttpServlet {
         Mentor m = new Mentor();
         m.setMentorID(Integer.parseInt(mentorID));
 
+        Mentor currentMentor = dao.getMentorByUserId(U);
         //get list skill of mentor
         ArrayList<Skill> skills = d.getSkills(m);
 
@@ -87,7 +88,10 @@ public class mentorProfile extends HttpServlet {
 
         //get formatted date of comments belong a mentor
         HashMap<Integer, String> formattedDates = d.formattedDate(m);
-
+        //check if mentee comment mentor
+        boolean checkcomment = d.checkComment(mentee, m);
+        request.setAttribute("currentMentor", currentMentor);
+        request.setAttribute("checkcmt", checkcomment);
         request.setAttribute("m", m);
         request.setAttribute("mt", mentee);
         request.setAttribute("fd", formattedDates);

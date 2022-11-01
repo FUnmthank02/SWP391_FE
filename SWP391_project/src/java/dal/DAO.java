@@ -1687,4 +1687,47 @@ public class DAO extends DBContext {
             status = "Error at delete mentor" + e.getMessage();
         }
     }
+
+    //check if mentee has comment on mentor yet
+    public boolean checkComment(Mentee mentee, Mentor m) {
+        ArrayList<Comment> comments = getComments(m);
+        if (mentee == null) {
+            return true;
+        }
+        for (Comment c : comments) {
+            if (c.getMentee().getMenteeID() == mentee.getMenteeID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //delete comment
+    public void deleteComment(int menteeID) {
+        String sql = "DELETE FROM [dbo].[Comment]\n"
+                + "      WHERE menteeID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, menteeID);
+
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+
+    //delete rating
+    public void deleteRating(int menteeID) {
+        String sql = "DELETE FROM [dbo].[Rating]\n"
+                + "      WHERE menteeID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, menteeID);
+
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+
 }

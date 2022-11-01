@@ -81,7 +81,7 @@ public class home extends HttpServlet {
         request.setAttribute("listMentorRegisterSize", listMentorRegister.size());
         request.setAttribute("as", skills);
         request.getRequestDispatcher("view/home.jsp").forward(request, response);
-
+        
     }
 
     @Override
