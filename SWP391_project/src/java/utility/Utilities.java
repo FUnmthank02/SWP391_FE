@@ -24,6 +24,39 @@ public class Utilities {
         return listUser;
     }
 
+    //check if user is mentor or mentee
+    public boolean isValidUser(User u) {
+        boolean check = true;
+        if ((d.getMentee(u) == null && d.getMentor(u) == null && d.getAdminByUserId(u)==null) && d.isActive(u)) {
+            check = false;
+        }
+        return check;
+    }
+    
+    //get skillID by Skill Name
+    public int getSkillIdBySkillName(String name) {
+        ArrayList<Skill> listSkill = d.getSkill();
+        for(Skill i : listSkill) {
+            if(name.toLowerCase().equals(i.getSkillName().toLowerCase())) {
+                return i.getSkillId();
+            }
+        }
+        return 0;
+    }
+    
+    //get mentor by user
+    public int getMentorIDByUser(int userID) {
+        ArrayList<Mentor> list = d.getAllMentor();
+        if(!list.isEmpty()) {
+            for(Mentor i : list) {
+                if(userID == i.getUser().getUserId()) {
+                    return i.getMentorID();
+                } 
+            }
+        }
+        return 0;
+    }
+    
     //get all active mentor
     public ArrayList<Mentor> getAllActiveMentor() {
         ArrayList<Mentor> list = new ArrayList<>();

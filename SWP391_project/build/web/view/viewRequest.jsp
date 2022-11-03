@@ -96,8 +96,6 @@
         <c:import url="./footer.jsp" />
 
 
-        <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
-
         <script>
             var id;
             var replyForm = document.forms['reply-form'];
@@ -110,16 +108,7 @@
             btnReplyResponse.onclick = function () {
                 replyForm.action = 'viewRequest?reqId=' + id + '&action=reply';
             };
-            var replyValue;
-            ClassicEditor
-                    .create(document.querySelector('#replyContent'))
-                    .then(editor => {
-                        replyValue = editor;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-
+            
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"

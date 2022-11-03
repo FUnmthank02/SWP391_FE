@@ -31,6 +31,8 @@ public class invitation extends HttpServlet {
 
         // da dang nhap roi
         if (u != null) {
+            request.setAttribute("isValidUser", uti.isValidUser(u));    
+
             //la admin
             if (dao.getAdminByUserId(u) != null) {
                 listMentorRegister = dao.getNotifyMentorRegister();

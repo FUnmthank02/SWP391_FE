@@ -37,6 +37,8 @@ public class mentorProfile extends HttpServlet {
         ArrayList<MentorRegister> listMentorRegister = new ArrayList<>();
         // da dang nhap roi
         if (U != null) {
+            request.setAttribute("isValidUser", uti.isValidUser(U));    
+                        
             //la admin
             if (dao.getAdminByUserId(U) != null) {
                 listMentorRegister = dao.getNotifyMentorRegister();
@@ -61,6 +63,8 @@ public class mentorProfile extends HttpServlet {
         Mentor m = new Mentor();
         m.setMentorID(Integer.parseInt(mentorID));
 
+        Mentor currentMentor = dao.getMentorByUserId(U);
+        
         //get list skill of mentor
         ArrayList<Skill> skills = d.getSkills(m);
 
@@ -88,6 +92,7 @@ public class mentorProfile extends HttpServlet {
         //get formatted date of comments belong a mentor
         HashMap<Integer, String> formattedDates = d.formattedDate(m);
 
+        request.setAttribute("currentMentor", currentMentor);
         request.setAttribute("m", m);
         request.setAttribute("mt", mentee);
         request.setAttribute("fd", formattedDates);

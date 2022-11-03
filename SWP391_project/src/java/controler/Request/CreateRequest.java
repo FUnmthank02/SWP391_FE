@@ -49,6 +49,7 @@ public class CreateRequest extends HttpServlet {
                     listInvite = u.getSizeOfInvitation(U);
                 }
             }
+            request.setAttribute("isValidUser", u.isValidUser(U));    
 
             //get all skill for header
             ArrayList<Skill> skills = d.getSkill();

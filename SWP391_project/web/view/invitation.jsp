@@ -30,9 +30,6 @@
                 <div class="subhead page_active">
                     <h4 class="font-weight-bold">List invitation</h4>
                 </div>
-                <div class="subhead">
-                    <h4 class="font-weight-bold"><a href="viewMentorRegisterRequest.jsp">List mentor register's request</a></h4>
-                </div>
             </div>
 
             <div class="contain_notify">

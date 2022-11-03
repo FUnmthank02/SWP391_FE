@@ -18,7 +18,7 @@
     </head>
     <body>
         <!-- footer -->
-        <footer class="container-fluid footer mt-5" style="z-index: 10; position: absolute;">
+        <footer class="container-fluid footer mt-5" style="z-index: 10; position: absolute; padding: 80px 0;">
             <p class="copyright">&copy; by <span class="footer_brand">6HP</span></p>
             <div class="footer_icon">
                 <span>Follow Us</span>

@@ -28,12 +28,13 @@ public class viewRequest extends HttpServlet {
         Utilities uti = new Utilities();
         HttpSession ses = request.getSession(true);
         if (ses.getAttribute("user") == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("home");
             return;
         }
         User a = (User) ses.getAttribute("user");
         ArrayList<Request> reqList = new ArrayList<>();
         ArrayList<String> dateList = new ArrayList<>();
+        ArrayList<Skill> skills = dao.getSkill();
 
         ArrayList<Request> listReq = new ArrayList<>();
         ArrayList<Response> listRes = new ArrayList<>();
@@ -72,13 +73,15 @@ public class viewRequest extends HttpServlet {
             dateList = dao.formatDate(dao.getMentor(a).getMentorID(), "Request", "mentorID");
             request.setAttribute("isMentor", true);
         }
-
+        
+        request.setAttribute("isValidUser", uti.isValidUser(a));    
         request.setAttribute("listInviteSize", listInvite.size());
         request.setAttribute("listReqSize", listReq.size());
         request.setAttribute("listResSize", listRes.size());
         request.setAttribute("listMentorRegisterSize", listMentorRegister.size());
         request.setAttribute("dateList", dateList);
         request.setAttribute("reqList", reqList);
+        request.setAttribute("as", skills);
         request.getRequestDispatcher("view/viewRequest.jsp").forward(request, response);
     }
 

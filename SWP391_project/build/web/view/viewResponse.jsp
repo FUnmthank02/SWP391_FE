@@ -77,7 +77,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="replyContent" class="">Content</label>
-                                <textarea class="" name="replyContent" id="replyContent" rows="5" placeholder="Enter content" required></textarea>
+                                <textarea class="form-control" name="replyContent" id="replyContent" rows="5" placeholder="Enter content" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -90,8 +90,6 @@
         </div>
 
         <c:import url="./footer.jsp" />
-
-        <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -108,16 +106,6 @@
                     replyForm.action = 'viewResponse?reqId=' + id + '&action=reply';
                 };
             });
-
-            var replyValue;
-            ClassicEditor
-                    .create(document.querySelector('#replyContent'))
-                    .then(editor => {
-                        replyValue = editor;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
 
         </script>
 

@@ -37,7 +37,7 @@
 
                     <!-- FOREACH o day -->
                     <c:forEach var="o" items="${requestScope.as}">
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <input class=" form-control-active" onchange="handleFillCkeckbox()" type="checkbox" name="skill" value="${o.getSkillId()}" id="skill" />
                         <span>${o.getSkillName()}</span>
                     </div>

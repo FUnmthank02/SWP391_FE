@@ -34,6 +34,7 @@ public class userprofile extends HttpServlet {
 
         if (user != null) {
             if (uti.getUser(user.getUserId()) != null) { //tim duoc doi tuong va load thong tin
+                request.setAttribute("isValidUser", uti.isValidUser(user));    
 
                 // da dang nhap roi
                 //la admin
@@ -49,14 +50,18 @@ public class userprofile extends HttpServlet {
                     if (dao.getMentorByUserId(user) != null) {
                         listInvite = uti.getSizeOfInvitation(user);
                         request.setAttribute("isMentor", true);
+                        Mentor currentMentor = dao.getMentorByUserId(user);
+                        request.setAttribute("currentMentor", currentMentor);
                     }
                 }
+                ArrayList<Skill> skills = dao.getSkill();
 
                 request.setAttribute("listInviteSize", listInvite.size());
                 request.setAttribute("listReqSize", listReq.size());
                 request.setAttribute("listResSize", listRes.size());
                 request.setAttribute("listMentorRegisterSize", listMentorRegister.size());
                 request.setAttribute("userinfor", uti.getUser(user.getUserId()));
+                request.setAttribute("as", skills);
                 request.getRequestDispatcher("view/userprofile.jsp").forward(request, response);
             } else {
                 response.sendRedirect("home"); // ko tim duoc doi tuong chuyen ve trang home

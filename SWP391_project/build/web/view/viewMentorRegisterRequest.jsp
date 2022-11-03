@@ -18,18 +18,27 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .modal_quick_view {
+                display: block !important;
+            }
+            #modal_view_cv {
+                overflow-y: scroll;
+                background: rgba(0,0,0,0.6);
+            }
+            #modal-dialog {
+                max-width: 60vw;
+            }
+        </style>
     </head>
 
     <body>
         <c:import url="./header.jsp" />
 
 
-        <div class="container contain_invitationPage">
+        <div class="container contain_invitationPage" style="margin-bottom: 100px;">
 
             <div class="head">
-                <div class="subhead">
-                    <h4 class="font-weight-bold"><a href="invitation.jsp">List invitation</a></h4>
-                </div>
                 <div class="subhead page_active">
                     <h4 class="font-weight-bold">List mentor register's request</h4>
                 </div>
@@ -38,29 +47,33 @@
             <div class="contain_notify">
 
                 <c:forEach var="o" items="${requestScope.listMentorRegisters}">
-                    <div class="content_invitation">
-                        <div>
-                            <p class="text_invitation">${o.getUser().getFullname()} has sent you a request to become a mentor</p>
+                    <c:if test="${requestScope.dao.getMentorByUserId(o.getUser()) == null && !(requestScope.dao.getMentorByUserId(o.getUser()).getStatus eq 'active')}">
+
+                        <div class="content_invitation">
+                            <div>
+                                <p class="text_invitation">${o.getUser().getFullname()} has sent you a request to become a mentor</p>
+                            </div>
+                            <div style="display: flex;">
+
+                                <input id="quickViewbtn" style="border-radius: 5px; padding: 2px 3px;" class="btn btn-outline-success" type="button"
+                                       onclick="handleShowDetail(`${o.getBio()}`, `${o.getExistedSkill()}`, `${o.getNewSkill()}`, `${o.getExp()}`, `${o.getAchievement()}`)" value="Quick view"/>
+
+                                <form method="post" action="action-manage-mentor-register">
+                                    <input type="hidden" value="accept" name="accept"/>
+                                    <input type="hidden" value="${o.getUser().getUserId()}" name="userID"/>                                
+                                    <input type="hidden" value="${o.getNewSkill()}" name="newSkills"/>                                
+                                    <input style="border-radius: 5px; padding: 2px 3px;" class="btn btn-outline-primary ml-2" type="submit" value="Accept"/>
+                                </form>
+
+                                <form method="post" action="action-manage-mentor-register">
+                                    <input type="hidden" value="reject" name="reject"/>
+                                    <input type="hidden" value="${o.getUser().getUserId()}" name="userID"/>
+                                    <input style="border-radius: 5px; padding: 2px 3px;" class="btn btn-outline-danger ml-2" type="submit" value="Reject"/>
+                                </form>
+                            </div>      
                         </div>
-                            <c:if test="${requestScope.dao.getMentorByUserId(o.getUser()) == null && !(requestScope.dao.getMentorByUserId(o.getUser()).getStatus eq 'active')}">
-                                <div style="display: flex;">
-                                    <input style="border-radius: 5px; padding: 1px 2px;" class="btn-outline-success" type="button" 
-                                           data-toggle="modal" data-target="#modal_view_cv" data-id="${o.getUser().getUserId()}" value="Quick view"/>
+                    </c:if>
 
-                                    <form method="post" action="action-manage-mentor-register">
-                                        <input type="hidden" value="accept" name="accept"/>
-                                        <input type="hidden" value="${o.getUser().getUserId()}" name="userID"/>                                
-                                        <input style="border-radius: 5px; padding: 1px 2px;" class="btn-outline-primary ml-2" type="submit" value="Accept"/>
-                                    </form>
-
-                                    <form method="post" action="action-manage-mentor-register">
-                                        <input type="hidden" value="reject" name="reject"/>
-                                        <input type="hidden" value="${o.getUser().getUserId()}" name="userID"/>
-                                        <input style="border-radius: 5px; padding: 1px 2px;" class="btn-outline-danger ml-2" type="submit" value="Reject"/>
-                                    </form>
-                                </div>      
-                            </c:if>
-                    </div>
                 </c:forEach>
 
 
@@ -69,34 +82,31 @@
 
             <!-- modal view cv -->
             <div class="modal" tabindex="-1" role="dialog" id="modal_view_cv">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog" id="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title font-weight-bold text-success">Mentor's profile</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+
                         </div>
-                            <div class="modal-body">
-                                <p class="fieldName font-weight-bold text-primary">Bio</p>
-                                <p class="ml-2" id="bio"></p>
-                                <hr>
-                                <p class="fieldName font-weight-bold text-primary">Skill</p>
-                                <p><span class="m-2" id="existedSkill" style="word-spacing: 10px; text-transform: capitalize;"></span></p>
-                                <p class="fieldName text-primary ml-2">New Skill</p>
-                                <p><span class="m-2" id="newSkill" style="word-spacing: 10px; text-transform: capitalize;"></span></p>
-                                <hr>
+                        <div class="modal-body">
+                            <p class="fieldName font-weight-bold text-primary">Bio</p>
+                            <p class="ml-2" id="bio"></p>
+                            <hr>
+                            <p class="fieldName font-weight-bold text-primary">Skill</p>
+                            <p><span class="m-2" id="existedSkill" style="word-spacing: 10px; text-transform: capitalize;"></span></p>
+                            <p class="fieldName text-primary ml-2">New Skill</p>
+                            <p><span class="m-2" id="newSkill" style="word-spacing: 10px; text-transform: capitalize;"></span></p>
+                            <hr>
 
-                                <p class="fieldName font-weight-bold text-primary">Experience</p>
-                                <p class="ml-2" id="exp"></p>
-                                <hr>
+                            <p class="fieldName font-weight-bold text-primary">Experience</p>
+                            <p class="ml-2" id="exp"></p>
+                            <hr>
 
-                                <p class="fieldName font-weight-bold text-primary">Achievement</p>
-                                <p class="ml-2" id="achieve"></p>
-                                <hr>
-                            </div>
+                            <p class="fieldName font-weight-bold text-primary">Achievement</p>
+                            <p class="ml-2" id="achieve"></p>
+                        </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" onclick="handleCloseDetail()">Close</button>
                         </div>
                     </div>
                 </div>
@@ -108,25 +118,21 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var id, userID;
+                                function handleShowDetail(bio, existedSkill, newSkill, exp, achivement) {
 
-                $('#modal_view_cv').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget); // Button that triggered the modal
-                    id = button.data('id'); // Extract info from data-* attributes
+                                    document.getElementById('modal_view_cv').classList.add('modal_quick_view')
+                                    document.getElementById('bio').innerHTML = bio
+                                    document.getElementById('existedSkill').innerHTML = existedSkill
+                                    document.getElementById('newSkill').innerHTML = newSkill
+                                    document.getElementById('exp').innerHTML = exp
+                                    document.getElementById('achieve').innerHTML = achivement
 
-                <c:forEach var="o" items="${requestScope.listMentorRegister}">
-                        userID = ${o.getUser().getUserId()}
-                        if(id == userID) {
-                            document.getElementById('bio').innerHTML = "${o.getBio()}"
-                            document.getElementById('existedSkill').innerHTML = "${o.getExistedSkill()}"
-                            document.getElementById('newSkill').innerHTML = "${o.getNewSkill()}"
-                            document.getElementById('exp').innerHTML = "${o.getExp()}"
-                            document.getElementById('achieve').innerHTML = "${o.getAchievement()}"
-                        }
-                </c:forEach>
-                });
-            });
+                                }
+                                function handleCloseDetail(bio, existedSkill, newSkill, exp, achivement) {
+
+                                    document.getElementById('modal_view_cv').classList.remove('modal_quick_view')
+
+                                }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
                 integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -136,7 +142,7 @@
         crossorigin="anonymous"></script>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script>
-            AOS.init();
+                                AOS.init();
         </script>
     </body>
 

@@ -23,31 +23,6 @@
                     labels: xValues,
                     datasets: [{
                             backgroundColor: barColors,
-                            data: yValues<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <body>
-
-        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-
-        <script>
-            var xValues = ["Not responsed", "Responsed"];
-            var yValues = [];
-            <c:forEach var="p" items="${requestScope.percentage}">
-            yValues.push(${p});
-            </c:forEach>
-            var barColors = [
-                "#b91d47",
-                "#00aba9"
-            ];
-
-            new Chart("myChart", {
-                type: "pie",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                            backgroundColor: barColors,
                             data: yValues
                         }]
                 },
