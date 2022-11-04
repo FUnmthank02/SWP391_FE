@@ -33,7 +33,9 @@
                     <div class="Profile-header">
                         <div class="anchor_header">
                             <a href="" class="Profile-title">Basic Profile</a>
-                            <a href="./mentorprofile.jsp" class="Profile-title">Mentor's Profile</a>
+                            <c:if test="${requestScope.isMentor == true}">
+                                <a href="mentorprofile?mentorID=${requestScope.currentMentor.getMentorID()}" class="Profile-title">Mentor's Profile</a>
+                            </c:if>
                         </div>
                         <div>
                             <p class="Profile-action" onclick="handleUpdateProfile()">Update</p>
@@ -45,7 +47,12 @@
                         <div class="wrapper-avt">
                             <label for="">Avatar</label>
                             <div class="contain-avt">
-                                <img class="avt-user" src="img_upload/${requestScope.userinfor.getAvatar()}" alt="avt">
+                                <c:if test="${!sessionScope.user.getAvatar() eq 'avtuser.png'}">
+                                    <img class="avt-user" src="img_upload/${sessionScope.user.getAvatar()}" alt="avtuser" />
+                                </c:if>
+                                <c:if test="${sessionScope.user.getAvatar() eq 'avtuser.png'}">
+                                    <img class="avt-user" src="image/avtuser.png" alt="avtuser"/>
+                                </c:if>
                             </div>
                         </div>
                         <div class="form-group upload-avt">
@@ -88,15 +95,17 @@
                         <div class="contain-form-gender">
                             <!-- if current gender is male => checked in 'Male input', else => checked 'Female input'  -->
                             Male<input class="form-input-gender form-control-active ml-2 mr-3" type="radio" name="gender"
-                                       value="male" ${requestScope.userinfor.getGender() == true ? "checked" : ""} disabled id="gender" placeholder="Your gender" required />
+                                       value="male" ${requestScope.userinfor.getGender() eq 'Male' ? "checked" : ""} disabled id="gender" placeholder="Your gender" required />
 
                             Female<input class="form-input-gender form-control-active  ml-2" type="radio" name="gender"
-                                         value="female" ${requestScope.userinfor.getGender() == false ? "checked" : ""} disabled id="gender" placeholder="Your gender" required />
+                                         value="female" ${requestScope.userinfor.getGender() eq 'Female' ? "checked" : ""} disabled id="gender" placeholder="Your gender" required />
                         </div>
                         <hr>
 
-
-                        <button type="submit"  class="Profile_btn_update">Submit</button>
+                        <div style="display: flex;">
+                        <button type="submit"  class="Profile_btn_update mr-5">Submit</button>
+                        <button type="reset" onclick="handleCancelUpdate()" style="display:none;" class="Profile_btn_update">Cancel</button>
+                    </div>
                     </form>
                 </div>
 
@@ -121,7 +130,63 @@
         <%@include file="./footer.jsp" %>
 
 
-        <script src="myjs/profileUser.js"></script>
+        <script>
+            const form_input = document.getElementsByClassName('form-control-active')
+            const contain_gender = document.querySelector('.contain-form-gender')
+            const gender = document.querySelector('.gender-value')
+            const btn_update_profile = document.querySelectorAll('.Profile_btn_update')
+            const upload_avt = document.querySelector('.upload-avt')
+            const fileInput = document.getElementById('image')
+            const fileName = document.getElementById('file-name')
+            const wrapAvt = document.querySelector('.wrapper-avt')
+
+
+            const handleUpdateProfile = () => {
+                for (var i = 0; i < form_input.length; i++) {
+                    form_input[i].removeAttribute('disabled')
+                }
+
+                contain_gender.style.display = 'block'
+                gender.style.display = 'none'
+                btn_update_profile[0].style.display = 'block'
+                btn_update_profile[1].style.display = 'block'
+                upload_avt.style.display = 'block'
+                wrapAvt.classList.add('disable')
+            }
+            
+            const handleCancelUpdate = () => {
+                for (var i = 0; i < form_input.length; i++) {
+                    form_input[i].setAttribute('disabled', '')
+                }
+
+                contain_gender.style.display = 'none'
+                gender.style.display = 'block'
+                btn_update_profile[0].style.display = 'none'
+                btn_update_profile[1].style.display = 'none'
+                upload_avt.style.display = 'none'
+                wrapAvt.classList.remove('disable')
+            }
+
+            const handleDisableProfile = (e) => {
+                e.preventDefault()
+                for (var i = 0; i < form_input.length; i++) {
+                    form_input[i].setAttribute('disabled', '')
+                }
+
+                contain_gender.style.display = 'none'
+                gender.style.display = 'block'
+                btn_update_profile.style.display = 'none'
+                upload_avt.style.display = 'none'
+                wrapAvt.classList.remove('disable')
+            }
+
+
+            const handleGetImage = () => {
+                const filename = fileInput.files[0].name
+                fileName.innerHTML = filename
+            }
+
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
                 integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -130,7 +195,7 @@
         crossorigin="anonymous"></script>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script>
-                AOS.init();
+            AOS.init();
         </script>
     </body>
 

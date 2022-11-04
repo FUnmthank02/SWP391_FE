@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <welcome-file-list>
-        <!--set uu tien khi run project se vao trang home-->
-        <welcome-file>home</welcome-file>
-    </welcome-file-list>
+    <filter>
+        <filter-name>myFilter</filter-name>
+        <filter-class>Filter.myFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>myFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>update_userprofile</servlet-name>
         <servlet-class>controler.UserProfile.update_userprofile</servlet-class>
@@ -83,6 +87,14 @@
     <servlet>
         <servlet-name>InvitationHandler</servlet-name>
         <servlet-class>controler.Invitation.InvitationHandler</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateMentorProfile</servlet-name>
+        <servlet-class>controler.MentorProfile.updateMentorProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>selectRole</servlet-name>
+        <servlet-class>controler.SelectRole.selectRole</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>deleteComment</servlet-name>
@@ -173,6 +185,14 @@
         <url-pattern>/invitation-handler</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>updateMentorProfile</servlet-name>
+        <url-pattern>/update-mentor-profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>selectRole</servlet-name>
+        <url-pattern>/select-role</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>deleteComment</servlet-name>
         <url-pattern>/deleteComment</url-pattern>
     </servlet-mapping>
@@ -181,8 +201,9 @@
         <url-pattern>/editComment</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
 </web-app>

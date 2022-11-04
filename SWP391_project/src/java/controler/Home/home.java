@@ -54,7 +54,7 @@ public class home extends HttpServlet {
                     request.setAttribute("isMentor", true);
                 }
             }
-
+            request.setAttribute("isValidUser", uti.isValidUser(u));    
         }
 
         int size = uti.getAllActiveMentor().size();

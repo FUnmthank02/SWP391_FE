@@ -1,5 +1,4 @@
-
-             <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -63,7 +62,7 @@
             options: {
                 legend: {display: false},
                 scales: {
-                    yAxes: [{ticks: {min: 0, max: 50}}],
+                    yAxes: [{ticks: {min: 0, max: 10}}],
                 }
             }
         });

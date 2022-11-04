@@ -1,0 +1,124 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.wrapper {
+    border: 2px solid rgb(161, 162, 161);
+    border-radius: 10px;
+    padding: 50px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    /* box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;     */
+}
+
+.title {
+    text-align: center;
+    color: green;
+    animation: animation_title 2s linear infinite;
+}
+
+
+@keyframes animation_title {
+    0% {
+        transform: translate(0,0);
+    }
+    50% {
+        transform: translate(0,10px);
+    }
+    100% {
+        transform: translate(0,0);
+    }
+}
+
+.contain-choice {
+    justify-content: space-evenly;
+    margin: 50px 0;
+}
+
+.left-side, .right-side {
+    border-radius: 10px;
+    border: 2px solid rgb(161, 162, 161);
+    padding: 30px;
+    text-decoration: none;
+    color: black;
+    animation: animation_box 2s linear infinite;
+
+}
+
+@keyframes animation_box {
+    0% {
+        box-shadow: rgba(86, 172, 243, 0.4) -5px 5px, rgba(86, 230, 243, 0.3) -10px 10px, rgba(86, 243, 204, 0.2) -15px 15px, rgba(86, 243, 151, 0.1) -20px 20px, rgba(77, 250, 155, 0.05) -25px 25px;
+    }
+    50%{
+        box-shadow: rgba(62, 253, 209, 0.4) -5px 5px, rgba(51, 255, 98, 0.3) -10px 10px, rgba(86, 251, 61, 0.2) -15px 15px, rgba(100, 237, 46, 0.1) -20px 20px, rgba(86, 227, 243, 0.05) -25px 25px;
+    }
+    100%{
+        box-shadow: rgba(86, 172, 243, 0.4) -5px 5px, rgba(86, 172, 243, 0.3) -10px 10px, rgba(86, 172, 243, 0.2) -15px 15px, rgba(86, 172, 243, 0.1) -20px 20px, rgba(86, 172, 243, 0.05) -25px 25px;
+    }
+    
+}
+
+.left-side:hover, .right-side:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(0, 94, 0);
+    border: 2px solid green;
+    background: linear-gradient(to right bottom, #d1fab4, #ddf5cc, #f6fef6);
+}
+
+.active {
+    color: rgb(0, 94, 0);
+    border: 2px solid green;
+    background: linear-gradient(to right bottom, #fab964, #f8e5bf, #effbef);
+}
+
+.active:hover {
+    color: rgb(0, 94, 0);
+    border: 2px solid green;
+    background: linear-gradient(to right bottom, #fab964, #f8e5bf, #effbef);
+
+}
+
+#rdMentee, #rdMentor {
+    visibility: hidden;
+}
+
+.left-side img, .right-side img {
+    animation: animation_img 3s linear infinite;
+}
+.left-side h4, .right-side h4 {
+    animation: animation_text 2s linear infinite;
+}
+
+@keyframes animation_text {
+    from {
+        color: black;
+    }
+    to {
+        color: rgba(240, 46, 170, 1);
+    }
+}
+
+@keyframes animation_img {
+    0% {
+        transform: translate(0,0);
+    }
+    50% {
+        transform: translate(20px,0);
+    }
+    100% {
+        transform: translate(0,0);
+    }
+    
+}
+
+form {
+    text-align: center;
+}
+
+.button-join {
+    width: 300px;
+    border-radius: 25px !important;
+}

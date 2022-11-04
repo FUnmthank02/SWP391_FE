@@ -18,6 +18,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .part:hover .part-title {
+                transform: translateX(10%);
+                color: #A91079;
+            }
+        </style>
     </head>
     <body>
 
@@ -28,7 +34,7 @@
         <div class="container mb-5 contain_mentor_infor">
             <div class="contain_heading mt-5 mb-5">
                 <div class="part">
-                    <h4 class="part-title">Mentor's profile</h4>
+                    <h4 class="part-title font-weight-bold">Mentor's profile</h4>
                     <div class="line_part"></div>
                 </div>
 
@@ -38,9 +44,8 @@
                         <button class="btn btn-primary"  data-id="" data-toggle="modal"
                                 data-target="#modal_update_profile">Update</button>
                     </c:if>
-
                     <c:if test="${mt ne null}">
-                        <form action="InvitationHandler" method="POST">  
+                        <form action="invitation-handler" method="POST">  
                             <input type="hidden" value="${m.mentorID}" name="mentorID">
                             <input type="hidden" value="${mt.menteeID}" name="menteeID">
                             <c:if test="${i eq null}">
@@ -48,17 +53,17 @@
                                     <button name="button" value="1" class="btn_invitation"> Send Invitation </button>
                                 </div>
                             </c:if>
-                            <c:if test="${i.status eq 'Accepted'}">
+                            <c:if test="${i.status eq 'accepted'}">
                                 <div class="contain_invitation">
                                     <button name="button" value="-1" class="btn_invitation"> Break relationship </button>
                                 </div>
                             </c:if>
-                            <c:if test="${i.status eq 'Processing'}">
+                            <c:if test="${i.status eq 'processing'}">
                                 <div class="contain_invitation">
                                     <button name="button" value="0" class="btn_invitation"> Cancel Invitation  </button>
                                 </div>                          
                             </c:if>
-                        </form
+                        </form>
                     </c:if>
                 </div>
             </div>
@@ -176,12 +181,13 @@
                 <h4 class="part-title">Comment and rate</h4>
                 <div class="line_part"></div>
             </div>
-            <c:if test="${i.status eq 'Accepted' and checkcmt eq false }">
+            <c:if test="${i.status eq 'accepted' and checkcmt eq false}">
                 <form action="mentorprofile" method="POST">
                     <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->
                     <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
                     <div class="contain_form_comment">
-                        <form class="form_comment">
+                        <div class="form_comment">
+                            <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
                             <label for="rate" class="form_comment_lable">Rate</label>
                             <select name="rate" id="rate">
                                 <option value="1">1</option>
@@ -196,10 +202,8 @@
                             <button class="btn_comment" type="submit">Submit</button>
                         </form>
                     </div>
-
-                    <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->                     
+                <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->                     
                 </form>
-
             </c:if>
 
 
@@ -219,6 +223,7 @@
                                     </c:forEach>
                                     <h5 class="cv-comment">${comment.cmtContent}</h5>
                                 </div>
+
                                 <c:if test="${comment.mentee.menteeID == mt.menteeID}">
                                     <div>
                                         <div class="dropdown">
@@ -247,7 +252,8 @@
 
         </div>
     </div>
-    <!-- modal reply the request -->
+
+    <!-- modal update comment -->
     <div class="modal" tabindex="-1" role="dialog" id="modal_update_comment">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -270,9 +276,8 @@
                             </select>
                             <i class="fa-solid fa-star text-warning"></i> <br>
                             <label for="replyContent" class="">Comment</label>
-                            <textarea class="form-control" name="replyContentUpdate" id="replyContent" rows="5"
+                            <textarea class="form-control" name="replyContent" id="replyContent" rows="5"
                                       placeholder="Enter content" required></textarea>
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -282,7 +287,7 @@
                 </form>
             </div>
         </div>
-    </div>  
+    </div>
 
     <!-- modal update mentor profile  -->
     <div class="modal" tabindex="-1" role="dialog" id="modal_update_profile">
@@ -335,6 +340,8 @@
         </div>
     </div>
 
+    <!-- Reply hidden form -->
+
     <!-- scroll to top -->
     <div>
         <button onclick="topFunction()" id="myBtn" class="scrollBtn" title="Go to top">Top</button>
@@ -342,6 +349,8 @@
 
     <!--footer-->
     <%@include file="./footer.jsp" %>
+
+
     <script>
         const ckb = document.querySelectorAll('.checkboxSkill')
         const btn_update = document.querySelector('#btn-update-profile')
@@ -360,6 +369,8 @@
             }
         }
 
+
+
         var id;
         var updateForm = document.forms['update-form'];
         var btnUpdateComment = document.getElementById('btn-update-comment');
@@ -372,12 +383,12 @@
         });
         btnUpdateComment.onclick = function () {
             updateForm.action = 'editComment?menteeID=' + id + '&mentorID=' + ${p.mentor.mentorID};
+            
         };
         $('#modal_update_profile').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             id = button.data('id'); // Extract info from data-* attributes
         });
-
 
     </script>
     <script src="myjs/mentorprofile.js"></script>
@@ -391,11 +402,5 @@
     <script>
         AOS.init();
     </script>
-
 </body>
 </html>
-
-
-
-
-

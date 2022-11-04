@@ -85,10 +85,10 @@
                             </div>
 
                             <!-- bieu do thong ke so luong -->
-                            <div class="mt-5 col-md-2">
+                            <div class="mt-5 col-md-2 offset-1">
                                 <div class="pl-3 pr-3 pt-5 pb-5">
                                     <div class="contain_counting">
-                                        <span class="num" data-val="100">400</span>
+                                        <span class="num" data-val="100">0</span>
                                         <span class="text">Request</span>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@
                             <div class="mt-5 col-md-2">
                                 <div class="pl-3 pr-3 pt-5 pb-5">
                                     <div class="contain_counting">
-                                        <span class="num" data-val="100">400</span>
+                                        <span class="num" data-val="100">0</span>
                                         <span class="text">Response</span>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                             <div class="mt-5 col-md-2">
                                 <div class="pl-3 pr-3 pt-5 pb-5">
                                     <div class="contain_counting">
-                                        <span class="num" data-val="100">400</span>
+                                        <span class="num" data-val="${requestScope.totalInvite}">0</span>
                                         <span class="text">Invitation</span>
                                     </div>
                                 </div>
@@ -115,16 +115,7 @@
                             <div class="mt-5 col-md-2">
                                 <div class="pl-3 pr-3 pt-5 pb-5">
                                     <div class="contain_counting">
-                                        <span class="num" data-val="100">400</span>
-                                        <span class="text">Mentor Register</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-5 col-md-2">
-                                <div class="pl-3 pr-3 pt-5 pb-5">
-                                    <div class="contain_counting">
-                                        <span class="num" data-val="100">400</span>
+                                        <span class="num" data-val="${requestScope.totalMentor}">0</span>
                                         <span class="text">Mentor</span>
                                     </div>
                                 </div>
@@ -133,7 +124,7 @@
                             <div class="mt-5 col-md-2">
                                 <div class="pl-3 pr-3 pt-5 pb-5">
                                     <div class="contain_counting">
-                                        <span class="num" data-val="100">400</span>
+                                        <span class="num" data-val="${requestScope.totalMentee}">0</span>
                                         <span class="text">Mentee</span>
                                     </div>
                                 </div>
@@ -144,14 +135,14 @@
                             <!-- bieu do thong ke request -->
                             <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
-                                    <h5 class="">Pie Chart</h5>
+                                    <h5 class="font-weight-bold">Responsed requests</h5>
                                     <hr>
                                     <canvas id="myChart" style="width:100%; max-width:1000px;"></canvas>
                                 </div>
                             </div>
                             <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
-                                    <h5 class="">Line Chart</h5>
+                                    <h5 class="font-weight-bold">Request each month</h5>
                                     <hr>
                                     <canvas id="myChart1" style="width:100%;max-width:1000px;"></canvas>
                                 </div>
@@ -161,14 +152,14 @@
                             <!-- bieu do thong ke response -->
                             <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
-                                    <h5 class="">Bar Chart</h5>
+                                    <h5 class="font-weight-bold">Bar Chart</h5>
                                     <hr>
                                     <canvas id="myChart2" style="width:100%; max-width:1000px;"></canvas>
                                 </div>
                             </div>
                             <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
-                                    <h5 class="">Line Chart</h5>
+                                    <h5 class="font-weight-bold">Line Chart</h5>
                                     <hr>
                                     <canvas id="myChart3" style="width:100%;max-width:1000px;"></canvas>
                                 </div>
@@ -271,7 +262,7 @@
                                 <table cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
                                         <c:forEach items="${requestScope.listMentor}" var="o" begin="${cpMentor.begin}" end="${cpMentor.end}">
-                                            <tr onclick="show(${o.getMentorID()})">
+                                            <tr style="cursor:pointer;" onclick="show(${o.getMentorID()})">
                                                 <td>${o.getUser().getFullname()}</td>
                                                 <td>${o.getUser().getEmail()}</td>
                                                 <td>${o.getUser().getDob()}</td>
@@ -284,7 +275,7 @@
                                 </table>
                             </div>
                         </section>
-                        
+
                         <!--phan trang-->
                         <div class="phantrang">
                             <form action="dashboard" method="post">
@@ -331,37 +322,37 @@
         <script src="myjs/dashboard.js"></script>
 
         <script>
-                            let valueDisplays = document.querySelectorAll(".num");
-                            let interval = 1000;
+            let valueDisplays = document.querySelectorAll(".num");
+            let interval = 1000;
 
-                            valueDisplays.forEach((valueDisplay) => {
-                                let startValue = 0;
-                                let endValue = parseInt(valueDisplay.getAttribute("data-val"));
-                                let duration = Math.floor(interval / endValue);
-                                let counter = setInterval(function () {
-                                    startValue += 1;
-                                    valueDisplay.textContent = startValue;
-                                    if (startValue == endValue) {
-                                        clearInterval(counter);
-                                    }
-                                }, duration);
-                            });
-                            
-                            function show(id) {
-                                window.location.href = 'mentorprofile?mentorID=' + id;
-                            }
+            valueDisplays.forEach((valueDisplay) => {
+                let startValue = 0;
+                let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+                let duration = Math.floor(interval / endValue);
+                let counter = setInterval(function () {
+                    startValue += 1;
+                    valueDisplay.textContent = startValue;
+                    if (startValue == endValue) {
+                        clearInterval(counter);
+                    }
+                }, duration);
+            });
+                                                
+            const show = id => {
+                window.location.href = 'mentorprofile?mentorID=' + id;
+            }
         </script>
 
         <!-- bieu do demo request -->
         <script>
-            var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-            var yValues = [55, 49, 44, 24, 15];
+            var xValues = ["Not responsed", "Responsed"];
+            var yValues = [];
+            <c:forEach var="p" items="${requestScope.percentage}">
+            yValues.push(${p});
+            </c:forEach>
             var barColors = [
-                "#E0144C",
-                "#FF884B",
-                "#14279B",
-                "#e8c3b9",
-                "#95CD41"
+                "#b91d47",
+                "#00aba9"
             ];
 
             new Chart("myChart", {
@@ -376,23 +367,23 @@
                 options: {
                     title: {
                         display: true,
-                        text: "World Wide Wine Production 2018"
+                        text: "Percentage of responsed request"
                     }
                 }
-            })
+            });
         </script>
         <!-- bieu do demo request -->
 
         <!-- bieu do demo request line chart -->
         <script>
-            var xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
-            var yValues = [1, 3, 7, 6, 9, 9, 9, 6, 4, 1, 5];
-            // <c:forEach var="c" items="${requestScope.countRequest}">
-            // xValues.push("${c.key.toString()}")
-            // </c:forEach>
-            // <c:forEach var="c" items="${requestScope.countRequest}">
-            // yValues.push(${c.value})
-            // </c:forEach>
+            var xValues = [];
+            var yValues = [];
+            <c:forEach var="c" items="${requestScope.countRequest}">
+            xValues.push("${c.key.toString()}")
+            </c:forEach>
+            <c:forEach var="c" items="${requestScope.countRequest}">
+            yValues.push(${c.value})
+            </c:forEach>
             new Chart("myChart1", {
                 type: "line",
                 data: {
@@ -412,72 +403,41 @@
                     }
                 }
             });
-            </script>
-            <!-- bieu do demo request line chart -->
+        </script>
+        <!-- bieu do demo request line chart -->
 
-            <!-- bieu do demo bar chart -->
-            <script>
-                var xValues = ['Jun 2022', 'Jul 2022', 'Aug 2022', 'Sep 2022', 'Oct 2022', 'Nov 2022'];
-                var yValues1 = [55, 49, 44, 24, 15, 8];
-                var yValues2 = [12, 19, 3, 5, 2, 3];
-                var barColors = ["#E0144C", "#95CD41", "#14279B", "#FF884B", "#A64B2A"];
+        <!-- bieu do demo request line chart -->
+        <script>
+            var myData = [];
+            var lableInvite = [];
 
-                new Chart("myChart2", {
-                    type: "bar",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                                label: 'Request',
-                                backgroundColor: '#E0144C',
-                                data: yValues1
-                            },
-                            {
-                                label: 'Response',
-                                backgroundColor: '#FF884B',
-                                data: yValues2
-                            }
-                        ]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
+            <c:forEach var="c" items="${requestScope.dataInvite}">
+                myData.push(${c})
+            </c:forEach>
+            <c:forEach var="c" items="${requestScope.dateInvite}">
+                lableInvite.push("${c}")
+            </c:forEach>
+            new Chart("myChart3", {
+                type: 'line',
+                data: {
+                    
+                    labels: lableInvite,
+                    datasets: [{
+                            label: 'Mentee invited',
+                            tension: 0.2,
+                            data: myData,
+                            borderColor: 'rgb(75, 192, 192)',
+                            borderWidth: 3
+                        }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
-                });
-            </script>
-            <!-- bieu do demo bar chart -->
-
-            <!-- bieu do demo request line chart -->
-            <script>
-                var myData = [2, 5, 8, 9, 3, 7, 10, 9, 10, 8, 1];
-                // <c:forEach var="c" items="${requestScope.countRequest}">
-                // xValues.push("${c.key.toString()}")
-                // </c:forEach>
-                // <c:forEach var="c" items="${requestScope.countRequest}">
-                // yValues.push(${c.value})
-                // </c:forEach>
-                new Chart("myChart3", {
-                    type: 'line',
-                    data: {
-                        labels: ['Jun 2022', 'Jul 2022', 'Aug 2022', 'Sep 2022', 'Oct 2022', 'Nov 2022'],
-                        datasets: [{
-                                label: 'Mentee invited',
-                                tension: 0.2,
-                                data: myData,
-                                borderColor: 'rgb(75, 192, 192)',
-                                borderWidth: 3
-                            }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
+                }
+            });
         </script>
         <!-- bieu do demo request line chart -->
 
@@ -489,7 +449,7 @@
         crossorigin="anonymous"></script>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script>
-                AOS.init();
+            AOS.init();
         </script>
     </body>
 

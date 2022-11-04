@@ -42,9 +42,16 @@
                                 <p class="nav-link nav_item_text up_down_icon" onclick="openBar()">Find mentors
                                     &#9207;</p>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link nav_item_text" href="mentor-register">Become Mentor</a>
-                            </li>
+                            <c:if test="${!requestScope.isAdmin == true && !requestScope.isMentor == true && sessionScope.user != null && requestScope.isValidUser == true}">
+                                <li class="nav-item active">
+                                    <a class="nav-link nav_item_text" href="mentor-register">Become Mentor</a>
+                                </li>
+                            </c:if>
+                            <c:if test="${requestScope.isValidUser == false}">
+                                <li class="nav-item active">
+                                    <a class="nav-link nav_item_text" href="select-role">Select Role</a>
+                                </li>
+                            </c:if>
                             <c:if test="${requestScope.isAdmin == true}">
                                 <li class="nav-item active">
                                     <a class="nav-link nav_item_text" href="dashboard">Dashboard</a>
@@ -78,7 +85,7 @@
                             </div>
 
                             <!--check da dang nhap-->
-                            <c:if test="${sessionScope.user != null}"> 
+                            <c:if test="${sessionScope.user != null && requestScope.isValidUser == true}"> 
                                 <div class="contain_notify_parent nav-item dropdown ml-3 mr-5">
                                     <div class="contain_notify nav-link dropdown-toggle" id="notifyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                          aria-expanded="false">

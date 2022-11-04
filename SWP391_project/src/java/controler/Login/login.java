@@ -45,7 +45,10 @@ public class login extends HttpServlet {
             ses.setAttribute("user", user);    // set session as a User object
             ses.setMaxInactiveInterval(60*10); //don vi: second
             
-            response.sendRedirect("home");
+            if(!uti.isValidUser(user)) {
+                response.sendRedirect("select-role");
+            } else
+                response.sendRedirect("home");
             
         }
         else {      // khong tim dc user

@@ -31,12 +31,37 @@ public class dashboard extends HttpServlet {
         User u = (User) ses.getAttribute("user");
 
         if (u != null) {
+            request.setAttribute("isValidUser", uti.isValidUser(u));    
+
             //check co phai admin hay ko
             if (dao.getAdminByUserId(u) != null) {
 
                 ArrayList<Mentee> listMentee = dao.getListMenteeDashboard();
                 ArrayList<Mentor> listMentor = dao.getListMentorDashboard();
+                ArrayList<Skill> skills = dao.getSkill();
                 
+                //count number of mentee and mentor
+                int countMentee = listMentee.size();
+                int countMentor = listMentor.size();
+                request.setAttribute("countmt", countMentee);
+                request.setAttribute("countm", countMentor);
+                
+                // all request statistic
+                HashMap<java.sql.Date, Float> averageRequest = dao.getAvrReqPerUserPerDay();
+                HashMap<String, Integer> countRequest = dao.countReqPerMonth();
+                float[] percentage = dao.getPercentage();
+                
+                request.setAttribute("dataInvite", dao.statisticInvitation());
+                request.setAttribute("dateInvite", dao.formatDate());
+                request.setAttribute("totalMentee", dao.statisticMentee());
+                request.setAttribute("totalMentor", dao.statisticMentor());
+                request.setAttribute("totalInvite", dao.statisticInvite());
+                
+
+                request.setAttribute("averageRequest", averageRequest);
+                request.setAttribute("countRequest", countRequest);
+                request.setAttribute("percentage", percentage);
+
                 int sizeMentee = listMentee.size();
                 int sizeMentor = listMentor.size();
                 int cp = 0;
@@ -57,13 +82,7 @@ public class dashboard extends HttpServlet {
                 request.setAttribute("listMentee", listMentee);
                 request.setAttribute("listMentor", listMentor);
                 request.setAttribute("isAdmin", true);
-                 
-                //count number of mentee and mentor
-                int countMentee = listMentee.size();
-                int countMentor = listMentor.size();
-                request.setAttribute("countmt", countMentee);
-                request.setAttribute("countm", countMentor);
-                
+                request.setAttribute("as", skills);
                 request.getRequestDispatcher("view/dashboard.jsp").forward(request, response);
 
             } else {

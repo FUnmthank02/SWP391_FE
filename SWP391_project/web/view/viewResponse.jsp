@@ -18,6 +18,31 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .wrap_request {
+                overflow-y: scroll;
+                max-height: 700px;
+            }
+            
+            .select_form {
+                width: fit-content !important;
+                display: inline !important;
+                cursor: pointer;
+            }
+            .btn_page {
+                width: fit-content;
+                padding: 4px 7px;
+                background-color: #25c481;
+                color: #ffffff;
+                border: 1px solid #25b7c4;
+                cursor: pointer;
+                font-size: 20px;
+            }
+            .btn_page:hover {
+                background-color: rgba(37, 196, 129, 0.6);
+                color: #000000
+            }
+        </style>
     </head>
     <body>
         <c:import url="./header.jsp" />
@@ -41,7 +66,7 @@
                 </c:if>
                 <c:if test="${requestScope.resList.size()-1 >= 0}">
                     <c:forEach var="i" begin="0" end="${requestScope.resList.size()-1}">
-                        <div class="request_item unread">
+                        <div class="request_item">
                             <div class="left_side_item">
                                 <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">From:</span> ${resList.get(i).getMentor().getUser().getFullname()}</p>
                                 <p class="left_side_text requestFrom mt-2 mb-2"><span class="left_side_span">To:</span> ${resList.get(i).getMentee().getUser().getFullname()}</p>
@@ -60,7 +85,38 @@
                     </c:forEach>
                 </c:if>    
             </div>
+
+            <div class="mt-5" style="display:flex; align-items: center;justify-content: end;">
+                <!--paging-->
+                <div class="paging">
+                    <c:if test="${startpage>1}">
+                        <a href="viewResponse?index=1">Home</a>
+                        <a href="viewResponse?index=${startpage+1}">Pre</a>
+                    </c:if>
+                    <c:forEach begin="${startpage}" end="${endpage}" var="x">
+                        <a href="viewResponse?index=${x}">${x}</a>
+                    </c:forEach>
+                    <c:if test="${endpage<nummberpage}">
+                        <a href="viewResponse?index=${endpage-1}">Next</a>
+                        <a href="viewResponse?index=${nummberpage}">End</a>
+                    </c:if>
+                </div>
+
+                <select class="form-control select_form" name="pagesize" onChange="window.location.href = this.value">
+                    <option>pagination</option>
+                    <c:forEach begin="1" end="3" var="x">
+                        <c:if test="${pagesize == x}">
+                            <option value="viewResponse?pagesize=${x*6}" selected="">${x*6}</option>
+                        </c:if>
+                        <c:if test="${pagesize != x}">
+                            <option value="viewResponse?pagesize=${x*6}">${x*6}</option>
+                        </c:if>    
+                    </c:forEach>
+                </select>
+                <!--paging-->
+            </div>
         </div>
+
 
 
         <!-- modal reply the request -->
@@ -77,7 +133,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="replyContent" class="">Content</label>
-                                <textarea class="" name="replyContent" id="replyContent" rows="5" placeholder="Enter content" required></textarea>
+                                <textarea class="form-control" name="replyContent" id="replyContent" rows="5" placeholder="Enter content" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -90,8 +146,6 @@
         </div>
 
         <c:import url="./footer.jsp" />
-
-        <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -108,16 +162,6 @@
                     replyForm.action = 'viewResponse?reqId=' + id + '&action=reply';
                 };
             });
-
-            var replyValue;
-            ClassicEditor
-                    .create(document.querySelector('#replyContent'))
-                    .then(editor => {
-                        replyValue = editor;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
 
         </script>
 

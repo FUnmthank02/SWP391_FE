@@ -50,6 +50,8 @@ public class mentorRegister extends HttpServlet {
                     request.setAttribute("isMentor", true);
                 }
             }
+            request.setAttribute("isValidUser", uti.isValidUser(user));    
+
 
             request.setAttribute("userId", user.getUserId());
             request.setAttribute("as", listSkill);

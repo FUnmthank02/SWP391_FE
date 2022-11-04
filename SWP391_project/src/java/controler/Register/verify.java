@@ -30,7 +30,6 @@ public class verify extends HttpServlet {
             
             dao.activeUser(username);
             //insert acc to mentee table
-            dao.insertUserToMentee(u.getUserId());
             request.setAttribute("activeSuccess", "Active account successfully, now you can login"); //dua thong bao thanh cong
             request.getRequestDispatcher("view/login.jsp").forward(request, response); //forward sang trang login
         }

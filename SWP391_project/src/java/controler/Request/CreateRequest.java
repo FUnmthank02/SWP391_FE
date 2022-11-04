@@ -4,7 +4,6 @@
  */
 package controler.Request;
 
-import controller.Request.*;
 import dal.DAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -30,7 +29,7 @@ public class CreateRequest extends HttpServlet {
         //get user 
         User U = (User) request.getSession().getAttribute("user");
 
-        if (U != null) {
+        if (U != null && u.isValidUser(U)) {
             ArrayList<Request> listReq = new ArrayList<>();
             ArrayList<Response> listRes = new ArrayList<>();
             ArrayList<Invitation> listInvite = new ArrayList<>();
@@ -49,6 +48,7 @@ public class CreateRequest extends HttpServlet {
                     listInvite = u.getSizeOfInvitation(U);
                 }
             }
+            request.setAttribute("isValidUser", u.isValidUser(U));    
 
             //get all skill for header
             ArrayList<Skill> skills = d.getSkill();

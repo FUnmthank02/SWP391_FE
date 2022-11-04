@@ -173,8 +173,9 @@
                                             <c:forEach var="r" items="${requestScope.rateMap}">
                                                 <c:if test="${r.key == m.getMentorID()}">
                                                     <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
-                                                        </c:if>
-                                                    </c:forEach>
+                                                </c:if>
+                                            </c:forEach>
+                                            
 
                                         </div>
                                     </c:if>

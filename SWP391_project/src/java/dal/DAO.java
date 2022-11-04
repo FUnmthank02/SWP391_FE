@@ -11,13 +11,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import model.*;
-import sun.nio.cs.MS1250;
 
 /**
  *
@@ -57,11 +52,120 @@ public class DAO extends DBContext {
             status = "Error connection " + e.getMessage();
         }
     }
+    
+    //check status active of user
+    public boolean isActive(User u) {
+        String sql = "select * from [User] u \n"
+                + "where u.userID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, u.getUserId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                if (rs.getString("status").equals("active")) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            status = e.getMessage();
+        }
+        return false;
+    }
+    
+    //check if mentee has comment on mentor yet
+    public boolean checkComment(Mentee mentee, Mentor m) {
+        ArrayList<Comment> comments = getComments(m);
+        if (mentee == null) {
+            return true;
+        }
+        for (Comment c : comments) {
+            if (c.getMentee().getMenteeID() == mentee.getMenteeID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    //delete comment
+    public void deleteComment(int menteeID) {
+        String sql = "DELETE FROM [dbo].[Comment]\n"
+                + "      WHERE menteeID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, menteeID);
 
-    // Tổng số invitation theo từng tháng ( 6 tháng gần nhất )
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+
+    //delete rating
+    public void deleteRating(int menteeID) {
+        String sql = "DELETE FROM [dbo].[Rating]\n"
+                + "      WHERE menteeID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, menteeID);
+
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+
+    //update comment
+    public void updateComment(Comment c) {
+        String sql = "UPDATE [dbo].[Comment]\n"
+                + "   SET \n"
+                + "      [cmtContent] = ?\n"
+                + "      ,[time] = getdate()\n"
+                + " WHERE menteeID=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, c.getCmtContent());
+            ps.setInt(2, c.getMentee().getMenteeID());
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+
+    //update rating
+    public void updateRating(Rating c) {
+        String sql = "UPDATE [dbo].[Rating]\n"
+                + "   SET \n"
+                + "      [rateStar] = ?\n"
+                + " WHERE menteeID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, c.getRateStar());
+            ps.setInt(2, c.getMentee().getMenteeID());
+            ps.execute();
+        } catch (Exception e) {
+
+        }
+    }
+    
+    // tổng số invitation
+public int statisticInvite() {
+        String sql = "select COUNT(*) from Invitation";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+
+    // Tổng số invitation accepted theo từng tháng ( 6 tháng gần nhất )
     public int[] statisticInvitation() {
         String sql = "select COUNT(*) from Invitation \n"
-                + "where MONTH(time) >= MONTH(GETDATE()) - 6 and MONTH(time) < MONTH(GETDATE()) \n"
+                + "where MONTH(time) >= MONTH(GETDATE()) - 6 and MONTH(time) < MONTH(GETDATE()) and status = 'accepted' \n"
                 + "group by MONTH(time)";
         int[] list = new int[6];
         int i = 0;
@@ -1543,12 +1647,8 @@ public class DAO extends DBContext {
                 int mentorId = rs.getInt(1);
                 User u = new User();
                 u.setUserId(rs.getInt(2));
-                //String status = rs.getString(3);
-                Mentor m = new Mentor();
-                m.setMentorID(mentorId);
-                m.setUser(u);
-                m.setStatus("active");
-                list.add(m);
+                String status = rs.getString(3);
+                list.add(new Mentor(mentorId, u, status));
             }
         } catch (Exception e) {
             System.out.println("Error at get All mentor: " + e.getMessage());
@@ -1592,18 +1692,18 @@ public class DAO extends DBContext {
                     + "           ,[bio]\n"
                     + "           ,[existedSkill]\n"
                     + "           ,[newSkill]\n"
-                    + "           ,[userID])\n"
+                    + "           ,[userID],[seenStatus])\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,?,?,?,?)";
+                    + "           (?,?,?,?,?,?,'unseen')";
         } else {
             sql = "INSERT INTO [dbo].[MentorRegister]\n"
                     + "           ([achievement]\n"
                     + "           ,[experience]\n"
                     + "           ,[bio]\n"
                     + "           ,[existedSkill]\n"
-                    + "           ,[userID])\n"
+                    + "           ,[userID],[seenStatus])\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,?,?,?)";
+                    + "           (?,?,?,?,?,?,'unseen')";
         }
 
         try {
@@ -1640,7 +1740,7 @@ public class DAO extends DBContext {
     }
 
     public void insertUserToMentor(int userId) {
-        String sql = "INSERT INTO [dbo].[Mentor] ([userID]\n VALUES(?)";
+        String sql = "INSERT INTO [dbo].[Mentor] ([userID]) VALUES(?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
@@ -1692,121 +1792,66 @@ public class DAO extends DBContext {
         }
     }
 
-    //check if mentee has comment on mentor yet
-    public boolean checkComment(Mentee mentee, Mentor m) {
-        ArrayList<Comment> comments = getComments(m);
-        if (mentee == null) {
-            return true;
-        }
-        for (Comment c : comments) {
-            if (c.getMentee().getMenteeID() == mentee.getMenteeID()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //delete comment
-    public void deleteComment(int menteeID) {
-        String sql = "DELETE FROM [dbo].[Comment]\n"
-                + "      WHERE menteeID = ?";
+    //insert new skill
+    public void insertNewSkills(String skill) {
+        String sql = "INSERT INTO [dbo].[Skill] ([skillName],[description]) VALUES(?,'demo')";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, menteeID);
+
+            ps.setString(1, skill);
 
             ps.execute();
         } catch (Exception e) {
-
+            status = "Error at insert new skill" + e.getMessage();
         }
     }
 
-    //delete rating
-    public void deleteRating(int menteeID) {
-        String sql = "DELETE FROM [dbo].[Rating]\n"
-                + "      WHERE menteeID = ?";
+    //insert new skill
+    public void insertEnrollSkill(int mentorID, int skillID) {
+        String sql = "INSERT INTO [dbo].[EnrollSkill] ([mentorID],[skillID]) VALUES(?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, menteeID);
+
+            ps.setInt(1, mentorID);
+            ps.setInt(2, skillID);
 
             ps.execute();
         } catch (Exception e) {
-
+            status = "Error at insert to EnrollSkill" + e.getMessage();
         }
     }
 
-    //update comment
-    public void updateComment(Comment c) {
-        String sql = "UPDATE [dbo].[Comment]\n"
-                + "   SET \n"
-                + "      [cmtContent] = ?\n"
-                + "      ,[time] = getdate()\n"
-                + " WHERE menteeID=?";
+    //update mentor profile
+    public void updateMentorProfile(String bio, String exp, String achievement, int mentorID) {
+        String sql = "UPDATE [dbo].[Profile]\n"
+                + "   SET [achievement] = ?\n"
+                + "      ,[experience] = ?\n"
+                + "      ,[bio] = ?\n"
+                + " WHERE [mentorID] = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, c.getCmtContent());
-            ps.setInt(2, c.getMentee().getMenteeID());
+            ps.setString(1, achievement);
+            ps.setString(2, exp);
+            ps.setString(3, bio);
+            ps.setInt(4, mentorID);
+
+            ps.executeQuery();
+        } catch (Exception e) {
+            status = "Error update mentor profile: " + e.getMessage();
+        }
+    }
+    
+    //delete enroll skill
+    public void deleteEnrollSkillByMentorID(int mentorID) {
+        String sql = "DELETE FROM [dbo].[EnrollSkill] WHERE mentorID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mentorID);
+
             ps.execute();
         } catch (Exception e) {
-
+            status = "Error at delete enroll skill" + e.getMessage();
         }
     }
-
-    //update rating
-    public void updateRating(Rating c) {
-        String sql = "UPDATE [dbo].[Rating]\n"
-                + "   SET \n"
-                + "      [rateStar] = ?\n"
-                + " WHERE menteeID = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, c.getRateStar());
-            ps.setInt(2, c.getMentee().getMenteeID());
-            ps.execute();
-        } catch (Exception e) {
-
-        }
-    }
-
-    //check status active of user
-    public boolean isActive(User u) {
-        String sql = "select * from [User] u \n"
-                + "where u.userID = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, u.getUserId());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                if (rs.getString("status").equals("active")) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            status = e.getMessage();
-        }
-        return false;
-    }
-    // get all mentee
-//    public ArrayList<Mentee> getAllMentees() {
-//                ArrayList<Mentee> list = new ArrayList<>();
-//        String sql = "select * from Mentee";
-//        try {
-//            PreparedStatement ps = con.prepareStatement(sql);
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//                int menteeID = rs.getInt(1);
-//                User u = new User();
-//                u.setUserId(rs.getInt(2));
-//                Mentee mentee = new Mentee();
-//                mentee.setUser(u);
-//                mentee.setMenteeID(menteeID);
-//                list.add(mentee);
-//            }
-//        } catch (Exception e) {
-//        }
-//
-//        return list;
-//    }
-
-
 
 }
