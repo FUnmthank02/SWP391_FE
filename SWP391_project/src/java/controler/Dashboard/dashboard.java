@@ -40,6 +40,12 @@ public class dashboard extends HttpServlet {
                 ArrayList<Mentor> listMentor = dao.getListMentorDashboard();
                 ArrayList<Skill> skills = dao.getSkill();
                 
+                //count number of mentee and mentor
+                int countMentee = listMentee.size();
+                int countMentor = listMentor.size();
+                request.setAttribute("countmt", countMentee);
+                request.setAttribute("countm", countMentor);
+                
                 // all request statistic
                 HashMap<java.sql.Date, Float> averageRequest = dao.getAvrReqPerUserPerDay();
                 HashMap<String, Integer> countRequest = dao.countReqPerMonth();

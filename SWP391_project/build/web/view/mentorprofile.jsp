@@ -44,7 +44,7 @@
                         <button class="btn btn-primary"  data-id="" data-toggle="modal"
                                 data-target="#modal_update_profile">Update</button>
                     </c:if>
-                    <c:if test="${mt != null}">
+                    <c:if test="${mt ne null}">
                         <form action="invitation-handler" method="POST">  
                             <input type="hidden" value="${m.mentorID}" name="mentorID">
                             <input type="hidden" value="${mt.menteeID}" name="menteeID">
@@ -181,27 +181,29 @@
                 <h4 class="part-title">Comment and rate</h4>
                 <div class="line_part"></div>
             </div>
-            <c:if test="${i.status eq 'accepted'}">
-                <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->
-                <div class="contain_form_comment">
-                    <form class="form_comment" action="mentorprofile" method="POST">
-                        <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
-                        <label for="rate" class="form_comment_lable">Rate</label>
-                        <select name="rate" id="rate">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <i class="fa-solid fa-star text-warning"></i><br>
-                        <label for="comment" class="form_comment_lable">Comment</label>
-                        <textarea name="comment" id="comment" rows="5" placeholder="Your comment..."></textarea>
-                        <button class="btn_comment" type="submit">Submit</button>
-                    </form>
-                </div>
+            <c:if test="${i.status eq 'accepted' and checkcmt eq false}">
+                <form action="mentorprofile" method="POST">
+                    <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->
+                    <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
+                    <div class="contain_form_comment">
+                        <div class="form_comment">
+                            <input name="hiddenMentorID" type="hidden" value="${p.mentor.mentorID}">
+                            <label for="rate" class="form_comment_lable">Rate</label>
+                            <select name="rate" id="rate">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <i class="fa-solid fa-star text-warning"></i><br>
+                            <label for="comment" class="form_comment_lable">Comment</label>
+                            <textarea name="comment" id="comment" rows="5" placeholder="Your comment..."></textarea>
+                            <button class="btn_comment" type="submit">Submit</button>
+                        </form>
+                    </div>
                 <!--dung jstl check dieu kien da la mentor cua mentee moi hien thi doan nay-->                     
-
+                </form>
             </c:if>
 
 
@@ -229,11 +231,12 @@
                                                 Edit
                                             </p>
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
-                                                <button class="dropdown-item text-info" type="submit" data-id="2" data-toggle="modal"
+                                                <button class="dropdown-item text-info" type="submit" data-id="${comment.mentee.menteeID}" data-toggle="modal"
                                                         data-target="#modal_update_comment">Update</button>
                                                 <div class="dropdown-divider"></div>
-                                                <form action="">
-                                                    <input type="hidden" name="MentorId" value="">
+                                                <form action="deleteComment" method="POST">
+                                                    <input type="hidden"  name="mentorID" value="${p.mentor.mentorID}">
+                                                    <input type="hidden" name="menteeID" value="${comment.mentee.menteeID}">
                                                     <button class="dropdown-item text-danger" type="submit">Delete</button>
                                                 </form>
                                             </div>
@@ -263,6 +266,15 @@
                 <form action="" method="post" novalidate="" name="update-form">
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="rate" class="form_comment_lable">Rate</label>
+                            <select name="rateUpdate" id="rate">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <i class="fa-solid fa-star text-warning"></i> <br>
                             <label for="replyContent" class="">Comment</label>
                             <textarea class="form-control" name="replyContent" id="replyContent" rows="5"
                                       placeholder="Enter content" required></textarea>

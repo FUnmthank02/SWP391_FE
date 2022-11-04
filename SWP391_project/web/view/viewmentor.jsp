@@ -35,12 +35,12 @@
     <body>
 
         <!--header-->
-        
+
         <c:import url="./header.jsp"/>
 
         <!-- Outstanding Mentors with techology -->
 
-        
+
         <c:if test="${requestScope.tech != null || requestScope.preRating != null || requestScope.aftRating != null}">
 
             <div class="container wrap-outstanding-mentor" style="padding-top: 200px !important; margin-top: 0!important;">
@@ -61,7 +61,15 @@
                                         <c:forEach items="${requestScope.listUser}" var="u">
                                             <c:if test="${m.getUser().getUserId() == u.getUserId()}">
                                                 <div class="card-upper-part">
-                                                    <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
+                                                    <c:if test="${u.getAvatar() ne 'avtuser.png'}">
+
+                                                        <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
+                                                    </c:if>
+                                                    <c:if test="${u.getAvatar() eq 'avtuser.png'}">
+                                                        
+                                                        <img class="rounded-circle" src="image/avtuser.png" alt="avatar">
+
+                                                    </c:if>
                                                     <h4>${u.getFullname()}</h4>
                                                     <c:forEach var="r" items="${requestScope.rateMap}">
                                                         <c:if test="${r.key == m.getMentorID()}">
@@ -158,7 +166,7 @@
 
         <!-- footer -->
         <%@include file="./footer.jsp" %>
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         <script src="myjs/mentorSearch.js"></script>
