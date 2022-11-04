@@ -36,7 +36,7 @@ public class dashboard extends HttpServlet {
 
                 ArrayList<Mentee> listMentee = dao.getListMenteeDashboard();
                 ArrayList<Mentor> listMentor = dao.getListMentorDashboard();
-
+                
                 int sizeMentee = listMentee.size();
                 int sizeMentor = listMentor.size();
                 int cp = 0;
@@ -57,6 +57,13 @@ public class dashboard extends HttpServlet {
                 request.setAttribute("listMentee", listMentee);
                 request.setAttribute("listMentor", listMentor);
                 request.setAttribute("isAdmin", true);
+                 
+                //count number of mentee and mentor
+                int countMentee = listMentee.size();
+                int countMentor = listMentor.size();
+                request.setAttribute("countmt", countMentee);
+                request.setAttribute("countm", countMentor);
+                
                 request.getRequestDispatcher("view/dashboard.jsp").forward(request, response);
 
             } else {
