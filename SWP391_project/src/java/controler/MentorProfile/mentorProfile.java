@@ -146,7 +146,10 @@ public class mentorProfile extends HttpServlet {
 
         //URL reload
         String url = "mentorprofile?mentorID=" + mentorID;
+        
         response.sendRedirect(url);
+        
+        
 
     }
 

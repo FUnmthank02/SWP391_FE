@@ -1543,8 +1543,12 @@ public class DAO extends DBContext {
                 int mentorId = rs.getInt(1);
                 User u = new User();
                 u.setUserId(rs.getInt(2));
-                String status = rs.getString(3);
-                list.add(new Mentor(mentorId, u, status));
+                //String status = rs.getString(3);
+                Mentor m = new Mentor();
+                m.setMentorID(mentorId);
+                m.setUser(u);
+                m.setStatus("active");
+                list.add(m);
             }
         } catch (Exception e) {
             System.out.println("Error at get All mentor: " + e.getMessage());
@@ -1762,5 +1766,47 @@ public class DAO extends DBContext {
 
         }
     }
+
+    //check status active of user
+    public boolean isActive(User u) {
+        String sql = "select * from [User] u \n"
+                + "where u.userID = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, u.getUserId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                if (rs.getString("status").equals("active")) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            status = e.getMessage();
+        }
+        return false;
+    }
+    // get all mentee
+//    public ArrayList<Mentee> getAllMentees() {
+//                ArrayList<Mentee> list = new ArrayList<>();
+//        String sql = "select * from Mentee";
+//        try {
+//            PreparedStatement ps = con.prepareStatement(sql);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                int menteeID = rs.getInt(1);
+//                User u = new User();
+//                u.setUserId(rs.getInt(2));
+//                Mentee mentee = new Mentee();
+//                mentee.setUser(u);
+//                mentee.setMenteeID(menteeID);
+//                list.add(mentee);
+//            }
+//        } catch (Exception e) {
+//        }
+//
+//        return list;
+//    }
+
+
 
 }

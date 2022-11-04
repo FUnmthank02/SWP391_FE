@@ -31,27 +31,36 @@
                     <h4 class="part-title">Mentor's profile</h4>
                     <div class="line_part"></div>
                 </div>
-                <c:if test="${mt ne null}">
-                    <form action="InvitationHandler" method="POST">  
-                        <input type="hidden" value="${m.mentorID}" name="mentorID">
-                        <input type="hidden" value="${mt.menteeID}" name="menteeID">
-                        <c:if test="${i eq null}">
-                            <div class="contain_invitation">
-                                <button name="button" value="1" class="btn_invitation"> Send Invitation </button>
-                            </div>
-                        </c:if>
-                        <c:if test="${i.status eq 'Accepted'}">
-                            <div class="contain_invitation">
-                                <button name="button" value="-1" class="btn_invitation"> Break relationship </button>
-                            </div>
-                        </c:if>
-                        <c:if test="${i.status eq 'Processing'}">
-                            <div class="contain_invitation">
-                                <button name="button" value="0" class="btn_invitation"> Cancel Invitation  </button>
-                            </div>                          
-                        </c:if>
-                    </form>
-                </c:if>
+
+                <div style="display: flex;">
+
+                    <c:if test="${m.mentorID == currentMentor.getMentorID()}">
+                        <button class="btn btn-primary"  data-id="" data-toggle="modal"
+                                data-target="#modal_update_profile">Update</button>
+                    </c:if>
+
+                    <c:if test="${mt ne null}">
+                        <form action="InvitationHandler" method="POST">  
+                            <input type="hidden" value="${m.mentorID}" name="mentorID">
+                            <input type="hidden" value="${mt.menteeID}" name="menteeID">
+                            <c:if test="${i eq null}">
+                                <div class="contain_invitation">
+                                    <button name="button" value="1" class="btn_invitation"> Send Invitation </button>
+                                </div>
+                            </c:if>
+                            <c:if test="${i.status eq 'Accepted'}">
+                                <div class="contain_invitation">
+                                    <button name="button" value="-1" class="btn_invitation"> Break relationship </button>
+                                </div>
+                            </c:if>
+                            <c:if test="${i.status eq 'Processing'}">
+                                <div class="contain_invitation">
+                                    <button name="button" value="0" class="btn_invitation"> Cancel Invitation  </button>
+                                </div>                          
+                            </c:if>
+                        </form
+                    </c:if>
+                </div>
             </div>
 
             <div class="container p-5 wrapCV">
@@ -274,6 +283,58 @@
             </div>
         </div>
     </div>  
+
+    <!-- modal update mentor profile  -->
+    <div class="modal" tabindex="-1" role="dialog" id="modal_update_profile">
+
+        <div class="modal-dialog" style="max-width: 60vw;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" style="color:#14c38e;">Update mentor profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="update-mentor-profile" method="post" novalidate="" name="update-profile-form">
+                    <div class="modal-body">
+                        <label for="bio" class="font-weight-bold label">Bio</label>
+                        <textarea class="form-control form-control-active" rows="4" name="bio" id="bio" placeholder="Your bio..."
+                                  required>${p.bio}</textarea>
+                        <hr>
+                        <label for="skill" class="font-weight-bold label">Skills</label><br>
+                        <div class="mb-2" style="display: flex; flex-wrap: wrap;">
+
+                            <!-- FOREACH o day -->
+                            <c:forEach var="o" items="${requestScope.as}">
+                                <div class="" style="margin: 2px 6px">
+                                    <input class=" form-control-active checkboxSkill" onchange="handleFillCkeckbox()" type="checkbox" name="skill" value="${o.getSkillId()}" id="skill" />
+                                    <span>${o.getSkillName()}</span>
+                                </div>
+                            </c:forEach>
+                            <!-- FOREACH o day -->
+
+                        </div>
+                        <hr>
+
+                        <label for="exp" class="font-weight-bold label">Experience</label>
+                        <textarea class="form-control form-control-active" rows="4" name="exp" id="exp"
+                                  placeholder="Your experience..." required>${p.experience}</textarea>
+                        <hr>
+                        <label for="achievement" class="font-weight-bold label">Achievement</label>
+                        <textarea class="form-control form-control-active" rows="4" name="achievement" id="achievement"
+                                  placeholder="Your achievement..." required>${p.achievement}</textarea>
+                        <input type="hidden" value="${requestScope.m.getMentorID()}" name="mentorId" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" disabled id="btn-update-profile">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
     <!-- scroll to top -->
     <div>
         <button onclick="topFunction()" id="myBtn" class="scrollBtn" title="Go to top">Top</button>
@@ -282,17 +343,41 @@
     <!--footer-->
     <%@include file="./footer.jsp" %>
     <script>
+        const ckb = document.querySelectorAll('.checkboxSkill')
+        const btn_update = document.querySelector('#btn-update-profile')
+
+
+        const handleFillCkeckbox = () => {
+            let check = false
+            btn_update.setAttribute('disabled', '')
+            for (var i = 0; i < ckb.length; i++) {
+                if (ckb[i].checked) {
+                    check = true
+                }
+            }
+            if (check) {
+                btn_update.removeAttribute('disabled')
+            }
+        }
+
         var id;
         var updateForm = document.forms['update-form'];
         var btnUpdateComment = document.getElementById('btn-update-comment');
+        var updateProfile = document.forms['update-profile-form'];
+        var btnUpdateProfile = document.getElementById('btn-update-profile');
 
         $('#modal_update_comment').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             id = button.data('id'); // Extract info from data-* attributes
         });
         btnUpdateComment.onclick = function () {
-            updateForm.action = 'editComment?menteeID=' + id + '&mentorID=' + ${p.mentor.mentorID} ;
+            updateForm.action = 'editComment?menteeID=' + id + '&mentorID=' + ${p.mentor.mentorID};
         };
+        $('#modal_update_profile').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            id = button.data('id'); // Extract info from data-* attributes
+        });
+
 
     </script>
     <script src="myjs/mentorprofile.js"></script>

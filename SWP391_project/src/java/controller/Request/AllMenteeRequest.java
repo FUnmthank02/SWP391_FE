@@ -65,15 +65,15 @@ public class AllMenteeRequest extends HttpServlet {
         //processRequest(request, response);
 
 // all request statistic
-           HashMap<Date, Float> averageRequest = d.getAvrReqPerUserPerDay();
-           HashMap<String, Integer> countRequest = d.countReqPerMonth();
-           float[] percentage = d.getPercentage();
+        HashMap<Date, Float> averageRequest = d.getAvrReqPerUserPerDay();
+        HashMap<String, Integer> countRequest = d.countReqPerMonth();
+        float[] percentage = d.getPercentage();
 
-           request.setAttribute("averageRequest", averageRequest);
-          request.setAttribute("countRequest", countRequest);
-          request.setAttribute("percentage", percentage);
+        request.setAttribute("averageRequest", averageRequest);
+        request.setAttribute("countRequest", countRequest);
+        request.setAttribute("percentage", percentage);
 
-          request.getRequestDispatcher("view/demoChart.jsp").forward(request, response);
+        request.getRequestDispatcher("view/demoChart.jsp").forward(request, response);
 
     }
 
