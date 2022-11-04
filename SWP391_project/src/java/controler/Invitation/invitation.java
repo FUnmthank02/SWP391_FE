@@ -30,7 +30,7 @@ public class invitation extends HttpServlet {
         ArrayList<MentorRegister> listMentorRegister = new ArrayList<>();
 
         // da dang nhap roi
-        if (u != null) {
+        if (u != null && dao.getMentorByUserId(u) != null) {
             request.setAttribute("isValidUser", uti.isValidUser(u));    
 
             //la admin

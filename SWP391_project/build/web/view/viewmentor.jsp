@@ -61,14 +61,11 @@
                                         <c:forEach items="${requestScope.listUser}" var="u">
                                             <c:if test="${m.getUser().getUserId() == u.getUserId()}">
                                                 <div class="card-upper-part">
-                                                    <c:if test="${u.getAvatar() ne 'avtuser.png'}">
-
+                                                    <c:if test="${!u.getAvatar() eq 'avtuser.png'}">
                                                         <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
                                                     </c:if>
                                                     <c:if test="${u.getAvatar() eq 'avtuser.png'}">
-                                                        
                                                         <img class="rounded-circle" src="image/avtuser.png" alt="avatar">
-
                                                     </c:if>
                                                     <h4>${u.getFullname()}</h4>
                                                     <c:forEach var="r" items="${requestScope.rateMap}">
@@ -117,7 +114,12 @@
                                                 <c:forEach items="${requestScope.listUser}" var="u">
                                                     <c:if test="${m.getUser().getUserId() == u.getUserId()}">
                                                         <div class="card-upper-part">
-                                                            <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
+                                                            <c:if test="${!u.getAvatar() eq 'avtuser.png'}">
+                                                                <img class="rounded-circle" src="img_upload/${u.getAvatar()}" alt="avatar">
+                                                            </c:if>
+                                                            <c:if test="${u.getAvatar() eq 'avtuser.png'}">
+                                                                <img class="rounded-circle" src="image/avtuser.png" alt="avatar">
+                                                            </c:if>                                                            
                                                             <h4>${u.getFullname()}</h4>
                                                             <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
                                                         </div>

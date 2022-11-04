@@ -11,13 +11,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import model.*;
-import sun.nio.cs.MS1250;
 
 /**
  *
@@ -73,6 +68,20 @@ public class DAO extends DBContext {
             }
         } catch (Exception e) {
             status = e.getMessage();
+        }
+        return false;
+    }
+    
+    //check if mentee has comment on mentor yet
+    public boolean checkComment(Mentee mentee, Mentor m) {
+        ArrayList<Comment> comments = getComments(m);
+        if (mentee == null) {
+            return true;
+        }
+        for (Comment c : comments) {
+            if (c.getMentee().getMenteeID() == mentee.getMenteeID()) {
+                return true;
+            }
         }
         return false;
     }
