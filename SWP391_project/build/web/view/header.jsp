@@ -114,7 +114,6 @@
                                                     <span class="ml-3 new_notify">${requestScope.listResSize}</span>
                                                 </c:if>
                                             </a>
-                                            <div class="dropdown-divider"></div>
                                         </c:if>
                                         
                                         <c:if test="${requestScope.isAdmin == true}">
