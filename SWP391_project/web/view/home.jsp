@@ -172,11 +172,15 @@
                                             <h4>${u.getFullname()}</h4>
                                             <c:forEach var="r" items="${requestScope.rateMap}">
                                                 <c:if test="${r.key == m.getMentorID()}">
-                                                    <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
+                                                    <!--<span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>-->
+                                                    <c:if test="${r.value eq 0}">
+                                                        <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
+                                                    </c:if>
+                                                    <c:if test="${r.value ne 0}">
+                                                        <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
+                                                    </c:if>
                                                 </c:if>
                                             </c:forEach>
-                                            
-
                                         </div>
                                     </c:if>
                                 </c:forEach>

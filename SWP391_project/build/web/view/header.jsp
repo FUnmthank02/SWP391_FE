@@ -42,11 +42,9 @@
                                 <p class="nav-link nav_item_text up_down_icon" onclick="openBar()">Find mentors
                                     &#9207;</p>
                             </li>
-                            <c:if test="${!requestScope.isAdmin == true && !requestScope.isMentor == true && sessionScope.user != null && requestScope.isValidUser == true}">
-                                <li class="nav-item active">
-                                    <a class="nav-link nav_item_text" href="mentor-register">Become Mentor</a>
-                                </li>
-                            </c:if>
+                            <li class="nav-item active">
+                                <a class="nav-link nav_item_text" href="about">About us</a>
+                            </li>
                             <c:if test="${requestScope.isValidUser == false}">
                                 <li class="nav-item active">
                                     <a class="nav-link nav_item_text" href="select-role">Select Role</a>

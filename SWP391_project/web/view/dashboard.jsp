@@ -149,22 +149,16 @@
                             </div>
                             <!-- bieu do thong ke request -->
 
-                            <!-- bieu do thong ke response -->
+                            <!-- bieu do thong ke invitation -->
+                            
                             <div class="mt-4 col-md-10 offset-1">
                                 <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
-                                    <h5 class="font-weight-bold">Bar Chart</h5>
-                                    <hr>
-                                    <canvas id="myChart2" style="width:100%; max-width:1000px;"></canvas>
-                                </div>
-                            </div>
-                            <div class="mt-4 col-md-10 offset-1">
-                                <div class="pl-3 pr-3 pt-3 pb-5 item-statistic">
-                                    <h5 class="font-weight-bold">Line Chart</h5>
+                                    <h5 class="font-weight-bold">Invitation accepted</h5>
                                     <hr>
                                     <canvas id="myChart3" style="width:100%;max-width:1000px;"></canvas>
                                 </div>
                             </div>
-                            <!-- bieu do thong ke response -->
+                            <!-- bieu do thong ke invitation -->
 
 
                         </div>
