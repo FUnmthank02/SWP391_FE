@@ -118,15 +118,15 @@
                 <!-- paging -->
                 <div class="paging  mr-3">
                     <c:if test="${startpage>1}">
-                        <a href="viewRequest?index=1">Home</a>
-                        <a href="viewRequest?index=${startpage+1}">Pre</a>
+                        <a href="viewRequest?index=1" class="btn_page">Home</a>
+                        <a href="viewRequest?index=${startpage+1}" class="btn_page">Pre</a>
                     </c:if>
                     <c:forEach begin="${startpage}" end="${endpage}" var="x">
                         <a href="viewRequest?index=${x}" class="btn_page">${x}</a>
                     </c:forEach>
                     <c:if test="${endpage<nummberpage}">
-                        <a href="viewRequest?index=${endpage-1}">Next</a>
-                        <a href="viewRequest?index=${nummberpage}">End</a>
+                        <a href="viewRequest?index=${endpage-1}" class="btn_page">Next</a>
+                        <a href="viewRequest?index=${nummberpage}" class="btn_page">End</a>
                     </c:if>
                 </div>
 
