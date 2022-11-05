@@ -43,7 +43,7 @@
 
         <c:if test="${requestScope.tech != null || requestScope.preRating != null || requestScope.aftRating != null}">
 
-            <div class="container wrap-outstanding-mentor" style="padding-top: 200px !important; margin-top: 0!important;">
+            <div class="container wrap-outstanding-mentor" style="padding-top: 200px !important; margin-top: 0!important; margin-bottom: 150px">
                 <div class="part"  data-aos="fade-up" data-aos-duration="1000">
                     <h4 style="text-transform: capitalize;" class="font-weight-bold">Mentors</h4>
                     <div class="line_part"></div>
@@ -70,11 +70,18 @@
                                                     <h4>${u.getFullname()}</h4>
                                                     <c:forEach var="r" items="${requestScope.rateMap}">
                                                         <c:if test="${r.key == m.getMentorID()}">
-                                                            <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
-                                                                </c:if>
-                                                            </c:forEach>
+                                                            <c:if test="${r.value eq 0}">
+                                                                <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
+                                                            </c:if>
+                                                            <c:if test="${r.value ne 0}">
+                                                                <span class="rating"><i id="star-icon" class="fa-solid fa-star"></i><span style="color:black;">${r.value}/5.0</span></span>
+                                                            </c:if>
+                                                        </c:if>
+                                                        
+                                                    </c:forEach>
 
                                                 </div>
+                                                <c:set var = "check" value = "true"/>
                                             </c:if>
                                         </c:forEach>
 
@@ -96,7 +103,9 @@
                                 </div>
 
                             </c:forEach>
-
+                            <c:if test="${check != true}">
+                                <h5 class="ml-3" data-aos="fade-up" data-aos-duration="1000">No Result</h5>
+                            </c:if>
                         </div>
                     </div>
                 </c:if>

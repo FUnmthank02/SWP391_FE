@@ -104,6 +104,10 @@
         <servlet-name>editComment</servlet-name>
         <servlet-class>controler.Comment.editComment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>about</servlet-name>
+        <servlet-class>controler.AboutUs.about</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>update_userprofile</servlet-name>
         <url-pattern>/update_userprofile</url-pattern>
@@ -199,6 +203,10 @@
     <servlet-mapping>
         <servlet-name>editComment</servlet-name>
         <url-pattern>/editComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>about</servlet-name>
+        <url-pattern>/about</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

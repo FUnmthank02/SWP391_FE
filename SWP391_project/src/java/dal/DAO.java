@@ -1124,9 +1124,6 @@ public int statisticInvite() {
         String sql = "select r.mentorID,cast(cast((sum(rateStar)) as float) / cast((count(rateStar)) as float) as decimal(10,1)) as 'averageStar' \n"
                 + "from Rating r\n"
                 + "group by r.mentorID";
-//        String sql = "select r.mentorID,cast((sum(rateStar)) as float) / cast((count(rateStar)) as float) as 'averageStar' \n"
-//                + "from Rating r\n"
-//                + "group by r.mentorID";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -1140,10 +1137,16 @@ public int statisticInvite() {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
+        ArrayList<Mentor> mentors = getAllMentor();
+        for (Mentor mentor : mentors) {
+            if (ratesHashMap.get(mentor.getMentorID()) == null) {
+                ratesHashMap.put(mentor.getMentorID(), (float)0);
+            }
+        }
 
         return ratesHashMap;
     }
-
+    
     //Get list of skills belong to a mentor 
     public ArrayList<Skill> getSkills(Mentor m) {
         ArrayList<Skill> skills = new ArrayList<>();

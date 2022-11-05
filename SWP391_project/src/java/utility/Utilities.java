@@ -204,14 +204,6 @@ public class Utilities {
         return user;
 
     }
-        //check if user is mentor or mentee
-    public boolean isValidUser(User u) {
-        boolean check = false;
-        if ((d.getMentee(u) == null || d.getMentor(u) == null || d.getAdminByUserId(u)==null) && d.isActive(u)) {
-            check = true;
-        }
-        return check;
-    }
 
     //main to test function working or not
     public static void main(String[] args) {
