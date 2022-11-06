@@ -53,6 +53,36 @@ public class DAO extends DBContext {
         }
     }
     
+    //count all response
+    public int countStatisticResponse() {
+        String sql = "select count(responseID) from Response";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            status = e.getMessage();
+        }
+        return 0;
+    }
+    
+    //count all request
+    public int countStatisticRequest() {
+        String sql = "select count(requestID) from Request";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            status = e.getMessage();
+        }
+        return 0;
+    }
+    
     //check status active of user
     public boolean isActive(User u) {
         String sql = "select * from [User] u \n"

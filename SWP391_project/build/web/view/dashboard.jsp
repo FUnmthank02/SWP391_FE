@@ -88,7 +88,7 @@
                             <div class="mt-5 col-md-2 offset-1">
                                 <div class="pl-3 pr-3 pt-5 pb-5">
                                     <div class="contain_counting">
-                                        <span class="num" data-val="100">0</span>
+                                        <span class="num" data-val="${requestScope.totalRequest}">0</span>
                                         <span class="text">Request</span>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@
                             <div class="mt-5 col-md-2">
                                 <div class="pl-3 pr-3 pt-5 pb-5">
                                     <div class="contain_counting">
-                                        <span class="num" data-val="100">0</span>
+                                        <span class="num" data-val="${requestScope.totalResponse}">0</span>
                                         <span class="text">Response</span>
                                     </div>
                                 </div>

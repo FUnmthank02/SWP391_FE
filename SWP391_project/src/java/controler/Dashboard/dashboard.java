@@ -61,6 +61,8 @@ public class dashboard extends HttpServlet {
                 request.setAttribute("averageRequest", averageRequest);
                 request.setAttribute("countRequest", countRequest);
                 request.setAttribute("percentage", percentage);
+                request.setAttribute("totalRequest", dao.countStatisticRequest());
+                request.setAttribute("totalResponse", dao.countStatisticResponse());
 
                 int sizeMentee = listMentee.size();
                 int sizeMentor = listMentor.size();

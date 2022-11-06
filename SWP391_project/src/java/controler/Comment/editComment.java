@@ -35,7 +35,7 @@ public class editComment extends HttpServlet {
         String mentorID = request.getParameter("mentorID");
         Mentor m = new Mentor();
         m.setMentorID(Integer.parseInt(mentorID));
-        String content = request.getParameter("replyContentUpdate");
+        String content = request.getParameter("replyContent");
         int rate = Integer.parseInt(request.getParameter("rateUpdate"));
         Comment c = new Comment();
         c.setMentee(mt);
