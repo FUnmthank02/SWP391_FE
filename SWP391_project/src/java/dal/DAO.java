@@ -1036,6 +1036,12 @@ public class DAO extends DBContext {
         } catch (Exception e) {
             status = "Error load enroll skill: " + e.getMessage();
         }
+        ArrayList<Mentor> mentors = getAllMentor();
+        for (Mentor mentor : mentors) {
+            if (ratesHashMap.get(mentor.getMentorID()) == null) {
+                ratesHashMap.put(mentor.getMentorID(), (float)0);
+            }
+        }
 
         return ratesHashMap;
     }
@@ -1806,6 +1812,12 @@ public class DAO extends DBContext {
 //
 //        return list;
 //    }
+    public static void main(String[] args) {
+        HashMap<String,Integer> demo = new HashMap<>();
+        demo.put("vai", 1);
+        demo.put("nhai",2);
+        System.out.println(demo.get("ca"));
+    }
 
 
 
