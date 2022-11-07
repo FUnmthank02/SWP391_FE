@@ -39,11 +39,10 @@
                     <div>
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <p class="nav-link nav_item_text up_down_icon" onclick="openBar()">Find mentors
-                                    &#9207;</p>
+                                <a class="nav-link nav_item_text" href="about">About us</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link nav_item_text" href="about">About us</a>
+                                <a class="nav-link nav_item_text" href="search">Search mentor</a>
                             </li>
                             <c:if test="${requestScope.isValidUser == false}">
                                 <li class="nav-item active">

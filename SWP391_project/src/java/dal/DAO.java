@@ -1617,12 +1617,13 @@ public int statisticInvite() {
                 return mt;
             }
         } catch (Exception e) {
+            // sai thi thong bao
             status = "Error load enroll skill: " + e.getMessage();
         }
-
         return null;
     }
 
+    //getInvitaion
     public Invitation getInvitation(Mentor m, Mentee mt) {
         int mentorID = m.getMentorID();
         int menteeID = (mt != null) ? mt.getMenteeID() : -1;
@@ -1643,11 +1644,12 @@ public int statisticInvite() {
                 return i;
             }
         } catch (Exception e) {
+            // sai thi thong bao
             status = "Error load enroll skill: " + e.getMessage();
         }
-
         return null;
     }
+    //End --- getInvitaion
 
     //get mentors who teach a skill
     public ArrayList<Mentor> getMentors(Skill s) {
@@ -1664,10 +1666,12 @@ public int statisticInvite() {
                 s.getMentors().add(m);
             }
         } catch (Exception e) {
+            // sai thi thong bao
             status = "Error load enroll skill: " + e.getMessage();
         }
         return s.getMentors();
     }
+    //End --- get mentors who teach a skill
 
     //get all mentor
     public ArrayList<Mentor> getAllMentor() {
@@ -1684,11 +1688,12 @@ public int statisticInvite() {
                 list.add(new Mentor(mentorId, u, status));
             }
         } catch (Exception e) {
+            // sai thi thong bao
             System.out.println("Error at get All mentor: " + e.getMessage());
         }
-
         return list;
     }
+    // End --- get all mentor
 
     //get all mentor register
     public ArrayList<MentorRegister> getAllMentorRegister() {
@@ -1710,11 +1715,12 @@ public int statisticInvite() {
                 list.add(new MentorRegister(mentorRegisterId, achievement, exp, bio, existedSkill, newSkill, user, seenStatus));
             }
         } catch (Exception e) {
+            // sai thi thong bao
             System.out.println("Error at get All mentor register: " + e.getMessage());
         }
-
         return list;
     }
+    //End --- get all mentor register
 
     public void insertMentorRegister(String achievement, String exp, String bio, String existedSkill, String otherSkills, int userId, int type) {
         String sql = "";
